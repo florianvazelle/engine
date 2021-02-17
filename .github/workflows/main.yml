@@ -38,7 +38,7 @@ jobs:
             cxx: "cl",
           }
         - {
-            name: "MacOS CLang",
+            name: "MacOS Clang",
             os: macos-latest,
             artifact: "macos_clang",
             build_type: "Release",
@@ -90,13 +90,13 @@ jobs:
 
       ###### MacOS ######
 
-      - name: Install Build Dependencies
-        if: startsWith(matrix.config.os, 'macos')
-        run: |
-          brew update
-          brew install cmake
-          cmake --version
-          clang --version
+      # - name: Install Build Dependencies
+      #   if: startsWith(matrix.config.os, 'macos')
+      #   run: |
+      #     brew update
+      #     brew install cmake || true
+      #     cmake --version
+      #     clang --version
 
       - name: Install Conan
         if: startsWith(matrix.config.os, 'macos')
