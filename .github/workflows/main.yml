@@ -44,7 +44,7 @@ jobs:
             build_type: "Release",
             enable_doc: "OFF",
             cc: "clang",
-            cxx: "clang",
+            cxx: "clang++",
           }
         - {
             name: "Ubuntu GCC",
