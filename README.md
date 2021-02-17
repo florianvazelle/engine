@@ -1,4 +1,6 @@
-# cpp-template
+# engine
+
+It's a work in progress simple game engine.
 
 ## Building
 
@@ -15,8 +17,8 @@ cmake --build build
 ## Dependencies
 
 - C++11 compiler :
-  - Visual Studio 2019
-  - GCC 9+ or Clang 10+
+  - Visual Studio 2015
+  - GCC 5+ or Clang 5+
 - [CMake](https://cmake.org/) for build system creation (>= 3.8)
 - [Conan](https://conan.io/) for install packages (>= 1.0)
 - [Doxygen](https://doxygen.org/) for generate documentation (>= 1.8, optional)
