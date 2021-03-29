@@ -14,7 +14,7 @@ Game::Game(std::shared_ptr<Scene> scene) : scene(scene), systems(3) {
 
 void Game::preload() {
   /*  */
-  //   scene->preload();
+  scene->preload();
   /*  */
 }
 
@@ -28,7 +28,7 @@ void Game::run() {
       double deltaTime = 0;
 
       /*  */
-      //   scene->update();
+      scene->update(deltaTime);
       /*  */
 
       for (std::shared_ptr<System> system : systems) {
