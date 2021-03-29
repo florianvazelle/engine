@@ -15,7 +15,7 @@ using SPE = std::shared_ptr<Engine>;
 class Context {
 public:
   Context(SPC c, SPI i, SPE e) : clock(c), input(i), engine(e) {}
-  ~Context() { spdlog::info("Context is destoy!"); }
+  ~Context() { spdlog::info("Context is destroy!"); }
 
   inline Clock* c() const { return clock.get(); };
   inline Input* i() const { return input.get(); };

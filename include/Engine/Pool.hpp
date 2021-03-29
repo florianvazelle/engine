@@ -3,6 +3,8 @@
 #include <memory>
 #include <type_traits>
 #include <cassert>
+#include <iostream>
+
 
 // to allocate pools of object
 template <typename T> struct minipool {
@@ -110,5 +112,4 @@ struct minipool_arena {
     }
 }; // minipool<T>
 
-
-
+void testPools();
