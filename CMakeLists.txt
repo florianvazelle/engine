@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.8)
 
 # ---- Project ----
 
-project(GreeterStandalone VERSION 1.2.3.4 LANGUAGES CXX)
+project(pong VERSION 1.2.3.4 LANGUAGES CXX)
 
-set(LIBRARY_NAME Greeter)
+set(LIBRARY_NAME engine)
 set(PROJECT_CXX_STANDARD 11)
 
 # ---- Options ----
@@ -13,9 +13,9 @@ option(ENABLE_DOC "Whether to generate documentation" OFF)
 
 # ---- Add source files ----
 
-file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
-file(GLOB_RECURSE PROJECT_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
-file(GLOB_RECURSE PROJECT_ALL_FILES "include/*.hpp" "src/*.cpp" "app/*.cpp")
+file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE LIBRARY_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
+file(GLOB_RECURSE PROJECT_ALL_FILES "app/include/*.hpp" "app/src/*.cpp" "app/*.cpp")
 
 # ---- Tool ----
 
@@ -36,7 +36,7 @@ endif()
 
 # ---- Create library ----
 
-add_library(${LIBRARY_NAME} OBJECT ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_library(${LIBRARY_NAME} OBJECT ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
 
 # Lib needs its header files, and users of the library must also see these (PUBLIC).
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
@@ -47,7 +47,9 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC ${CONAN_LIBS})
 
 # Add an executable for the file app/main.cc.
 # If you add more executables, copy these lines accordingly.
-add_executable(${PROJECT_NAME} app/main.cpp)
+add_executable(${PROJECT_NAME} ${PROJECT_ALL_FILES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/app/include)
 
 # Link the executable to library.
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARY_NAME})

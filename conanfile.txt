@@ -1,5 +1,6 @@
 [requires]
 cxxopts/2.2.1
+spdlog/1.8.5
 
 [generators]
 cmake
