@@ -11,7 +11,7 @@ public:
   T& operator()(const uint row, const uint col);
 
 private:
-  T data[m * n];
+  T* data;
 };
 
 template <class T, uint m, uint n> Matrix<T, m, n>::Matrix() {

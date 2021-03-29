@@ -9,10 +9,5 @@
 
 imgui.ini
 **/*.h
-docs/out/build/x64-Debug (par défaut)/.cmake/api/v1/query/client-MicrosoftVS/query.json
 
-docs/out/build/x64-Debug (par défaut)/CMakeFiles/3.17.20032601-MSVC_2/CMakeSystem.cmake
-
-docs/out/build/x64-Debug (par défaut)/CMakeFiles/CMakeOutput.log
-
-docs/out/build/x64-Debug (par défaut)/VSInheritEnvironments.txt
+docs/out*
