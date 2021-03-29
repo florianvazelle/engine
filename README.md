@@ -22,3 +22,7 @@ cmake --build build
 - [CMake](https://cmake.org/) for build system creation (>= 3.8)
 - [Conan](https://conan.io/) for install packages (>= 1.0)
 - [Doxygen](https://doxygen.org/) for generate documentation (>= 1.8, optional)
+
+## References
+
+- [Interfaces](https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm)
