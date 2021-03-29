@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/Component/Component.hpp>
-#include <Engine/Matrix.hpp>
+#include <Engine/Common/Matrix.hpp>
 
 class Transform : public Component {
 public:

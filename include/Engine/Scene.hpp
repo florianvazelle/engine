@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <Engine/Entity.hpp>
+#include <Engine/Common/Entity.hpp>
 
 class Scene {
 public:

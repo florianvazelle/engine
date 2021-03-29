@@ -6,7 +6,7 @@
 
 #include <PongScene.hpp>
 
-#include <Engine/Pool.hpp>
+#include <Engine/Common/Pool.hpp>
 
 int main(int argc, char** argv) {
   cxxopts::Options options(argv[0], "A pong game which use a simple game engine!");
