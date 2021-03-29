@@ -1,16 +1,11 @@
 #include <Engine/Game.hpp>
 
 #include <iostream>
+#include <thread>
+#include "spdlog/spdlog.h"
 
-#include <Engine/System/LogicalSystem.hpp>
-#include <Engine/System/PhysicalSystem.hpp>
-#include <Engine/System/RendererSystem.hpp>
-
-Game::Game(std::shared_ptr<Scene> scene) : scene(scene), systems(3) {
-  systems[0] = std::make_shared<LogicalSystem>();
-  systems[1] = std::make_shared<PhysicalSystem>();
-  systems[2] = std::make_shared<RendererSystem>();
-}
+Game::Game(std::shared_ptr<Scene> scene)
+    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {}
 
 void Game::preload() {
   /*  */
@@ -18,22 +13,31 @@ void Game::preload() {
   /*  */
 }
 
+void Game::update() {
+  context.c()->Update();
+  context.i()->Update();
+  context.e()->Update(context);
+}
+
 void Game::run() {
   try {
     preload();
 
+    scene->create();
+
+    bool needToQuit = false;
+
     // Main Loop
-    while (1) {
-      // TODO : compute deltaTime
-      double deltaTime = 0;
+    while (!needToQuit) {
+      spdlog::info("[Game] New frame!");
 
-      /*  */
-      scene->update(deltaTime);
-      /*  */
+      update();
 
-      for (std::shared_ptr<System> system : systems) {
-        system->update(deltaTime);
-      }
+      // emule un delai de traitement (une synchro verticale par ex.)
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));  // TODO : on peut le supprimer par la suite
+
+      // On regarde si l'utilisateur veut quitter le programme
+      needToQuit = context.i()->QuitButtonIsPressed();
     }
 
   } catch (const std::exception& e) {

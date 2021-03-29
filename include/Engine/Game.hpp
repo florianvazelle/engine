@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <Engine/Core/Context.hpp>
 #include <Engine/Scene.hpp>
 #include <Engine/System/System.hpp>
 
@@ -11,9 +12,10 @@ public:
   Game(std::shared_ptr<Scene> scene);
 
   void preload();
+  void update();
   void run();
 
 private:
   std::shared_ptr<Scene> scene;
-  std::vector<std::shared_ptr<System>> systems;
+  Context context;
 };
