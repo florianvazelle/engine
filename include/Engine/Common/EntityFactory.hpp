@@ -23,7 +23,7 @@ public:
   // Si la Pool du type existe, on la retourne sinon on la crée
   template <typename T> Pool<T> &getOrAlloc() {
     CollectionBase *&el = m_obdb[T::rtti.id()];  // RTTI
-    if (not el) {
+    if (!el) {
       el                 = new Collection<T>();
       Collection<T> *elc = dynamic_cast<Collection<T> *>(el);
       assert(elc);
