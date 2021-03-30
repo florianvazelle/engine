@@ -11,39 +11,39 @@ class EntityFactory {
 public:
   EntityFactory() {}
 
-  // Ajoute un object a la minipool du type correspondant
+  // Ajoute un object a la Pool du type correspondant
   template <typename T, typename... Args> T *allocate(Args &&... args) {
-    minipool<T> &a = getOrAlloc<T>();
+    Pool<T> &a = getOrAlloc<T>();
     return a.alloc(std::forward<Args>(args)...);
   }
 
-  // Si la minipool du type existe, on la retourne sinon on la crée
-  template <typename T> minipool<T> &getOrAlloc() {
-    CollectionBase *&el = m_obdb[typeid(T).name()];  // RTTI
+  // Si la Pool du type existe, on la retourne sinon on la crée
+  template <typename T> Pool<T> &getOrAlloc() {
+    CollectionBase *&el = m_obdb[T::rtti.m_ClassName];  // RTTI
     if (not el) {
       el                 = new Collection<T>();
       Collection<T> *elc = dynamic_cast<Collection<T> *>(el);
       assert(elc);
-      minipool<T> &a = elc->elements;
+      Pool<T> &a = elc->elements;
       return a;
     }
     return getObjects<T>();
   }
 
   // Permet de récupérer tout les objets alloué d'un type
-  template <typename T> minipool<T> &getObjects() {
-    CollectionBase *&el = m_obdb[typeid(T).name()];  // RTTI
+  template <typename T> Pool<T> &getObjects() {
+    CollectionBase *&el = m_obdb[T::rtti.m_ClassName];  // RTTI
     assert(el);  // Si le pointeur est null, alors il n'y a jamais eu d'allocation pour ce type d'objet
-    // TODO : avoid this crash (maybe return empty minipool but we don't want new)
+    // TODO : avoid this crash (maybe return empty Pool but we don't want new)
     Collection<T> *elc = dynamic_cast<Collection<T> *>(el);
     assert(elc);
-    minipool<T> &a = elc->elements;
+    Pool<T> &a = elc->elements;
     return a;
   }
 
   // Supprime l'objet contenu dans la pool du type correspondant
   template <typename T> void free(T *object) {
-    minipool<T> &a = getObjects<T>();
+    Pool<T> &a = getObjects<T>();
     return a.free(object);
   }
 
@@ -60,7 +60,7 @@ private:
   };
 
   template <typename T> struct Collection : CollectionBase {
-    minipool<T> elements;
+    Pool<T> elements;
     Collection() : elements(MAX_ENTITIES) {}
     Collection(size_t arena_size) : elements(arena_size) {}
   };
@@ -97,13 +97,13 @@ private:
       obdb.allocate<Bar>();
       {
         std::cout << "Printing Foo Names\n";
-        minipool<Foo> &foos = obdb.getObjects<Foo>();
-        for (minipool<Foo>::iterator i = foos.begin(); i != foos.end(); ++i) std::cout << "   -> " << i->name << "\n";
+        Pool<Foo> &foos = obdb.getObjects<Foo>();
+        for (Pool<Foo>::iterator i = foos.begin(); i != foos.end(); ++i) std::cout << "   -> " << i->name << "\n";
       }
       {
         std::cout << "Printing Bar Names\n";
-        minipool<Bar> &bars = obdb.getObjects<Bar>();
-        for (minipool<Bar>::iterator i = bars.begin(); i != bars.end(); ++i) std::cout << "   -> " << i->name << "\n";
+        Pool<Bar> &bars = obdb.getObjects<Bar>();
+        for (Pool<Bar>::iterator i = bars.begin(); i != bars.end(); ++i) std::cout << "   -> " << i->name << "\n";
       }
     }
 */

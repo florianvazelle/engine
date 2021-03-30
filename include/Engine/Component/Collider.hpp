@@ -4,7 +4,6 @@
 
 class Collider : public Component {
 public:
+  RTTI_DECLARATION
   bool intersect(Transform trans);
-
-  std::string name() { return "collider"; }
 };

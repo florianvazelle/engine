@@ -14,8 +14,6 @@ public:
   void destroy();
 
 private:
-  EntityFactory obdb;
-
   Bar *player1, *player2;
   Ball* ball;
 };
