@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include <thread>
-#include "spdlog/spdlog.h"
+
+#include <Engine/Common/Log.hpp>
 
 Game::Game(std::shared_ptr<Scene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {}
@@ -29,7 +30,7 @@ void Game::run() {
 
     // Main Loop
     while (!needToQuit) {
-      spdlog::info("[Game] New frame!");
+      LOG("New frame!");
 
       update();
 

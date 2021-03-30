@@ -1,6 +1,6 @@
 #include <Engine/Core/Timer.hpp>
 
-#include "spdlog/spdlog.h"
+#include <Engine/Common/Log.hpp>
 
 Clock::Clock() {
   TimePointAtStartup = TimeSource::now();
@@ -8,7 +8,7 @@ Clock::Clock() {
 }
 
 void Clock::Update() {
-  spdlog::info("[Clock] Update!");
+  LOG("Update!");
 
   CurrentTimePoint = TimeSource::now();
   TimeSinceStartup = std::chrono::duration<double>(CurrentTimePoint - TimePointAtStartup).count();

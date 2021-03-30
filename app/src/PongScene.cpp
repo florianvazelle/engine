@@ -1,9 +1,7 @@
 #include <PongScene.hpp>
 
-
-#include "spdlog/spdlog.h"
-
 #include <Engine/Common/EntityManager.hpp>
+#include <Engine/Common/Log.hpp>
 
 void PongScene::preload() {}
 
@@ -14,7 +12,7 @@ void PongScene::create() {
   Ball* ball          = obdb->allocate<Ball>();
 }
 
-void PongScene::update(double deltaTime) { spdlog::info("PongScene update!"); }
+void PongScene::update(double deltaTime) { LOG("update!"); }
 
 void PongScene::destroy() {
   EntityFactory* obdb = EntityManager::GetInstance();

@@ -1,8 +1,7 @@
 #include <Engine/Core/Context.hpp>
 #include <Engine/Core/Engine.hpp>
 
-#include "spdlog/spdlog.h"
-
+#include <Engine/Common/Log.hpp>
 #include <Engine/System/LogicalSystem.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
@@ -14,7 +13,7 @@ Engine::Engine() : systems(3) {
 }
 
 void Engine::Update(Context& context) {
-  spdlog::info("[Engine] Update!");
+  LOG("Update!");
 
   double elapsedTime = context.c()->elpsTime();
 
