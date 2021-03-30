@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>minipool struct | pong</title>
+  <title>Pool::Pool_arena struct | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,9 +43,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Common/Pool.hpp&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T&gt;</div>
-          minipool <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="structPool.html">Pool</a>::<wbr/></span>Pool_arena <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Common/Pool.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -54,32 +53,17 @@
             <li>
               Reference
               <ul>
-                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="pub-types">
-          <h2><a href="#pub-types">Public types</a></h2>
-          <dl class="m-doc">
-            <dt>
-              struct <a href="structminipool_1_1minipool__arena.html" class="m-doc">minipool_arena</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              union <a href="unionminipool_1_1minipool__item.html" class="m-doc">minipool_item</a>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="adf06664c7b5081e1416bb307658d2d92">
-              <span class="m-doc-wrap-bumper"><a href="#adf06664c7b5081e1416bb307658d2d92" class="m-doc-self">minipool</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
+            <dt id="ad9003ace291598a45643c994c5db99b4">
+              <span class="m-doc-wrap-bumper"><a href="#ad9003ace291598a45643c994c5db99b4" class="m-doc-self">Pool_arena</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -87,30 +71,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ad47045a746e8c924195d6f56a3ece8b9">
-              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad47045a746e8c924195d6f56a3ece8b9" class="m-doc-self">alloc</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; T*</span>
+            <dt id="aae7e21da8f8a7d5532cee290e5ddf09b">
+              <span class="m-doc-wrap-bumper">auto <a href="#aae7e21da8f8a7d5532cee290e5ddf09b" class="m-doc-self">get_storage</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="unionPool_1_1Pool__item.html" class="m-doc">Pool_<wbr />item</a>*</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a645b4bfc2d9b0c4feee2376fd3041ebb">
-              <span class="m-doc-wrap-bumper">void <a href="#a645b4bfc2d9b0c4feee2376fd3041ebb" class="m-doc-self">free</a>(</span><span class="m-doc-wrap">T* t)</span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a5770f0b1b503d747837bff93e4bca524">
-              size_t <a href="#a5770f0b1b503d747837bff93e4bca524" class="m-doc-self">arena_size</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a90308017317ce3e1a6ed8d695fce887e">
-              std::unique_ptr&lt;<a href="structminipool_1_1minipool__arena.html" class="m-doc">minipool_<wbr />arena</a>&gt; <a href="#a90308017317ce3e1a6ed8d695fce887e" class="m-doc-self">arena</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a5f4f4fbbbbe3b6c29d3b555f64f50ff1">
-              <a href="unionminipool_1_1minipool__item.html" class="m-doc">minipool_<wbr />item</a>* <a href="#a5f4f4fbbbbe3b6c29d3b555f64f50ff1" class="m-doc-self">free_list</a>
+            <dt id="a535ddd05b65f7e51718fa1514d876edb">
+              <span class="m-doc-wrap-bumper">void <a href="#a535ddd05b65f7e51718fa1514d876edb" class="m-doc-self">set_next_arena</a>(</span><span class="m-doc-wrap">std::unique_ptr&lt;<a href="structPool_1_1Pool__arena.html" class="m-doc">Pool_<wbr />arena</a>&gt;&amp;&amp; n)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
