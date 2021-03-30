@@ -15,10 +15,10 @@ int main(int argc, char** argv) {
   std::shared_ptr<Scene> scene = std::make_shared<PongScene>();
 
   // Création du jeu
-  Game pong(scene);
+  //Game pong(scene);
 
   // On lance le jeu
-  pong.run();
+  //pong.run();
 
   // testPools();
   return 0;

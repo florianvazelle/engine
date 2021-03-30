@@ -23,16 +23,37 @@ template <typename T> struct Pool {
       return current_item;
     }
 
-  private:
-    using StorageType =
-        typename std::aligned_storage<sizeof(T),
-                                      alignof(T)>::type;  // char[sizeof(T)]; // alignas(alignof(T)) char[sizeof(T)]
-    // Points to the next freely available item.
-    Pool_item *next;
-    // Storage of the item. Note that this is a union
-    // so it is shared with the pointer "next" above.
-    StorageType datum;
-  };  // Pool_item
+struct Pool_arena {
+    private:
+        // Storage of this arena.
+        std::unique_ptr<Pool_item[]> storage;
+        // Pointer to the next arena.
+        std::unique_ptr<Pool_arena> next;
+        // Creates an arena with arena_size items.
+    
+    public:
+        // Constructor allocate a pool item with the arena size
+        Pool_arena(size_t arena_size) : storage(new Pool_item[arena_size]) {
+            for (size_t i = 1; i < arena_size; i++) {
+                // Set the "next" pointer of each item
+                storage[i - 1].set_next_item(&storage[i]);
+            }
+            // Last "next" pointer of the storage is null
+            storage[arena_size - 1].set_next_item(nullptr);
+        }
+        // Returns a pointer to the array of items. This is used by the arena
+        // itself. This is only used to update free_list during initialization
+        // or when creating a new arena when the current one is full.
+        Pool_item *get_storage() const { return storage.get(); }
+
+        // TO DELETE
+        // Sets the next arena. Used when the current arena is full and
+        // we have created this one to get more storage.
+        // void set_next_arena(std::unique_ptr<Pool_arena> &&n) {
+        //     assert(!next);
+        //     next.reset(n.release());
+        // }
+}; // Pool_arena
 
   struct Pool_arena {
   private:
@@ -61,14 +82,21 @@ template <typename T> struct Pool {
     }
   };  // Pool_arena
 
-  // Size of the arenas created by the pool.
-  size_t arena_size;
-  // Current arena. Changes when it becomes full and we want to allocate one
-  // more object.
-  std::unique_ptr<Pool_arena> arena;
-  // List of free elements. The list can be threaded between different arenas
-  // depending on the deallocation pattern.
-  Pool_item *free_list;
+    // Allocates an object in the current arena. 
+    template <typename... Args> T *alloc(Args &&... args) {
+        // TO DELETE
+        if (free_list == nullptr) {
+            std::cout << "Unable to get more object from the pool, Arena is full" << std::endl;
+            return nullptr;
+            // // If the current arena is full, create a new one.
+            // std::unique_ptr<Pool_arena> new_arena(new Pool_arena(arena_size));
+            // // Link the new arena to the current one.
+            // new_arena->set_next_arena(std::move(arena));
+            // // Make the new arena the current one.
+            // arena.reset(new_arena.release());
+            // // Update the free_list with the storage of the just created arena.
+            // free_list = arena->get_storage();
+        }
 
   // Creates a new pool that will use arenas of arena_size.
   Pool(size_t arena_size)
@@ -97,8 +125,19 @@ template <typename T> struct Pool {
     // Construct the object in the obtained storage.
     new (result) T(std::forward<Args>(args)...);
 
-    return result;
-  }
+        // Add the item at the beginning of the free list.
+        current_item->set_next_item(free_list);
+        free_list = current_item;
+    }
+
+    public:
+        ~Pool(){
+            Pool_item *s = arena->get_storage();
+            for(int i = 0; i < arena_size; ++i){
+                free((s+i)->get_storage());
+            }
+        }
+}; // Pool
 
   void free(T *t) {
     // Destroy the object.
