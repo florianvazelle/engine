@@ -1,15 +1,27 @@
 #pragma once
-#include <string>
+
 #include <iostream>
+#include <string>
+
+#include <Engine/Common/fnv1a.hpp>
 
 class RTTI {
 public:
-  std::string m_ClassName;
+  // typedef std::string type;
+  typedef uint32_t type;
+
   const RTTI& m_Parent;
   static RTTI Default;
+
   RTTI(const char* name, const RTTI& parent_type = RTTI::Default);
   bool IsExactly(const RTTI& other) const;
   bool IsA(const RTTI& other) const;  // IsExactly () recursif
+
+  inline const RTTI::type& id() const { return m_ClassId; }
+
+private:
+  // RTTI::type m_ClassName;
+  RTTI::type m_ClassId;
 };
 
 
