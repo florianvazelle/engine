@@ -110,6 +110,14 @@ struct minipool_arena {
         current_item->set_next_item(free_list);
         free_list = current_item;
     }
+
+    typedef T *iterator;
+    typedef const T *const_iterator;
+
+    iterator begin() { return (arena->get_storage()->get_storage()); }
+    const_iterator begin() const { return (arena->get_storage()->get_storage()); }
+    iterator end() { return (free_list->get_storage()); }
+    const_iterator end() const { return (free_list->get_storage()); }
 }; // minipool<T>
 
 void testPools();
