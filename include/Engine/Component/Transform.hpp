@@ -5,6 +5,6 @@
 
 class Transform : public Component {
 public:
+  RTTI_DECLARATION
   Matrix<float, 4, 4> trans;
-  std::string name() { return "transfrom"; }
 };

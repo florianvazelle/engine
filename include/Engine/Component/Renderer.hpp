@@ -4,6 +4,6 @@
 
 class Renderer : public Component {
 public:
+  RTTI_DECLARATION
   void update(double deltaTime);
-  std::string name() { return "renderer"; }
 };

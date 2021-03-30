@@ -1,5 +1,8 @@
 #pragma once
 
-#include <string>
+#include <Engine/Common/RTTI.hpp>
 
-class Component {};
+class Component {
+public:
+  RTTI_DECLARATION
+};
