@@ -20,6 +20,6 @@ int main(int argc, char** argv) {
   // On lance le jeu
   //pong.run();
 
-  // testPools();
+  testPools();
   return 0;
 }

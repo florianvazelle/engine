@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/Scene.hpp>
-
+#include <Engine/Common/EntityManager.hpp>
 #include <Ball.hpp>
 #include <Bar.hpp>
 

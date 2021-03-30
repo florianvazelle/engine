@@ -1,5 +1,6 @@
 #include <PongScene.hpp>
 
+
 #include "spdlog/spdlog.h"
 
 #include <Engine/Common/EntityManager.hpp>
