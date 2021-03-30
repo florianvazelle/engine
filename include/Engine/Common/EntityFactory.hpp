@@ -7,6 +7,7 @@
 
 #include <Engine/Common/Pool.hpp>
 #include <Engine/Common/RTTI.hpp>
+#include <Engine/Pool/Pool.hpp>
 
 #define MAX_ENTITIES 10
 
