@@ -25,4 +25,13 @@ cmake --build build
 
 ## References
 
+- [Guidelines](https://github.com/isocpp/CppCoreGuidelines)
+
 - [Interfaces](https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm)
+- [Pool and Arena](https://thinkingeek.com/2017/11/19/simple-memory-pool/)
+- [ECS](https://austinmorlan.com/posts/entity_component_system/)
+- [RTTI](https://www.axelmenzel.de/articles/rtti)
+- [SIMD matrix multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/)
+
+- [Double-check locking](https://en.wikipedia.org/wiki/Double-checked_locking)
+- [Factory Design](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm)

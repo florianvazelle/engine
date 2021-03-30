@@ -13,7 +13,7 @@ struct Foo {
 };
 
 void testPools(){
-  minipool<Foo> mp(256);
+  Pool<Foo> mp(256);
 
   Foo *p1 = mp.alloc();
   Foo *p2 = mp.alloc(44);
