@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Engine/Common/EntityFactory.hpp>
 #include <Engine/Scene.hpp>
 
 #include <Ball.hpp>
