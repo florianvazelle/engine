@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.8)
 project(pong VERSION 1.2.3.4 LANGUAGES CXX)
 
 set(LIBRARY_NAME engine)
-set(PROJECT_CXX_STANDARD 11)
+set(PROJECT_CXX_STANDARD 17)
 
 # ---- Options ----
 
