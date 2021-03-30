@@ -7,7 +7,6 @@
 
 class RTTI {
 public:
-  // typedef std::string type;
   typedef uint32_t type;
 
   const RTTI& m_Parent;
@@ -18,12 +17,12 @@ public:
   bool IsA(const RTTI& other) const;  // IsExactly () recursif
 
   inline const RTTI::type& id() const { return m_ClassId; }
+  inline const std::string& name() const { return m_ClassName; }
 
 private:
-  // RTTI::type m_ClassName;
+  std::string m_ClassName;
   RTTI::type m_ClassId;
 };
-
 
 #define RTTI_DECLARATION \
 	static RTTI rtti;

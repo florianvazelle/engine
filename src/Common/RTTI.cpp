@@ -3,7 +3,7 @@
 RTTI RTTI::Default("", *((RTTI*)nullptr));
 
 RTTI::RTTI(const char* name, const RTTI& parent_type) : m_Parent(parent_type) {
-  //m_ClassName = name;
+  m_ClassName = name;
   m_ClassId = fnv_32a_str(name);
 }
 
