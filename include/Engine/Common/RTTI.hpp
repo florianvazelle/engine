@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "fnv1a.hpp"
 
 class RTTI {
 public:
-  std::string m_ClassName;
+  //std::string m_ClassName;
+  uint32_t m_ClassId;
   const RTTI& m_Parent;
   static RTTI Default;
   RTTI(const char* name, const RTTI& parent_type = RTTI::Default);
