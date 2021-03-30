@@ -10,13 +10,13 @@ class Entity {
 public:
   RTTI_DECLARATION
 
-  std::map<std::string, Component *> components;
+  std::map<RTTI::type, Component *> components;
 
   template <typename... Args> Entity(Args &&... args) {
     (
         [&](auto &arg) {
-          std::cout << arg->rtti.m_ClassName << std::endl;
-          Component *&el = components[arg->rtti.m_ClassName];
+          // std::cout << arg->rtti.id() << std::endl;
+          Component *&el = components[arg->rtti.id()];
           el             = arg;
         }(args),
         ...);

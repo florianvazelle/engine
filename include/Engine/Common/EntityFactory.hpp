@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cassert>
 #include <iostream>
 #include <map>
@@ -19,7 +21,7 @@ public:
 
   // Si la Pool du type existe, on la retourne sinon on la crée
   template <typename T> Pool<T> &getOrAlloc() {
-    CollectionBase *&el = m_obdb[T::rtti.m_ClassName];  // RTTI
+    CollectionBase *&el = m_obdb[T::rtti.id()];  // RTTI
     if (not el) {
       el                 = new Collection<T>();
       Collection<T> *elc = dynamic_cast<Collection<T> *>(el);
@@ -32,7 +34,7 @@ public:
 
   // Permet de récupérer tout les objets alloué d'un type
   template <typename T> Pool<T> &getObjects() {
-    CollectionBase *&el = m_obdb[T::rtti.m_ClassName];  // RTTI
+    CollectionBase *&el = m_obdb[T::rtti.id()];  // RTTI
     assert(el);  // Si le pointeur est null, alors il n'y a jamais eu d'allocation pour ce type d'objet
     // TODO : avoid this crash (maybe return empty Pool but we don't want new)
     Collection<T> *elc = dynamic_cast<Collection<T> *>(el);
@@ -65,7 +67,7 @@ private:
     Collection(size_t arena_size) : elements(arena_size) {}
   };
 
-  typedef std::map<std::string, CollectionBase *> ObDB;
+  typedef std::map<RTTI::type, CollectionBase *> ObDB;
   ObDB m_obdb;
 };
 
