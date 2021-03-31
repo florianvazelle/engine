@@ -46,7 +46,6 @@
           Entity <span class="m-thin">class</span>
           <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Entity_8hpp.html">&lt;Engine/Common/Entity.hpp&gt;</a></div>
         </h1>
-        <p><span></span></p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -54,11 +53,13 @@
               Reference
               <ul>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
+<p>L&#x27;entité n&#x27;est qu&#x27;une Map&lt;Key, Value&gt; de <a href="classComponent.html" class="m-doc">Component</a>. La Key correspond au <a href="classRTTI.html" class="m-doc">RTTI</a> du <a href="classComponent.html" class="m-doc">Component</a>. La Value est un pointeur vers son <a href="classComponent.html" class="m-doc">Component</a>.</p><p>Les components sont alloué dans des <a href="classPool.html" class="m-doc">Pool</a> de leur type. Et quand on crée une entité, on utilise l&#x27;espace des pools pour l&#x27;ensemble de ses components</p>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -69,11 +70,41 @@
             <dd><span></span></dd>
           </dl>
         </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="af0a9a2016a19e0c08bfb8c634be01595">
+              <span class="m-doc-wrap-bumper">void <a href="#af0a9a2016a19e0c08bfb8c634be01595" class="m-doc-self">SetWithName</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>&amp; id,
+              <a href="classComponent.html" class="m-doc">Component</a>* component)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a465657f0b3f71534730f9b71b828880d">
+              <span class="m-doc-wrap-bumper">auto <a href="#a465657f0b3f71534730f9b71b828880d" class="m-doc-self">GetWithName</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>&amp; id) -&gt; <a href="classComponent.html" class="m-doc">Component</a>*</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a8f291502ea98c1eb261b2f7e8906537f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f291502ea98c1eb261b2f7e8906537f" class="m-doc-self">Has</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>&amp; id) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="ab6d460d05f2e6f1c68854e97006a4e0d">
-              <a href="RTTI_8hpp.html#ab562d6306585a52b8cac8383c8df52ef" class="m-doc">RTTI_<wbr />DECLARATION</a> std::map&lt;<a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>, <a href="classComponent.html" class="m-doc">Component</a>*&gt; <a href="#ab6d460d05f2e6f1c68854e97006a4e0d" class="m-doc-self">components</a>
+            <dt id="a28f0c43431ffce1bbbff9c39551f8996">
+              <a href="classTransform.html" class="m-doc">Transform</a>* <a href="#a28f0c43431ffce1bbbff9c39551f8996" class="m-doc-self">trans</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5c1c5bd854d9cb6aa9e3a8a60634b27a">
+              <a href="classVelocity.html" class="m-doc">Velocity</a>* <a href="#a5c1c5bd854d9cb6aa9e3a8a60634b27a" class="m-doc-self">velo</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a68c730f8c4dc72ca1118d32eb1f9f927">
+              <a href="classCollider.html" class="m-doc">Collider</a>* <a href="#a68c730f8c4dc72ca1118d32eb1f9f927" class="m-doc-self">coll</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a10a4914b9ed2a81704b4bb979c24ac1d">
+              <a href="classRenderer.html" class="m-doc">Renderer</a>* <a href="#a10a4914b9ed2a81704b4bb979c24ac1d" class="m-doc-self">rend</a>
             </dt>
             <dd><span></span></dd>
           </dl>
