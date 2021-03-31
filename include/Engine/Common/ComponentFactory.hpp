@@ -4,6 +4,7 @@
 #include <string>
 
 #include <Engine/Common/RTTI.hpp>
+#include <Engine/Component/Component.hpp>
 
 /**
  * Permet d'allouer un Component peut importe son type, car il va appeler la method type::pool.alloc que l'on a register

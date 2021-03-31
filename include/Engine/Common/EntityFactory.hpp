@@ -11,6 +11,7 @@
 #include <Engine/Common/ComponentFactory.hpp>
 #include <Engine/Component/Component.hpp>
 #include <Engine/Pool/Pool.hpp>
+#include <Engine/Common/Entity.hpp>
 
 #define MAX_ENTITIES 10
 
