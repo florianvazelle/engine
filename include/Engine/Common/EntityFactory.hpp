@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 
-#include <Engine/Common/Pool.hpp>
 #include <Engine/Common/RTTI.hpp>
 #include <Engine/Pool/Pool.hpp>
 
