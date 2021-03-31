@@ -13,16 +13,21 @@
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
 
-std::map<RTTI::type, std::function<Component*(void)>> ComponentFactory::Registry;
+std::map<RTTI::type, ComponentFactory::AllocFree> ComponentFactory::Registry;
+
+#define REGISTER_FACTORY(klass, pool)                                                                       \
+  ComponentFactory::Register(klass::rtti, std::make_pair([obdb](void) -> Component* { return pool.alloc(); }, \
+                                                       [obdb](Component* c) { pool.free((klass*)c); }));
 
 Game::Game(std::shared_ptr<Scene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
   // On enregistre tout les Components
   EntityFactory* obdb = EntityManager::GetInstance();
-  ComponentFactory::Register(Transform::rtti, [obdb](void) -> Component* { return obdb->trans_pool.alloc(); });
-  ComponentFactory::Register(Velocity::rtti, [obdb](void) -> Component* { return obdb->velo_pool.alloc(); });
-  ComponentFactory::Register(Collider::rtti, [obdb](void) -> Component* { return obdb->coll_pool.alloc(); });
-  ComponentFactory::Register(Renderer::rtti, [obdb](void) -> Component* { return obdb->rend_pool.alloc(); });
+
+  REGISTER_FACTORY(Transform, obdb->trans_pool)
+  REGISTER_FACTORY(Velocity, obdb->velo_pool)
+  REGISTER_FACTORY(Collider, obdb->coll_pool)
+  REGISTER_FACTORY(Renderer, obdb->rend_pool)
 }
 
 void Game::preload() {

@@ -21,6 +21,7 @@ void LogicalSystem::update(double deltaTime) {
 
   obdb->GetObjectsWithTag(entities, Transform::rtti, Collider::rtti);
 
+  LOG("Show entities");
   for (int i = 0; i < entities.size(); i++) {
     std::cout << entities[i] << std::endl;
   }

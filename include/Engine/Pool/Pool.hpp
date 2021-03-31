@@ -14,9 +14,7 @@ public:
   /**
    * @brief Crée une nouvelle Pool qui utilisera des Arena de arena_size
    */
-  Pool(size_t arena_size) : arena_size(arena_size), arena(new Arena<T>(arena_size)), free_list(arena->get_storage()) {
-    std::cout << "Pool" << "\n";
-  }
+  Pool(size_t arena_size) : arena_size(arena_size), arena(new Arena<T>(arena_size)), free_list(arena->get_storage()) {}
 
   /**
    * @brief Au moment de la destruction de la Pool, on va libéré toute les valeurs qui y sont stocké
@@ -38,7 +36,6 @@ public:
       return nullptr;
     }
 
-    std::cout << "alloc" << "\n";
     // Get the first free item.
     PoolItem<T> *current_item = free_list;
     // Update the free list to the next free item.
@@ -83,19 +80,14 @@ public:
 
   // TODO : we can override operator++
   iterator next(iterator item) {
-    LOG("next");
-    std::cout << arena_size << "\n";
     PoolItem<T> *current_item = item->get_next_item();
-    if (current_item == nullptr) LOG("nullptr"); return end();
+    if (current_item == nullptr) return end();
 
-    LOG("is_set");
     while (!current_item->is_set) {
-      LOG((current_item->is_set ? "true" : "false"));
       current_item = current_item->get_next_item();
-      if (current_item == nullptr) LOG("nullptr"); return end();
+      if (current_item == nullptr) return end();
     }
 
-    LOG("current_item");
     return current_item;
   }
 

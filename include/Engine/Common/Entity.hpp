@@ -3,12 +3,12 @@
 #include <iostream>
 #include <map>
 
+#include <Engine/Common/ComponentFactory.hpp>
+#include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Component.hpp>
+#include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
-#include <Engine/Component/Collider.hpp>
-#include <Engine/Component/Renderer.hpp>
-#include <Engine/Common/ComponentFactory.hpp>
 
 /**
  * L'entité n'est qu'une Map<Key, Value> de Component.
@@ -29,14 +29,19 @@ public:
   template <typename... Args> Entity(Args&&... args) : trans(nullptr), velo(nullptr), coll(nullptr), rend(nullptr) {
     ([&](auto &arg) { 
       RTTI::type id        = arg.id(); 
-      std::cout << arg.name() << "\n";
       Component* component = ComponentFactory::Allocate(id);
       SetWithName(id, component);
     } (args), ...);
   }
 
+  ~Entity() {
+    ComponentFactory::Free(Transform::rtti.id(), trans);
+    ComponentFactory::Free(Velocity::rtti.id(), velo);
+    ComponentFactory::Free(Collider::rtti.id(), coll);
+    ComponentFactory::Free(Renderer::rtti.id(), rend);
+  }
+
   void SetWithName(const RTTI::type& id, Component* component) {
-    if (component == nullptr) LOG_WARN("nullptr");
     if (id == Transform::rtti.id()) trans = (Transform*)component;
     else if (id == Velocity::rtti.id()) velo = (Velocity*)component;
     else if (id == Collider::rtti.id()) coll = (Collider*)component;

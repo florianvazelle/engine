@@ -38,8 +38,6 @@ public:
   inline const Pool<Entity> &GetObjects() const { return entities; }
 
   template <typename... Args> void GetObjectsWithTag(std::vector<Entity *> &entities, Args &&... args) {
-    LOG("GetObjectsWithTag ");
-    // TODO: thread pool this function
     int idx = 0;
 
     // On récupère la Pool d'entité
@@ -52,8 +50,8 @@ public:
       Entity* entity = it->get_storage();
 
       // On parcours l'ensemble des types -> args
-      // ([&](auto &arg) { LOG("find"); result &= (entity && entity->components.find(arg.id()) != entity->components.end()); }(args), ...);
-      ([&](auto &arg) { LOG("find"); result &= (entity && entity->Has(arg.id())); }(args), ...);
+      // ([&](auto &arg) { result &= (entity && entity->components.find(arg.id()) != entity->components.end()); }(args), ...);
+      ([&](auto &arg) { result &= (entity && entity->Has(arg.id())); }(args), ...);
 
       // On l'ajoute à notre list final
       if (result) {
@@ -70,7 +68,7 @@ public:
    */
   void Free(Entity *object) {
     Pool<Entity> &a = GetObjects();
-    return a.free(object);
+    a.free(object);
   }
 
   Pool<Transform> trans_pool;
