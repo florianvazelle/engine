@@ -6,7 +6,7 @@
 #include <future>
 #include <queue>
 
-class ThreadPoolSystem : public System {
+class ThreadPoolSystem {
 
   private:
   std::queue<std::function<void()>> m_function_queue;
