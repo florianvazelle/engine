@@ -52,6 +52,7 @@
             <li>
               Reference
               <ul>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#pub-static-methods">Public static functions</a></li>
               </ul>
@@ -59,11 +60,20 @@
           </ul>
         </div>
 <p>Permet d&#x27;allouer un <a href="classComponent.html" class="m-doc">Component</a> peut importe son type, car il va appeler la method type::pool.alloc que l&#x27;on a register</p>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a81c1551dd60ff62f23fe7960e9926ecf">
+              using <a href="#a81c1551dd60ff62f23fe7960e9926ecf" class="m-doc-self">AllocFree</a> = std::pair&lt;std::function&lt;<a href="classComponent.html" class="m-doc">Component</a>*(void)&gt;, std::function&lt;void(<a href="classComponent.html" class="m-doc">Component</a>*)&gt;&gt;
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="pub-static-attribs">
           <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
-            <dt id="a0b7df4c4735f1b62b295844dea4a4589">
-              static std::map&lt;<a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>, std::function&lt;<a href="classComponent.html" class="m-doc">Component</a>*(void)&gt;&gt; <a href="#a0b7df4c4735f1b62b295844dea4a4589" class="m-doc-self">Registry</a>
+            <dt id="af87f2436110a9a842bca06bedf633b7b">
+              static std::map&lt;<a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>, <a href="structComponentFactory.html#a81c1551dd60ff62f23fe7960e9926ecf" class="m-doc">AllocFree</a>&gt; <a href="#af87f2436110a9a842bca06bedf633b7b" class="m-doc-self">Registry</a>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -75,9 +85,14 @@
               <span class="m-doc-wrap-bumper">static auto <a href="#ac44ff570397c0c94d270dcc930e3aaf0" class="m-doc-self">Allocate</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>&amp; name) -&gt; <a href="classComponent.html" class="m-doc">Component</a>*</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a463c7e9d3331a0458c2f00ec06a16720">
-              <span class="m-doc-wrap-bumper">static void <a href="#a463c7e9d3331a0458c2f00ec06a16720" class="m-doc-self">Register</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html" class="m-doc">RTTI</a>&amp; rtti,
-              std::function&lt;<a href="classComponent.html" class="m-doc">Component</a>*(void)&gt; creator)</span>
+            <dt id="aaab38d025886dd7106fc8b352622b6ac">
+              <span class="m-doc-wrap-bumper">static void <a href="#aaab38d025886dd7106fc8b352622b6ac" class="m-doc-self">Free</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html#a492b108e19fc72d987e9585db8a3d930" class="m-doc">RTTI::<wbr />type</a>&amp; name,
+              <a href="classComponent.html" class="m-doc">Component</a>* component)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1b21a4d23fed44d4fd6905e2c627674d">
+              <span class="m-doc-wrap-bumper">static void <a href="#a1b21a4d23fed44d4fd6905e2c627674d" class="m-doc-self">Register</a>(</span><span class="m-doc-wrap">const <a href="classRTTI.html" class="m-doc">RTTI</a>&amp; rtti,
+              const <a href="structComponentFactory.html#a81c1551dd60ff62f23fe7960e9926ecf" class="m-doc">AllocFree</a>&amp; creator)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
