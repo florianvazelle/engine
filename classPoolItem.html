@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Engine/Pool/Pool.hpp file | pong</title>
+  <title>PoolItem class | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,28 +43,47 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_781a97d86e0813d94a13ebb45d493512.html">Pool</a>/</span>Pool.hpp <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="PoolItem_8hpp.html">&lt;Engine/Pool/PoolItem.hpp&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          PoolItem <span class="m-thin">class</span>
         </h1>
-        <p><span></span></p>
+        <p>Les <a href="classPoolItem.html" class="m-doc">PoolItem</a> stockent chaque élément d&#x27;une arène.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a href="classPool.html" class="m-doc">Pool</a>
+            <dt id="a35be9a5cb64631965f7ec62ad66e40df">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a35be9a5cb64631965f7ec62ad66e40df" class="m-doc-self">storage_to_item</a>(</span><span class="m-doc-wrap">T* t) -&gt; <a href="classPoolItem.html" class="m-doc">PoolItem</a>&lt;T&gt;*</span>
             </dt>
-            <dd>Une <a href="classPool.html" class="m-doc">Pool</a> alloue des objets pour une utilisation ultérieure.</dd>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="ae8dc809ca4744e46de0f5cdb9bf25543">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae8dc809ca4744e46de0f5cdb9bf25543" class="m-doc-self">get_next_item</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classPoolItem.html" class="m-doc">PoolItem</a>&lt;T&gt;*</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa90ce31bba9258b8593cae31a3e02b4a">
+              <span class="m-doc-wrap-bumper">void <a href="#aa90ce31bba9258b8593cae31a3e02b4a" class="m-doc-self">set_next_item</a>(</span><span class="m-doc-wrap"><a href="classPoolItem.html" class="m-doc">PoolItem</a>&lt;T&gt;* n)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a709a3a7170c3f9de0a5bdcc7984f167f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a709a3a7170c3f9de0a5bdcc7984f167f" class="m-doc-self">get_storage</a>(</span><span class="m-doc-wrap">) -&gt; T*</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

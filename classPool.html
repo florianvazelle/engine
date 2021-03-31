@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pool struct | pong</title>
+  <title>Pool class | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -43,11 +43,11 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Common/Pool.hpp&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Pool/Pool.hpp&gt;</a></div>
           <div class="m-doc-template">template&lt;typename T&gt;</div>
-          Pool <span class="m-thin">struct</span>
+          Pool <span class="m-thin">class</span>
         </h1>
-        <p><span></span></p>
+        <p>Une <a href="classPool.html" class="m-doc">Pool</a> alloue des objets pour une utilisation ultérieure.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -65,14 +65,6 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>
-              struct <a href="structPool_1_1Pool__arena.html" class="m-doc">Pool_arena</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              union <a href="unionPool_1_1Pool__item.html" class="m-doc">Pool_item</a>
-            </dt>
-            <dd><span></span></dd>
             <dt id="a1dda76ae12acd9c495bd2fb1c703b0ea">
               using <a href="#a1dda76ae12acd9c495bd2fb1c703b0ea" class="m-doc-self">iterator</a> = T*
             </dt>
@@ -85,39 +77,39 @@
             <dt id="a5501fc3b50e5cc5138a6a25c153df1eb">
               <span class="m-doc-wrap-bumper"><a href="#a5501fc3b50e5cc5138a6a25c153df1eb" class="m-doc-self">Pool</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Crée une nouvelle <a href="classPool.html" class="m-doc">Pool</a> qui utilisera des <a href="classArena.html" class="m-doc">Arena</a> de arena_size.</dd>
             <dt id="ab528bd55fc8b6dde0c9001d710ac7b9f">
               <span class="m-doc-wrap-bumper"><a href="#ab528bd55fc8b6dde0c9001d710ac7b9f" class="m-doc-self">~Pool</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Au moment de la destruction de la <a href="classPool.html" class="m-doc">Pool</a>, on va libéré toute les valeurs qui y sont stocké</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="aa08cd1f57eda26c77be480daa9b2eb06">
+            <dt>
               <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa08cd1f57eda26c77be480daa9b2eb06" class="m-doc-self">alloc</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; T*</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa08cd1f57eda26c77be480daa9b2eb06" class="m-doc">alloc</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; T*</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Alloue un objet dans l&#x27;arène.</dd>
             <dt id="add46c4aee230f8753cb0ecbc845d9b0a">
               <span class="m-doc-wrap-bumper">void <a href="#add46c4aee230f8753cb0ecbc845d9b0a" class="m-doc-self">free</a>(</span><span class="m-doc-wrap">T* t)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Libère un objet dans l&#x27;arène.</dd>
             <dt id="a74a59c5856c921e2e5619f6386550153">
-              <span class="m-doc-wrap-bumper">auto <a href="#a74a59c5856c921e2e5619f6386550153" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a href="structPool.html#a1dda76ae12acd9c495bd2fb1c703b0ea" class="m-doc">iterator</a></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a74a59c5856c921e2e5619f6386550153" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classPool.html#a1dda76ae12acd9c495bd2fb1c703b0ea" class="m-doc">iterator</a></span>
             </dt>
             <dd><span></span></dd>
             <dt id="a38a9fad723c20868b59b3e65bdc96229">
-              <span class="m-doc-wrap-bumper">auto <a href="#a38a9fad723c20868b59b3e65bdc96229" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="structPool.html#aa51007f0cb4390c976b45d8f4df3a21c" class="m-doc">const_<wbr />iterator</a></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a38a9fad723c20868b59b3e65bdc96229" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classPool.html#aa51007f0cb4390c976b45d8f4df3a21c" class="m-doc">const_<wbr />iterator</a></span>
             </dt>
             <dd><span></span></dd>
             <dt id="acfeaaa8fc7e83ca5b4c2e1595594f93c">
-              <span class="m-doc-wrap-bumper">auto <a href="#acfeaaa8fc7e83ca5b4c2e1595594f93c" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) -&gt; <a href="structPool.html#a1dda76ae12acd9c495bd2fb1c703b0ea" class="m-doc">iterator</a></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#acfeaaa8fc7e83ca5b4c2e1595594f93c" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classPool.html#a1dda76ae12acd9c495bd2fb1c703b0ea" class="m-doc">iterator</a></span>
             </dt>
             <dd><span></span></dd>
             <dt id="aed41fcce63cd57a8254ac828b42af97a">
-              <span class="m-doc-wrap-bumper">auto <a href="#aed41fcce63cd57a8254ac828b42af97a" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="structPool.html#aa51007f0cb4390c976b45d8f4df3a21c" class="m-doc">const_<wbr />iterator</a></span>
+              <span class="m-doc-wrap-bumper">auto <a href="#aed41fcce63cd57a8254ac828b42af97a" class="m-doc-self">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classPool.html#aa51007f0cb4390c976b45d8f4df3a21c" class="m-doc">const_<wbr />iterator</a></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -129,19 +121,28 @@
               const typedef T* <a href="#aa51007f0cb4390c976b45d8f4df3a21c" class="m-doc-self">const_iterator</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="a95ec183257f8c7f893282a2fa03233c9">
-              size_t <a href="#a95ec183257f8c7f893282a2fa03233c9" class="m-doc-self">arena_size</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a940e0272c3b46728c41472914293ca51">
-              std::unique_ptr&lt;<a href="structPool_1_1Pool__arena.html" class="m-doc">Pool_<wbr />arena</a>&gt; <a href="#a940e0272c3b46728c41472914293ca51" class="m-doc-self">arena</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a989fee1b720844f9dae3619d47e6dff2">
-              <a href="unionPool_1_1Pool__item.html" class="m-doc">Pool_<wbr />item</a>* <a href="#a989fee1b720844f9dae3619d47e6dff2" class="m-doc-self">free_list</a>
-            </dt>
-            <dd><span></span></dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aa08cd1f57eda26c77be480daa9b2eb06"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+                template&lt;typename... Args&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* Pool&lt;T&gt;::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa08cd1f57eda26c77be480daa9b2eb06" class="m-doc-self">alloc</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args)</span></span>
+            </h3>
+            <p>Alloue un objet dans l&#x27;arène.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>Pointeur vers l&#x27;objet alloué</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>
