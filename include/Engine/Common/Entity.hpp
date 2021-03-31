@@ -36,7 +36,7 @@ public:
   }
 
   void SetWithName(const RTTI::type& id, Component* component) {
-    LOG(component == nullptr ? "nullptr" : "valid");
+    if (component == nullptr) LOG_WARN("nullptr");
     if (id == Transform::rtti.id()) trans = (Transform*)component;
     else if (id == Velocity::rtti.id()) velo = (Velocity*)component;
     else if (id == Collider::rtti.id()) coll = (Collider*)component;

@@ -11,7 +11,7 @@ template <typename T> class PoolItem {
 public:
   // Methods for the list of free items.
   PoolItem<T> *get_next_item() const { LOG("get_next_item const"); return next; }
-  void set_next_item(PoolItem<T> *n) { if(n == nullptr) {LOG("error");} next = n; }
+  void set_next_item(PoolItem<T> *n) { if(n == nullptr) { LOG_WARN("error"); } next = n; }
 
   // Methods for the storage of the item.
   T *get_storage() { LOG("get_storage"); return reinterpret_cast<T *>(&datum); }
