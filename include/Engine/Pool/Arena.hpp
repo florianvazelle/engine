@@ -10,6 +10,10 @@ public:
    * @brief Le constructeur alloue un table de PoolItem, de taille arena_size
    */
   Arena(size_t arena_size) : storage(new PoolItem<T>[arena_size]) {
+    if (arena_size <= 0) {
+      throw std::invalid_argument("Arena size must be positive");
+    }
+
     for (size_t i = 1; i < arena_size; i++) {
       // Set the "next" pointer of each item
       storage[i - 1].set_next_item(&storage[i]);

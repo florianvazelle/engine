@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+
+#include <Engine/Common/Log.hpp>
 #include <Engine/Pool/Arena.hpp>
 #include <Engine/Pool/PoolItem.hpp>
 
@@ -11,7 +14,9 @@ public:
   /**
    * @brief Crée une nouvelle Pool qui utilisera des Arena de arena_size
    */
-  Pool(size_t arena_size) : arena_size(arena_size), arena(new Arena<T>(arena_size)), free_list(arena->get_storage()) {}
+  Pool(size_t arena_size) : arena_size(arena_size), arena(new Arena<T>(arena_size)), free_list(arena->get_storage()) {
+    std::cout << "Pool" << "\n";
+  }
 
   /**
    * @brief Au moment de la destruction de la Pool, on va libéré toute les valeurs qui y sont stocké
@@ -33,6 +38,7 @@ public:
       return nullptr;
     }
 
+    std::cout << "alloc" << "\n";
     // Get the first free item.
     PoolItem<T> *current_item = free_list;
     // Update the free list to the next free item.
@@ -40,6 +46,8 @@ public:
 
     // Get the storage for T.
     T *result = current_item->get_storage();
+    current_item->is_set = true;
+
     // Construct the object in the obtained storage.
     new (result) T(std::forward<Args>(args)...);
 
@@ -56,27 +64,49 @@ public:
     // Convert this pointer to T to its enclosing pointer of an item of the
     // arena.
     PoolItem<T> *current_item = PoolItem<T>::storage_to_item(t);
+    current_item->is_set      = false;
 
     // Add the item at the beginning of the free list.
     current_item->set_next_item(free_list);
     free_list = current_item;
   }
 
-  typedef T *iterator;
-  typedef const T *const_iterator;
+  typedef PoolItem<T> *iterator;
 
-  iterator begin() { return arena->get_storage()->get_storage(); }
-  const_iterator begin() const { return begin(); }
+  iterator begin() {
+    PoolItem<T> *current_item = arena->get_storage();
+    if (!current_item->is_set) return next(current_item);
+    return current_item;
+  }
 
   iterator end() { return begin() + arena_size; }
-  const_iterator end() const { return end(); }
+
+  // TODO : we can override operator++
+  iterator next(iterator item) {
+    LOG("next");
+    std::cout << arena_size << "\n";
+    PoolItem<T> *current_item = item->get_next_item();
+    if (current_item == nullptr) LOG("nullptr"); return end();
+
+    LOG("is_set");
+    while (!current_item->is_set) {
+      LOG((current_item->is_set ? "true" : "false"));
+      current_item = current_item->get_next_item();
+      if (current_item == nullptr) LOG("nullptr"); return end();
+    }
+
+    LOG("current_item");
+    return current_item;
+  }
 
 private:
   // Size of the arenas created by the pool.
   size_t arena_size;
+
   // Current arena. Changes when it becomes full and we want to allocate one
   // more object.
   std::unique_ptr<Arena<T>> arena;
+
   // List of free elements. The list can be threaded between different arenas
   // depending on the deallocation pattern.
   PoolItem<T> *free_list;

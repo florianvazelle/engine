@@ -4,5 +4,5 @@
 
 class Component {
 public:
-  RTTI_DECLARATION
+  RTTI_DECLARATION(Component)
 };

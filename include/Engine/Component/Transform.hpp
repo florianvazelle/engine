@@ -5,6 +5,6 @@
 
 class Transform : public Component {
 public:
-  RTTI_DECLARATION
+  RTTI_DECLARATION(Transform)
   Matrix<float, 4, 4> trans;
 };

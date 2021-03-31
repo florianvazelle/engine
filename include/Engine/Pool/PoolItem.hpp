@@ -2,17 +2,19 @@
 
 #include <type_traits>
 
+#include <Engine/Common/Log.hpp>
+
 /**
  * @brief Les PoolItem stockent chaque élément d'une arène
  */
 template <typename T> class PoolItem {
 public:
   // Methods for the list of free items.
-  PoolItem<T> *get_next_item() const { return next; }
-  void set_next_item(PoolItem<T> *n) { next = n; }
+  PoolItem<T> *get_next_item() const { LOG("get_next_item const"); return next; }
+  void set_next_item(PoolItem<T> *n) { if(n == nullptr) {LOG("error");} next = n; }
 
   // Methods for the storage of the item.
-  T *get_storage() { return reinterpret_cast<T *>(&datum); }
+  T *get_storage() { LOG("get_storage"); return reinterpret_cast<T *>(&datum); }
 
   // Given a T* cast it to a PoolItem*
   static PoolItem<T> *storage_to_item(T *t) {
@@ -20,6 +22,8 @@ public:
     return current_item;
   }
 
+  bool is_set = false;
+  
 private:
   using StorageType = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 
@@ -28,4 +32,5 @@ private:
   // Storage of the item. Note that this is a union
   // so it is shared with the pointer "next" above.
   StorageType datum;
+
 };

@@ -1,9 +1,7 @@
 #pragma once
 
-#include <Engine/Scene.hpp>
 #include <Engine/Common/EntityManager.hpp>
-#include <Ball.hpp>
-#include <Bar.hpp>
+#include <Engine/Scene.hpp>
 
 class PongScene : public Scene {
 public:
@@ -13,6 +11,5 @@ public:
   void destroy();
 
 private:
-  Bar *player1, *player2;
-  Ball* ball;
+  Entity *player1, *player2, *ball;
 };

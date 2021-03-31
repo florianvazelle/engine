@@ -8,3 +8,5 @@
 #define FNV1_32_INIT ((uint32_t)0x811c9dc5)
 
 uint32_t fnv_32a_str(const char *str);
+
+uint64_t simple_hash(uint32_t x, uint32_t y);

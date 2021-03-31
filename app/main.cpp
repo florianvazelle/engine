@@ -17,7 +17,7 @@
 // };
 
 // void testPools() {
-//   Pool<Foo> mp(256);
+//   Pool<Foo> mp(5);
 
 //   Foo *p1 = mp.alloc();
 //   Foo *p2 = mp.alloc(44);

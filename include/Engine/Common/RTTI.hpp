@@ -4,6 +4,7 @@
 #include <string>
 
 #include <Engine/Common/fnv1a.hpp>
+#include <Engine/Pool/Pool.hpp>
 
 class RTTI {
 public:
@@ -24,15 +25,14 @@ private:
   RTTI::type m_ClassId;
 };
 
-#define RTTI_DECLARATION \
-	static RTTI rtti;
+#define RTTI_DECLARATION(ClassName) \
+	static RTTI rtti; \
 
 #define RTTI_DEFINITION_BASE(ClassName) \
-	RTTI ClassName::rtti(#ClassName);
+  RTTI ClassName::rtti(#ClassName);     
 
 #define RTTI_DEFINITION(ClassName, parent) \
-	RTTI ClassName::rtti(#ClassName, parent::rtti);
-
+	RTTI ClassName::rtti(#ClassName, parent::rtti); 
 
 /*
 struct GameObject {

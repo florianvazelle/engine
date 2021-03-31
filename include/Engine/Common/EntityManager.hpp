@@ -1,9 +1,12 @@
 #pragma once
 
 #include <atomic>
+#include <map>
 #include <mutex>
+#include <vector>
 
 #include <Engine/Common/EntityFactory.hpp>
+#include <Engine/Common/RTTI.hpp>
 
 /**
  * Thread-safe Singleton, to return a EntityFactory

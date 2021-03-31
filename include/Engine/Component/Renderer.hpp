@@ -4,6 +4,6 @@
 
 class Renderer : public Component {
 public:
-  RTTI_DECLARATION
+  RTTI_DECLARATION(Renderer)
   void update(double deltaTime);
 };

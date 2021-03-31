@@ -17,3 +17,13 @@ uint32_t fnv_32a_str(const char *str) {
   /* return our new hash value */
   return hval;
 }
+
+uint64_t simple_hash(uint32_t x, uint32_t y) {
+  const uint64_t a = static_cast<uint64_t>(x);
+  const uint64_t b = static_cast<uint64_t>(y);
+
+  const uint64_t h0 = (b << 32) | a;
+  const uint64_t h1 = (a << 32) | b;
+
+  return (x < y) ? h0 : h1;  // conditional move (CMOV) instruction
+}

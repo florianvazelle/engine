@@ -4,6 +4,6 @@
 
 class Velocity : public Component {
 public:
-  RTTI_DECLARATION
+  RTTI_DECLARATION(Velocity)
   float x, y, z, padding;
 };
