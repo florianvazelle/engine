@@ -29,6 +29,7 @@ private:
 
   // Points to the next freely available item.
   PoolItem<T> *next;
+  
   // Storage of the item. Note that this is a union
   // so it is shared with the pointer "next" above.
   StorageType datum;

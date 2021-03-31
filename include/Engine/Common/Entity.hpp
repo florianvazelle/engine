@@ -10,6 +10,8 @@
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
 
+#define MAX_ENTITIES 10
+
 /**
  * L'entité n'est qu'une Map<Key, Value> de Component.
  * La Key correspond au RTTI du Component.

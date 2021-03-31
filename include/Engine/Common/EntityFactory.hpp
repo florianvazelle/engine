@@ -13,8 +13,6 @@
 #include <Engine/Pool/Pool.hpp>
 #include <Engine/Common/Entity.hpp>
 
-#define MAX_ENTITIES 10
-
 class EntityFactory {
 public:
   EntityFactory() : entities(MAX_ENTITIES), trans_pool(MAX_ENTITIES), velo_pool(MAX_ENTITIES), coll_pool(MAX_ENTITIES), rend_pool(MAX_ENTITIES) {}

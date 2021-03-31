@@ -14,17 +14,27 @@ void LogicalSystem::update(double deltaTime) {
   EntityFactory* obdb = EntityManager::GetInstance();
 
   // Apply Velocity
-  std::vector<Entity*> entities(10);
-  for (int i = 0; i < entities.size(); i++) {
-    std::cout << entities[i] << std::endl;
-  }
+  // for (int i = 0; i < entitiesQuery.size(); i++) {
+  //   std::cout << entitiesQuery[i] << std::endl;
+  // }
 
-  obdb->GetObjectsWithTag(entities, Transform::rtti, Collider::rtti);
+  obdb->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
 
-  LOG("Show entities");
-  for (int i = 0; i < entities.size(); i++) {
-    std::cout << entities[i] << std::endl;
-  }
-  LOG("Fin du System je quitte le programme");
-  exit(0);
+  // for (int i = 0; i < entitiesQuery.size(); i++) {
+  //   std::cout << entitiesQuery[i] << std::endl;
+  // }
+
+  // for (int i = 0; i < entitiesQuery.size(); i++) {
+  //   func_pool.push([](Entity* e) {
+  //     e->trans += e->velo;
+  //   });
+  // }
+
+  // func_pool.done();
+
+  // for (unsigned int i = 0; i < thread_pool.size(); i++) {
+  //   thread_pool.at(i).join();
+  // }
+
+  // exit(0);
 }

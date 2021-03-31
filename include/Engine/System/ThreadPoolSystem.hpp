@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Engine/System/System.hpp>
 #include <vector>
 #include <thread>
 #include <future>

@@ -23,6 +23,7 @@ void PongScene::create() {
   std::cout << "ball=" << ball << "\n";
   // obdb->Free(test);
   // obdb->Free(player1);
+  // std::cout << "player1=" << player1 << "\n";
 }
 
 void PongScene::update(double deltaTime) { LOG("update!"); }

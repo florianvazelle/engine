@@ -26,7 +26,6 @@ struct ComponentFactory {
     Registry[rtti.id()] = creator;
   }
 
-
   static std::map<RTTI::type, AllocFree> Registry;  // Key   = RTTI du Component
                                                     // Value = fonction alloc de la pool correspondante au Component
 };
