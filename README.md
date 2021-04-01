@@ -2,7 +2,7 @@
 
 It's a work in progress small game engine.
 
-## Features
+## Features
 
 - No allocation during game loop ([Object pool pattern](https://en.wikipedia.org/wiki/Object_pool_pattern))
 - Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information) 
