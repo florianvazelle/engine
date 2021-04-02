@@ -1,9 +1,8 @@
 #include <Engine/Common/RTTI.hpp>
 
-RTTI RTTI::Default("", *((RTTI*)nullptr));
+RTTI RTTI::Default(crc32(""), *((RTTI*)nullptr));
 
-RTTI::RTTI(const char* name, const RTTI& parent_type)
-    : m_Parent(parent_type), m_ClassName(name), m_ClassId(fnv_32a_str(name)) {}
+RTTI::RTTI(const RTTI::type& id, const RTTI& parent_type) : m_Parent(parent_type), m_ClassId(id) {}
 
 bool RTTI::IsExactly(const RTTI& other) const { return m_ClassId == other.m_ClassId; }
 
