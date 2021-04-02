@@ -1,7 +1,7 @@
 #include <Engine/System/LogicalSystem.hpp>
 
-#include <Engine/Common/EntityManager.hpp>
 #include <Engine/Common/Log.hpp>
+#include <Engine/Common/Manager.hpp>
 #include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
@@ -11,7 +11,7 @@
 void LogicalSystem::update(double deltaTime) {
   LOG("Update");
 
-  EntityFactory* obdb = EntityManager::GetInstance();
+  Manager* obdb = Manager::GetInstance();
 
   // Apply Velocity
   // for (int i = 0; i < entitiesQuery.size(); i++) {

@@ -9,6 +9,7 @@ set(PROJECT_CXX_STANDARD 17)
 
 # ---- Options ----
 
+option(ENABLE_TESTING "Whether to generate unit test program and test" ON)
 option(ENABLE_DOC "Whether to generate documentation" OFF)
 
 # ---- Add source files ----
@@ -74,3 +75,11 @@ endif()
 # ---- Install ----
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+
+# ---- Test ----
+
+# Set up tests (see test/CMakeLists.txt).
+if(ENABLE_TESTING)
+  enable_testing()
+  add_subdirectory("${CMAKE_SOURCE_DIR}/test")
+endif()
