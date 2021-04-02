@@ -6,10 +6,15 @@
 #include <Engine/Pool/Arena.hpp>
 #include <Engine/Pool/PoolItem.hpp>
 
+class IPool {
+public:
+  virtual ~IPool() = default;
+};
+
 /**
  * @brief Une Pool alloue des objets pour une utilisation ultérieure
  */
-template <typename T> class Pool {
+template <typename T> class Pool : public IPool {
 public:
   /**
    * @brief Crée une nouvelle Pool qui utilisera des Arena de arena_size
@@ -31,24 +36,44 @@ public:
    * @return Pointeur vers l'objet alloué
    */
   template <typename... Args> T *alloc(Args &&... args) {
-    if (free_list == nullptr) {
-      std::cout << "Unable to get more object from the pool, Arena is full" << std::endl;
-      return nullptr;
-    }
+    assert(free_list == nullptr && "Unable to get more object from the pool, Arena is full.");
 
     // Get the first free item.
     PoolItem<T> *current_item = free_list;
     // Update the free list to the next free item.
     free_list = current_item->get_next_item();
 
-    // Get the storage for T.
-    T *result = current_item->get_storage();
-    current_item->is_set = true;
+    return set_storage(current_item, std::forward<Args>(args)...);
+  }
 
-    // Construct the object in the obtained storage.
-    new (result) T(std::forward<Args>(args)...);
+  template <typename... Args> T *alloc_with_id(const uint32_t &id, Args &&... args) {
+    PoolItem<T> *current_item = this->at(id);
 
-    return result;
+    // Mis a jour de la free_list
+    if (free_list != nullptr) {
+      // Si le début de la free_list correspond à mon current_item, comportement normal
+      if (free_list == current_item) {
+        // Update the free list to the next free item.
+        free_list = current_item->get_next_item();
+      } else {
+        // Sinon je vérifie que mon current_item ne soit pas dans la free list
+        PoolItem<T> *tmp = free_list;
+        // On parcours la free list, jusqu'a la fin
+        do {
+          // Si mon current_item correspond
+          if (current_item == tmp->get_next_item()) {
+            // On l'enlève de la free list
+            tmp->set_next_item(current_item->get_next_item());
+            break;
+          }
+          tmp = tmp->get_next_item();
+        } while (tmp != nullptr);
+      }
+    }
+
+    // Si la free list est vide, on remplace directement l'élément qui nous intérésse
+
+    return set_storage(current_item, std::forward<Args>(args)...);
   }
 
   /**
@@ -67,6 +92,8 @@ public:
     current_item->set_next_item(free_list);
     free_list = current_item;
   }
+
+  void free_with_id(const uint32_t &id) { free(this->at(id)->get_storage()); }
 
   typedef PoolItem<T> *iterator;
 
@@ -91,6 +118,16 @@ public:
     return current_item;
   }
 
+  PoolItem<T> *at(const uint32_t &id) {
+    assert(id < arena_size && "Pool out of range.");
+    return arena->get_storage() + id;
+  }
+
+  PoolItem<T> *at(const uint32_t &id) const { return this->at(id); }
+
+  T &operator[](const uint32_t &id) { return this->at(id)->get_storage(); }
+  T &operator[](const uint32_t &id) const { return this->at(id)->get_storage(); }
+
 private:
   // Size of the arenas created by the pool.
   size_t arena_size;
@@ -102,4 +139,15 @@ private:
   // List of free elements. The list can be threaded between different arenas
   // depending on the deallocation pattern.
   PoolItem<T> *free_list;
+
+  template <typename... Args> T *set_storage(PoolItem<T> *current_item, Args &&... args) {
+    // Get the storage for T.
+    T *result            = current_item->get_storage();
+    current_item->is_set = true;
+
+    // Construct the object in the obtained storage.
+    new (result) T(std::forward<Args>(args)...);
+
+    return result;
+  }
 };

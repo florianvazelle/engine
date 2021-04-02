@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Common/EntityManager.hpp>
+#include <Engine/Common/Manager.hpp>
 #include <Engine/Scene.hpp>
 
 class PongScene : public Scene {
@@ -11,5 +11,5 @@ public:
   void destroy();
 
 private:
-  Entity *player1, *player2, *ball;
+  Entity player1, player2, ball;
 };

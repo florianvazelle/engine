@@ -7,6 +7,7 @@
 #include <Engine/System/RendererSystem.hpp>
 
 Engine::Engine() : systems(3) {
+  // TODO : create a SystemFactory to register all systems
   systems[0] = std::make_shared<LogicalSystem>();
   systems[1] = std::make_shared<PhysicalSystem>();
   systems[2] = std::make_shared<RendererSystem>();

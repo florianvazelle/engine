@@ -14,57 +14,31 @@ public:
   static RTTI Default;
 
   RTTI(const char* name, const RTTI& parent_type = RTTI::Default);
+
+  /**
+   * @brief Dit si le RTTI est identique
+   * @param other Le RTTI a comparé
+   * @return Retourne vrai si, exactement identique
+   */
   bool IsExactly(const RTTI& other) const;
-  bool IsA(const RTTI& other) const;  // IsExactly () recursif
+
+  /**
+   * @brief Comme IsExactly mais recursif
+   * @param other Le RTTI a comparé
+   * @return Retourne vrai si, exactement identique ou au moins un parent
+   */
+  bool IsA(const RTTI& other) const;
 
   inline const RTTI::type& id() const { return m_ClassId; }
   inline const std::string& name() const { return m_ClassName; }
 
 private:
-  std::string m_ClassName;
-  RTTI::type m_ClassId;
+  const std::string m_ClassName;
+  const RTTI::type m_ClassId;
 };
 
-#define RTTI_DECLARATION(ClassName) \
-	static RTTI rtti; \
+#define RTTI_DECLARATION(ClassName) static RTTI rtti;
 
-#define RTTI_DEFINITION_BASE(ClassName) \
-  RTTI ClassName::rtti(#ClassName);     
+#define RTTI_DEFINITION_BASE(ClassName) RTTI ClassName::rtti(#ClassName);
 
-#define RTTI_DEFINITION(ClassName, parent) \
-	RTTI ClassName::rtti(#ClassName, parent::rtti); 
-
-/*
-struct GameObject {
-  RTTI_DECLARATION  //GameObject.hpp
-};
-RTTI_DEFINITION_BASE(GameObject); //GameObject.cpp
-
-
-struct Player : public GameObject {
-  RTTI_DECLARATION
-};
-RTTI_DEFINITION(Player, GameObject);
-
-
-struct Enemy : public GameObject {
-  RTTI_DECLARATION
-};
-RTTI_DEFINITION(Enemy, GameObject);
-
-
-struct Boss : public Enemy {
-  RTTI_DECLARATION
-};
-RTTI_DEFINITION(Boss, Enemy); //Relation d'heritage
-
-
-//cas d'utilisation
-void main(void) {
-  Boss boss;
-  std::cout << boss.rtti.m_ClassName << std::endl;
-
-  bool isPlayer = boss.rtti.IsA(Player::rtti);
-  bool isEnemy  = boss.rtti.IsA(Enemy::rtti);
-}
-*/
+#define RTTI_DEFINITION(ClassName, parent) RTTI ClassName::rtti(#ClassName, parent::rtti);
