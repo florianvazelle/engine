@@ -40,7 +40,7 @@ public:
   /**
    * @brief Permet de récupèrer le Component d'une Entity
    */
-  template <typename T> T &GetComponent(Entity entity) { return compFact->Get<T>(entity); }
+  template <typename T> T *GetComponent(Entity entity) { return compFact->Get<T>(entity); }
 
   /**
    * @brief Permet de construire une Entity, alloue tout les Component et retourne une Entity nous utilisée

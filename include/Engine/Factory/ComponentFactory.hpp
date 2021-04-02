@@ -14,6 +14,8 @@
 #include <Engine/Component/Velocity.hpp>
 #include <Engine/Pool/Pool.hpp>
 
+#define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
+
 #define ALLOC_COMPONENT(klass) \
   if (rtti == klass::rtti.id()) GetComponentPool<klass>()->alloc_with_id(entity);
 
@@ -65,7 +67,12 @@ public:
    * @param entity L'Entity qui possède le Component que l'on veut récupèrer
    * @return Le pointeur vers le Component de l'Entity, si il n'existe pas, retourne nullptr
    */
-  template <typename T> T* Get(const Entity& entity) const;
+  template <typename T> T* Get(const Entity& entity) {
+    const RTTI::type& typeName = T::rtti.id();
+
+    auto pool_item = (GetComponentPool<T>().get())->at(entity);
+    return (pool_item->is_set) ? pool_item->get_storage() : nullptr;
+  }
 
   /**
    * @brief Permet de savoir si une Entity possède certains Component
@@ -93,5 +100,10 @@ private:
    * @brief Permet d'obtenir pointeur de la Pool de type T
    * @return Le pointeur de la Pool T
    */
-  template <typename T> std::shared_ptr<Pool<T>> GetComponentPool();
+  template <typename T> std::shared_ptr<Pool<T>> GetComponentPool() {
+    const RTTI::type& typeName = T::rtti.id();
+    assert(componentArrays.find(typeName) != componentArrays.end() && "Component not registered before use.");
+
+    return std::static_pointer_cast<Pool<T>>(componentArrays[typeName]);
+  }
 };

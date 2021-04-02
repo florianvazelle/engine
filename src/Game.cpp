@@ -13,8 +13,6 @@
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 
-#define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
-
 Game::Game(std::shared_ptr<Scene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
   // On enregistre tout les Components
