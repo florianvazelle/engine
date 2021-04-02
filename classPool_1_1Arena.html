@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Engine/Common/EntityManager.hpp file | pong</title>
+  <title>Pool::Arena class | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,7 +42,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_fd6d63904574a68c292b3c474734e8eb.html">Common</a>/</span>EntityManager.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="classPool.html">Pool</a>::<wbr/></span>Arena <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Pool/Pool.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -51,18 +52,28 @@
             <li>
               Reference
               <ul>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>
-              class <a href="classEntityManager.html" class="m-doc">EntityManager</a>
+            <dt id="ae3757857ac392552f28bd7a547f95115">
+              <span class="m-doc-wrap-bumper"><a href="#ae3757857ac392552f28bd7a547f95115" class="m-doc-self">Arena</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
             </dt>
-            <dd></dd>
+            <dd>Le constructeur alloue un table de <a href="unionPool_1_1PoolItem.html" class="m-doc">PoolItem</a>, de taille arena_size.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a9d7370367b09070b9d24e8b5346ac427">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9d7370367b09070b9d24e8b5346ac427" class="m-doc-self">get_storage</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="unionPool_1_1PoolItem.html" class="m-doc">PoolItem</a>*</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

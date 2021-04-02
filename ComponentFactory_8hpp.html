@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Engine/Common/ComponentFactory.hpp file | pong</title>
+  <title>Engine/Factory/ComponentFactory.hpp file | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,7 +42,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_fd6d63904574a68c292b3c474734e8eb.html">Common</a>/</span>ComponentFactory.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_7f7d6bb581b230708099404857d42eed.html">Factory</a>/</span>ComponentFactory.hpp <span class="m-thin">file</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -52,6 +52,7 @@
               Reference
               <ul>
                 <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#define-members">Defines</a></li>
               </ul>
             </li>
           </ul>
@@ -60,9 +61,30 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structComponentFactory.html" class="m-doc">ComponentFactory</a>
+              class <a href="classComponentFactory.html" class="m-doc">ComponentFactory</a>
             </dt>
-            <dd></dd>
+            <dd>Permet de gérer l&#x27;allocation/libération des <a href="classComponent.html" class="m-doc">Component</a>.</dd>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt id="a5e669ca7b49bce1ed87aff749a72284a">
+              <span class="m-doc-wrap-bumper">#define <a href="#a5e669ca7b49bce1ed87aff749a72284a" class="m-doc-self">REGISTER_COMPONENT</a>(</span><span class="m-doc-wrap">klass)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7d04d023b1b9e811a37c1e30370233aa">
+              <span class="m-doc-wrap-bumper">#define <a href="#a7d04d023b1b9e811a37c1e30370233aa" class="m-doc-self">ALLOC_COMPONENT</a>(</span><span class="m-doc-wrap">klass)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aab0215077e5cd84882b40b1335a7f832">
+              <span class="m-doc-wrap-bumper">#define <a href="#aab0215077e5cd84882b40b1335a7f832" class="m-doc-self">FREE_COMPONENT</a>(</span><span class="m-doc-wrap">klass)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a32973a81d82d432245a219639b251406">
+              <span class="m-doc-wrap-bumper">#define <a href="#a32973a81d82d432245a219639b251406" class="m-doc-self">HAS_COMPONENT</a>(</span><span class="m-doc-wrap">klass)</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

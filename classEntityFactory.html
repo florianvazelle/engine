@@ -43,9 +43,9 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           EntityFactory <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EntityFactory_8hpp.html">&lt;Engine/Common/EntityFactory.hpp&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EntityFactory_8hpp.html">&lt;Engine/Factory/EntityFactory.hpp&gt;</a></div>
         </h1>
-        <p><span></span></p>
+        <p>Permet de gérer l&#x27;allocation/libération des Entity.</p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -54,7 +54,6 @@
               <ul>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
@@ -65,100 +64,34 @@
             <dt id="abaf0c4ceaa682e55f69b0ceae230008a">
               <span class="m-doc-wrap-bumper"><a href="#abaf0c4ceaa682e55f69b0ceae230008a" class="m-doc-self">EntityFactory</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
-            <dt id="a88a0cd6ab193753498d3d3d089891710">
-              <span class="m-doc-wrap-bumper"><a href="#a88a0cd6ab193753498d3d3d089891710" class="m-doc-self">EntityFactory</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
-            </dt>
-            <dd><span></span></dd>
+            <dd>Initialise la queue avec toute les Entity possible.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a468c830805911c9bfb184704cf36a84e" class="m-doc">Allocate</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; <a href="classEntity.html" class="m-doc">Entity</a>*</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#af033b24ed704c16c7071a865969cc59f" class="m-doc">Allocate</a>(</span><span class="m-doc-wrap">) -&gt; <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a></span>
             </dt>
-            <dd>Ajoute d&#x27;une entité, à la <a href="classPool.html" class="m-doc">Pool</a> d&#x27;entitée.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a20a69b83da42c50f52559c720ddc03a6" class="m-doc">GetObjects</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classEntity.html" class="m-doc">Entity</a>&gt;&amp;</span>
+            <dd>Ajoute d&#x27;une Entity.</dd>
+            <dt id="abeeccbfdc23382f252e5383da90a1973">
+              <span class="m-doc-wrap-bumper">void <a href="#abeeccbfdc23382f252e5383da90a1973" class="m-doc-self">Free</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; entity)</span>
             </dt>
-            <dd>Permet de récupérer toutes les entitées alloué</dd>
-            <dt id="a1a5d9ebf5510fb92045ac8d558698d74">
-              <span class="m-doc-wrap-bumper">auto <a href="#a1a5d9ebf5510fb92045ac8d558698d74" class="m-doc-self">GetObjects</a>(</span><span class="m-doc-wrap">) const -&gt; const <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classEntity.html" class="m-doc">Entity</a>&gt;&amp;</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a6abdec47634f8273dcda7fc00816ebd8">
-              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">void <a href="#a6abdec47634f8273dcda7fc00816ebd8" class="m-doc-self">GetObjectsWithTag</a>(</span><span class="m-doc-wrap">std::vector&lt;<a href="classEntity.html" class="m-doc">Entity</a>*&gt;&amp; entities,
-              Args &amp;&amp; ... args)</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a797dc1458a9c75bdd182670a4f8405b4">
-              <span class="m-doc-wrap-bumper">void <a href="#a797dc1458a9c75bdd182670a4f8405b4" class="m-doc-self">Free</a>(</span><span class="m-doc-wrap"><a href="classEntity.html" class="m-doc">Entity</a>* object)</span>
-            </dt>
-            <dd>Supprime l&#x27;entité, contenu dans la <a href="classPool.html" class="m-doc">Pool</a>.</dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="ab2601fc10bd4508470837abc02d8fb36">
-              <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classTransform.html" class="m-doc">Transform</a>&gt; <a href="#ab2601fc10bd4508470837abc02d8fb36" class="m-doc-self">trans_pool</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aeef2f458910b8c5b30633ca6e0aad69a">
-              <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classVelocity.html" class="m-doc">Velocity</a>&gt; <a href="#aeef2f458910b8c5b30633ca6e0aad69a" class="m-doc-self">velo_pool</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a60324d23271f1e670099588eaeb89b10">
-              <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classCollider.html" class="m-doc">Collider</a>&gt; <a href="#a60324d23271f1e670099588eaeb89b10" class="m-doc-self">coll_pool</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a3f07469d775681e5e31feab28cf4d9b0">
-              <a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classRenderer.html" class="m-doc">Renderer</a>&gt; <a href="#a3f07469d775681e5e31feab28cf4d9b0" class="m-doc-self">rend_pool</a>
-            </dt>
-            <dd><span></span></dd>
+            <dd>Supprime l&#x27;Entity.</dd>
           </dl>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a468c830805911c9bfb184704cf36a84e"><div>
+          <section class="m-doc-details" id="af033b24ed704c16c7071a865969cc59f"><div>
             <h3>
-              <div class="m-doc-template">
-                template&lt;typename... Args&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a href="classEntity.html" class="m-doc">Entity</a>* EntityFactory::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a468c830805911c9bfb184704cf36a84e" class="m-doc-self">Allocate</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args)</span></span>
+              <span class="m-doc-wrap-bumper"><a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a> EntityFactory::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#af033b24ed704c16c7071a865969cc59f" class="m-doc-self">Allocate</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
-            <p>Ajoute d&#x27;une entité, à la <a href="classPool.html" class="m-doc">Pool</a> d&#x27;entitée.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">args</td>
-                  <td>Liste d&#x27;argument pour initaliser une entité</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>Pointeur vers l&#x27;entité alloué</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a20a69b83da42c50f52559c720ddc03a6"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a href="classPool.html" class="m-doc">Pool</a>&lt;<a href="classEntity.html" class="m-doc">Entity</a>&gt;&amp; EntityFactory::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a20a69b83da42c50f52559c720ddc03a6" class="m-doc-self">GetObjects</a>(</span><span class="m-doc-wrap">)</span></span>
-            </h3>
-            <p>Permet de récupérer toutes les entitées alloué</p>
+            <p>Ajoute d&#x27;une Entity.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>Retourne la <a href="classPool.html" class="m-doc">Pool</a> d&#x27;entité</td>
+                  <td>L&#x27;identifiant de l&#x27;Entity</td>
                 </tr>
               </tfoot>
             </table>

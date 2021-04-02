@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Arena class | pong</title>
+  <title>Engine/Common/Manager.hpp file | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,9 +42,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Arena_8hpp.html">&lt;Engine/Pool/Arena.hpp&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T&gt;</div>
-          Arena <span class="m-thin">class</span>
+          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_fd6d63904574a68c292b3c474734e8eb.html">Common</a>/</span>Manager.hpp <span class="m-thin">file</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,28 +51,18 @@
             <li>
               Reference
               <ul>
-                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="typeless-methods">
-          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
-            <dt id="a087620578e0afef386b0c867bd42e114">
-              <span class="m-doc-wrap-bumper"><a href="#a087620578e0afef386b0c867bd42e114" class="m-doc-self">Arena</a>(</span><span class="m-doc-wrap">size_t arena_size)</span>
+            <dt>
+              class <a href="classManager.html" class="m-doc">Manager</a>
             </dt>
-            <dd>Le constructeur alloue un table de <a href="classPoolItem.html" class="m-doc">PoolItem</a>, de taille arena_size.</dd>
-          </dl>
-        </section>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
-          <dl class="m-doc">
-            <dt id="a8c36c0472ed94b491d9aa33bcf4041d5">
-              <span class="m-doc-wrap-bumper">auto <a href="#a8c36c0472ed94b491d9aa33bcf4041d5" class="m-doc-self">get_storage</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classPoolItem.html" class="m-doc">PoolItem</a>&lt;T&gt;*</span>
-            </dt>
-            <dd><span></span></dd>
+            <dd>Le <a href="classManager.html" class="m-doc">Manager</a> est un Thread-safe Singleton qui permet de gérer les données du jeu.</dd>
           </dl>
         </section>
       </div>
