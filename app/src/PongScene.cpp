@@ -12,6 +12,8 @@
 void PongScene::preload() {}
 
 void PongScene::create() {
+  entitiesQuery.reserve(MAX_ENTITIES);
+
   Manager* man = Manager::GetInstance();
   Entity test  = man->AllocateEntity();
   player1      = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);

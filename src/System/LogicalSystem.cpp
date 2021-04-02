@@ -11,7 +11,7 @@ void LogicalSystem::update(double deltaTime) {
   LOG("Update");
 
   // Manager* man = Manager::GetInstance();
-  // man->GetObjectsWithTag(entitiesQuery, Transform::rtti);
+  // man->GetObjectsWithTag(entitiesQuery, Behavior::rtti);
 
   // for (int i = 0; i < entitiesQuery.size(); i++) {
   //   func_pool.push([](Entity* e) {

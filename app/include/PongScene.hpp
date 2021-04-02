@@ -14,4 +14,5 @@ public:
 
 private:
   Entity player1, player2, ball;
+  std::vector<Entity> entitiesQuery;
 };

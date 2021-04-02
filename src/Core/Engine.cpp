@@ -13,7 +13,7 @@ Engine::Engine() : systems(3) {
   systems[2] = std::make_shared<RendererSystem>();
 }
 
-void Engine::Update(Context& context) {
+void Engine::Update(Context& context, const std::shared_ptr<IScene>& scene) {
   LOG("Update!");
 
   double elapsedTime = context.c()->elpsTime();
@@ -26,6 +26,7 @@ void Engine::Update(Context& context) {
 
   float deltaTime = static_cast<float>(elapsedTime);
 
+  scene->update(deltaTime);
   for (std::shared_ptr<System> system : systems) {
     system->update(deltaTime);
   }
