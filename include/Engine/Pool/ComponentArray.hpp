@@ -1,5 +1,10 @@
 #pragma once
 
+#include <array>
+
+#include <Engine/Common/Entity.hpp>
+#include <Engine/Pool/Pool.hpp>
+
 template <typename T> class ComponentArray : public IPool {
 public:
   template <typename... Args> void Allocate(const Entity& entity, Args&&... args) {
