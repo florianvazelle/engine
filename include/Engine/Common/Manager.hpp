@@ -47,7 +47,7 @@ public:
    * @param args Liste des arguments, normalement RTTI de Component
    * @return Retourne la nouvelle Entity
    */
-  template <typename... Args> const Entity &AllocateEntity(Args &&... args) {
+  template <typename... Args> Entity AllocateEntity(Args &&... args) {
     const Entity &id = entiFact->Allocate();
 
     ([&](auto &arg) { AllocateComponent(arg.id(), id); }(args), ...);
