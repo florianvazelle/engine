@@ -22,7 +22,7 @@ void PongScene::create() {
   std::cout << "player2=" << player2 << "\n";
   std::cout << "ball=" << ball << "\n";
   // obdb->Free(test);
-  // obdb->Free(player1);
+  // obdb->FreeEntity(player1);
   // std::cout << "player1=" << player1 << "\n";
 }
 

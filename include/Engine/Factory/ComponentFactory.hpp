@@ -23,7 +23,7 @@
   if (rtti == klass::rtti.id()) GetComponentPool<klass>()->free_with_id(entity);
 
 #define HAS_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) result &= ((GetComponentPool<klass>().get())->at(entity)->is_set);
+  if (rtti == klass::rtti.id()) result &= (Get<klass>(entity) != nullptr);
 
 /**
  * @brief Permet de gérer l'allocation/libération des Component
@@ -70,8 +70,10 @@ public:
   template <typename T> T* Get(const Entity& entity) {
     const RTTI::type& typeName = T::rtti.id();
 
-    auto pool_item = (GetComponentPool<T>().get())->at(entity);
-    return (pool_item->is_set) ? pool_item->get_storage() : nullptr;
+    Pool<T>* pool                         = GetComponentPool<T>().get();
+    typename Pool<T>::PoolItem* pool_item = pool->at(entity);
+
+    return (!pool->in_free_list(pool_item)) ? pool_item->get_storage() : nullptr;
   }
 
   /**
