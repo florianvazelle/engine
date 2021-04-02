@@ -5,8 +5,8 @@
 #include <string>
 
 #include <Engine/Common/Entity.hpp>
+#include <Engine/Common/Macro.hpp>
 #include <Engine/Common/RTTI.hpp>
-#include <Engine/Common/map.hpp>
 #include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Component.hpp>
 #include <Engine/Component/Renderer.hpp>
@@ -70,8 +70,7 @@ public:
   template <typename T> T* Get(const Entity& entity) {
     const RTTI::type& typeName = T::rtti.id();
 
-    Pool<T>* pool                         = GetComponentPool<T>().get();
-    typename Pool<T>::PoolItem* pool_item = pool->at(entity);
+    auto pool = GetComponentPool<T>().get();
 
     return (!pool->in_free_list(pool_item)) ? pool_item->get_storage() : nullptr;
   }
@@ -102,10 +101,10 @@ private:
    * @brief Permet d'obtenir pointeur de la Pool de type T
    * @return Le pointeur de la Pool T
    */
-  template <typename T> std::shared_ptr<Pool<T>> GetComponentPool() {
+  template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentPool() {
     const RTTI::type& typeName = T::rtti.id();
     assert(componentArrays.find(typeName) != componentArrays.end() && "Component not registered before use.");
 
-    return std::static_pointer_cast<Pool<T>>(componentArrays[typeName]);
+    return std::static_pointer_cast<ComponentArray<T>>(componentArrays[typeName]);
   }
 };
