@@ -4,18 +4,14 @@
 #include <Engine/Common/Manager.hpp>
 #include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
 
 #include <stdlib.h>
 
 void LogicalSystem::update(double deltaTime) {
   LOG("Update");
 
-  Manager* man = Manager::GetInstance();
-
-  // Apply Velocity
-
-  man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
+  // Manager* man = Manager::GetInstance();
+  // man->GetObjectsWithTag(entitiesQuery, Transform::rtti);
 
   // for (int i = 0; i < entitiesQuery.size(); i++) {
   //   func_pool.push([](Entity* e) {
@@ -29,5 +25,5 @@ void LogicalSystem::update(double deltaTime) {
   //   thread_pool.at(i).join();
   // }
 
-  exit(0);
+  // exit(0);
 }

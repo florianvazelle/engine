@@ -7,7 +7,7 @@
 #include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
+#include <Velocity.hpp>
 
 void PongScene::preload() {}
 
@@ -27,4 +27,8 @@ void PongScene::create() {
   man->FreeEntity(player1);
 }
 
-void PongScene::update(double deltaTime) { LOG("update!"); }
+void PongScene::update(double deltaTime) {
+  Manager* man = Manager::GetInstance();
+
+  man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
+}

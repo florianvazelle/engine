@@ -9,14 +9,13 @@
 #include <Engine/Component/Component.hpp>
 #include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 
 Game::Game(std::shared_ptr<IScene> scene)
-    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
+    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>(scene)) {
   // On enregistre tout les Components
-  MAP(REGISTER_COMPONENT, Transform, Velocity, Collider, Renderer)
+  MAP_COMPONENT(REGISTER_COMPONENT)
 }
 
 void Game::preload() {
@@ -26,9 +25,9 @@ void Game::preload() {
 }
 
 void Game::update() {
-  context.c()->Update();
-  context.i()->Update();
-  context.e()->Update(context);
+  context.c()->Update();         // Clock
+  context.i()->Update();         // Input
+  context.e()->Update(context);  // Engine
 }
 
 void Game::run() {

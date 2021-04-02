@@ -11,8 +11,20 @@
 #include <Engine/Component/Component.hpp>
 #include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
 #include <Engine/Pool/ComponentArray.hpp>
+
+// All Engine's Component
+#define COMPONENTS Transform, Collider, Renderer
+
+// If client define custom Component
+#ifdef EXTRA_COMPONENTS
+#  define ALL_COMPONENTS COMPONENTS, EXTRA_COMPONENTS
+#else
+#  define ALL_COMPONENTS COMPONENTS
+#endif
+
+// Execute a function (which first parameter is a type) on all Component
+#define MAP_COMPONENT(func) MAP(func, ALL_COMPONENTS)
 
 #define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
 
@@ -83,7 +95,7 @@ public:
     // clang-format off
     ([&](auto& arg) {
       const RTTI::type& rtti = arg.id();
-      MAP(HAS_COMPONENT, Transform, Velocity, Collider, Renderer)
+      MAP_COMPONENT(HAS_COMPONENT)
     } (args), ...);
     // clang-format on
     return result;

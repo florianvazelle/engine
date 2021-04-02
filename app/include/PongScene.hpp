@@ -3,6 +3,9 @@
 #include <Engine/Common/Manager.hpp>
 #include <Engine/IScene.hpp>
 
+/**
+ * @brief Example of a custom IScene
+ */
 class PongScene : public IScene {
 public:
   void preload();

@@ -4,42 +4,36 @@
 #include <Engine/Common/Manager.hpp>
 
 TEST_CASE("Alloc Entity") {
-  MAP(REGISTER_COMPONENT, Transform, Velocity, Collider, Renderer)
+  MAP_COMPONENT(REGISTER_COMPONENT)
 
   Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti);
 
   CHECK(test == 0);
 
   CHECK(man->GetComponent<Transform>(test) != nullptr);
-  CHECK(man->GetComponent<Velocity>(test) == nullptr);
   CHECK(man->GetComponent<Collider>(test) != nullptr);
-  CHECK(man->GetComponent<Renderer>(test) != nullptr);
+  CHECK(man->GetComponent<Renderer>(test) == nullptr);
 
   man->FreeEntity(test);
 }
 
 TEST_CASE("Alloc Entity") {
-  // MAP(REGISTER_COMPONENT, Transform, Velocity, Collider, Renderer)
-
   Manager* man = Manager::GetInstance();
   Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
   man->FreeEntity(test);
 
   CHECK(man->GetComponent<Transform>(test) == nullptr);
-  CHECK(man->GetComponent<Velocity>(test) == nullptr);
   CHECK(man->GetComponent<Collider>(test) == nullptr);
   CHECK(man->GetComponent<Renderer>(test) == nullptr);
 }
 
 TEST_CASE("GetObjectsWithTag") {
-  // MAP(REGISTER_COMPONENT, Transform, Velocity, Collider, Renderer)
-
   Manager* man = Manager::GetInstance();
   Entity test1 = man->AllocateEntity();
-  Entity test2 = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  Entity test2 = man->AllocateEntity(Transform::rtti);
   Entity test3 = man->AllocateEntity(Transform::rtti, Renderer::rtti);
-  Entity test4 = man->AllocateEntity(Transform::rtti, Velocity::rtti);
+  Entity test4 = man->AllocateEntity(Transform::rtti, Collider::rtti);
 
   std::vector<Entity> entities(10);
   man->GetObjectsWithTag(entities);
@@ -50,11 +44,11 @@ TEST_CASE("GetObjectsWithTag") {
   CHECK(entities[2] == test3);
   CHECK(entities[3] == test4);
 
-  man->GetObjectsWithTag(entities, Velocity::rtti);
+  man->GetObjectsWithTag(entities, Collider::rtti);
   CHECK(entities.size() == 1);
   CHECK(entities[0] == test4);
 
-  man->GetObjectsWithTag(entities, Transform::rtti, Velocity::rtti);
+  man->GetObjectsWithTag(entities, Transform::rtti, Collider::rtti);
   CHECK(entities.size() == 1);
   CHECK(entities[0] == test4);
 
