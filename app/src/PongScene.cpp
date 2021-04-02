@@ -12,25 +12,19 @@
 void PongScene::preload() {}
 
 void PongScene::create() {
-  Manager* obdb = Manager::GetInstance();
-  Entity test   = obdb->AllocateEntity();
-  player1       = obdb->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
-  player2       = obdb->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
-  ball          = obdb->AllocateEntity(Transform::rtti, Velocity::rtti);
+  Manager* man = Manager::GetInstance();
+  Entity test  = man->AllocateEntity();
+  player1      = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  player2      = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  ball         = man->AllocateEntity(Transform::rtti, Velocity::rtti);
+
   std::cout << "test=" << test << "\n";
   std::cout << "player1=" << player1 << "\n";
   std::cout << "player2=" << player2 << "\n";
   std::cout << "ball=" << ball << "\n";
-  // obdb->Free(test);
-  // obdb->FreeEntity(player1);
-  // std::cout << "player1=" << player1 << "\n";
+
+  man->FreeEntity(test);
+  man->FreeEntity(player1);
 }
 
 void PongScene::update(double deltaTime) { LOG("update!"); }
-
-void PongScene::destroy() {
-  Manager* obdb = Manager::GetInstance();
-  // obdb->Free(ball);
-  // obdb->Free(player2);
-  obdb->FreeEntity(player1);
-}

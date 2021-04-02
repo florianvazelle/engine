@@ -11,18 +11,11 @@
 void LogicalSystem::update(double deltaTime) {
   LOG("Update");
 
-  Manager* obdb = Manager::GetInstance();
+  Manager* man = Manager::GetInstance();
 
   // Apply Velocity
-  // for (int i = 0; i < entitiesQuery.size(); i++) {
-  //   std::cout << entitiesQuery[i] << std::endl;
-  // }
 
-  obdb->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
-
-  // for (int i = 0; i < entitiesQuery.size(); i++) {
-  //   std::cout << entitiesQuery[i] << std::endl;
-  // }
+  man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
 
   // for (int i = 0; i < entitiesQuery.size(); i++) {
   //   func_pool.push([](Entity* e) {
@@ -36,5 +29,5 @@ void LogicalSystem::update(double deltaTime) {
   //   thread_pool.at(i).join();
   // }
 
-  // exit(0);
+  exit(0);
 }

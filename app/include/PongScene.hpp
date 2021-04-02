@@ -1,14 +1,13 @@
 #pragma once
 
 #include <Engine/Common/Manager.hpp>
-#include <Engine/Scene.hpp>
+#include <Engine/IScene.hpp>
 
-class PongScene : public Scene {
+class PongScene : public IScene {
 public:
   void preload();
   void create();
   void update(double deltaTime);
-  void destroy();
 
 private:
   Entity player1, player2, ball;

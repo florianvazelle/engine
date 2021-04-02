@@ -70,9 +70,10 @@ public:
    */
   template <typename... Args> void GetObjectsWithTag(std::vector<Entity> &entities, Args &&... args) {
     int idx = 0;
+    entities.resize(MAX_ENTITIES);
 
     for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-      // if (find(availableEntities.begin(), availableEntities.end(), i) != availableEntities.end()) continue;
+      if (!entiFact->IsSet(entity)) continue;
       if (compFact->Has(entity, std::forward<Args>(args)...)) {
         entities[idx] = entity;
         idx++;

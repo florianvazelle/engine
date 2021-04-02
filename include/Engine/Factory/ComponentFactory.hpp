@@ -12,15 +12,15 @@
 #include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
-#include <Engine/Pool/Pool.hpp>
+#include <Engine/Pool/ComponentArray.hpp>
 
 #define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
 
 #define ALLOC_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->alloc_with_id(entity);
+  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->Allocate(entity);
 
 #define FREE_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->free_with_id(entity);
+  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->Free(entity);
 
 #define HAS_COMPONENT(klass) \
   if (rtti == klass::rtti.id()) result &= (Get<klass>(entity) != nullptr);
@@ -59,7 +59,7 @@ public:
     const RTTI::type& typeName = T::rtti.id();
     assert(componentArrays.find(typeName) == componentArrays.end() && "Registering component type more than once.");
 
-    componentArrays.insert({typeName, std::make_shared<Pool<T>>(MAX_ENTITIES)});
+    componentArrays.insert({typeName, std::make_shared<ComponentArray<T>>()});
   }
 
   /**
@@ -68,11 +68,8 @@ public:
    * @return Le pointeur vers le Component de l'Entity, si il n'existe pas, retourne nullptr
    */
   template <typename T> T* Get(const Entity& entity) {
-    const RTTI::type& typeName = T::rtti.id();
-
     auto pool = GetComponentPool<T>().get();
-
-    return (!pool->in_free_list(pool_item)) ? pool_item->get_storage() : nullptr;
+    return pool->Get(entity);
   }
 
   /**

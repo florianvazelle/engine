@@ -9,25 +9,25 @@
 #include "Engine/System/ThreadPoolSystem.hpp"
 
 /*Test ThreadPool*/
-//ThreadPoolSystem func_pool;
+// ThreadPoolSystem func_pool;
 //
-//class quit_worker_exception : public std::exception {};
+// class quit_worker_exception : public std::exception {};
 //
-//void example_function() { std::cout << "bla" << std::endl; }
+// void example_function() { std::cout << "bla" << std::endl; }
 
 int main(int argc, char **argv) {
   cxxopts::Options options(argv[0], "A pong game which use a simple game engine!");
 
-  	// Création de la PongScene
-  	std::shared_ptr<Scene> scene = std::make_shared<PongScene>();
+  // Création de la PongScene
+  std::shared_ptr<IScene> scene = std::make_shared<PongScene>();
 
-  	// Création du jeu
-  	Game pong(scene);
+  // Création du jeu
+  Game pong(scene);
 
-  	// On lance le jeu
-  	pong.run();
+  // On lance le jeu
+  pong.run();
 
-  	// testPools();
+  // testPools();
   return 0;
 }
 

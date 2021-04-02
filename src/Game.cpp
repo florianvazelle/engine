@@ -13,7 +13,7 @@
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 
-Game::Game(std::shared_ptr<Scene> scene)
+Game::Game(std::shared_ptr<IScene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
   // On enregistre tout les Components
   MAP(REGISTER_COMPONENT, Transform, Velocity, Collider, Renderer)
@@ -55,6 +55,4 @@ void Game::run() {
   } catch (const std::exception& e) {
     std::cout << e.what();
   }
-
-  scene->destroy();
 }

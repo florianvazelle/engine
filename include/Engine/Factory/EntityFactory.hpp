@@ -35,7 +35,14 @@ public:
    */
   void Free(const Entity& entity);
 
+  /**
+   * @brief Indique si l'Entity correspondante est créé
+   * @return Retourne vrai si l'Entity est créé
+   */
+  bool IsSet(const Entity& entity) const { return entityIsSet[entity]; }
+
 private:
+  std::array<bool, MAX_ENTITIES> entityIsSet;
   std::queue<Entity> availableEntities{};  // Queue des Entity disponibles
   uint32_t livingEntityCount{};            // Total des Entity en "vie"
 };
