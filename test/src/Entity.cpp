@@ -3,32 +3,9 @@
 
 #include <Engine/Common/Manager.hpp>
 
-TEST_CASE("Alloc Entity") {
+TEST_CASE("GetObjectsWithTag") {
   MAP_COMPONENT(REGISTER_COMPONENT)
 
-  Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti);
-
-  CHECK(test == 0);
-
-  CHECK(man->GetComponent<Transform>(test) != nullptr);
-  CHECK(man->GetComponent<Collider>(test) != nullptr);
-  CHECK(man->GetComponent<Renderer>(test) == nullptr);
-
-  man->FreeEntity(test);
-}
-
-TEST_CASE("Alloc Entity") {
-  Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
-  man->FreeEntity(test);
-
-  CHECK(man->GetComponent<Transform>(test) == nullptr);
-  CHECK(man->GetComponent<Collider>(test) == nullptr);
-  CHECK(man->GetComponent<Renderer>(test) == nullptr);
-}
-
-TEST_CASE("GetObjectsWithTag") {
   Manager* man = Manager::GetInstance();
   Entity test1 = man->AllocateEntity();
   Entity test2 = man->AllocateEntity(Transform::rtti);
@@ -57,4 +34,25 @@ TEST_CASE("GetObjectsWithTag") {
   CHECK(entities[0] == test2);
   CHECK(entities[1] == test3);
   CHECK(entities[2] == test4);
+}
+
+TEST_CASE("Alloc Entity") {
+  Manager* man = Manager::GetInstance();
+  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti);
+
+  CHECK(man->GetComponent<Transform>(test) != nullptr);
+  CHECK(man->GetComponent<Collider>(test) != nullptr);
+  CHECK(man->GetComponent<Renderer>(test) == nullptr);
+
+  man->FreeEntity(test);
+}
+
+TEST_CASE("Alloc Entity") {
+  Manager* man = Manager::GetInstance();
+  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  man->FreeEntity(test);
+
+  CHECK(man->GetComponent<Transform>(test) == nullptr);
+  CHECK(man->GetComponent<Collider>(test) == nullptr);
+  CHECK(man->GetComponent<Renderer>(test) == nullptr);
 }
