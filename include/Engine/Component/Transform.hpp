@@ -1,6 +1,6 @@
 #pragma once
 
-#include <x86intrin.h>
+#include <immintrin.h>
 
 #include <Engine/Component/Component.hpp>
 
