@@ -3,6 +3,7 @@
 EntityFactory::EntityFactory() : livingEntityCount(0) {
   for (Entity entity = 0; entity < MAX_ENTITIES; ++entity) {
     availableEntities.push(entity);
+    entityIsSet[entity] = false;
   }
 }
 
