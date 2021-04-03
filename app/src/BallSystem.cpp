@@ -8,7 +8,7 @@
 RTTI_DEFINITION(BallSystem, System)
 
 void BallSystem::update(double deltaTime) {
-  LOG("Ball Update");
+  LOG("--- Ball Update ---");
   Manager* man = Manager::GetInstance();
   man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
 
@@ -18,6 +18,8 @@ void BallSystem::update(double deltaTime) {
         [&](const Entity& entity) {
           Transform* t = man->GetComponent<Transform>(entity);
           Velocity* v  = man->GetComponent<Velocity>(entity);
+
+          t->translate(v->x, v->y, v->z, v->w);
         },
         entitiesQuery[i]);
   }

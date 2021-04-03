@@ -27,9 +27,20 @@ public:
   }
 
   void Update(double deltaTime) {
+    // On update d'abord les System rajoutés
     for (auto const& x : systems) {
+      if (x.first == LogicalSystem::rtti.id() || x.first == PhysicalSystem::rtti.id()
+          || x.first == RendererSystem::rtti.id())
+        continue;
       x.second->update(deltaTime);
     }
+
+    // Puis ensuite les System de l'Engine
+    systems[LogicalSystem::rtti.id()]->update(deltaTime);
+    systems[PhysicalSystem::rtti.id()]->update(deltaTime);
+    systems[RendererSystem::rtti.id()]->update(deltaTime);
+
+    // TODO : faire un système de dépendance entre les systèmes pour pouvoir choisir l'ordre
   }
 
 private:

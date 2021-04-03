@@ -5,7 +5,7 @@
 RTTI_DEFINITION(PhysicalSystem, System)
 
 void PhysicalSystem::update(double deltaTime) {
-  LOG("update!");
+  LOG("Update!");
   /**
    * @todo Mettre ici la simulation physique: détection de collisions, résolution des
    * pénétrations et des interactions. Les objets éloignés ou qui

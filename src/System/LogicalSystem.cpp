@@ -5,7 +5,7 @@
 RTTI_DEFINITION(LogicalSystem, System)
 
 void LogicalSystem::update(double deltaTime) {
-  LOG("update!");
+  LOG("Update!");
   /**
    * @todo Mettre ici la logique: comportements, déplacements, animations etc...
    * Certains objets doivent toujours être updaté tandis que

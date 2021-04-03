@@ -8,6 +8,7 @@ It's a work in progress small game engine, usable like a C++ library.
 - Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information) with compile-time hashing
 - Data-driven oriented design with Entity, Component and System
 - Multithreading system with [Thread Pool](https://en.wikipedia.org/wiki/Thread_pool)
+- Basic SIMD operations
 
 ## Building
 
@@ -23,7 +24,7 @@ cmake --build build
 
 ## Dependencies
 
-- C++11 compiler :
+- C++17 compiler :
   - Visual Studio 2015
   - GCC 5+ or Clang 5+
 - [CMake](https://cmake.org/) for build system creation (>= 3.8)

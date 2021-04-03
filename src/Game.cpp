@@ -13,16 +13,14 @@
 #include <Engine/Factory/EntityFactory.hpp>
 
 Game::Game(std::shared_ptr<Scene> scene)
-    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
-  // On enregistre tout les Components
-  REGISTER_COMPONENTS
-  REGISTER_SYSTEMS
-}
+    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {}
 
 void Game::preload() {
-  /*  */
   scene->preload();
-  /*  */
+
+  // On enregistre tout les Component et tout les System
+  REGISTER_COMPONENTS
+  REGISTER_SYSTEMS
 }
 
 void Game::update() {
@@ -41,7 +39,7 @@ void Game::run() {
 
     // Main Loop
     while (!needToQuit) {
-      LOG("New frame!");
+      LOG("~~~ New frame!");
 
       update();
 

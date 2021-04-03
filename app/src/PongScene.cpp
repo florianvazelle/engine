@@ -15,14 +15,16 @@ void PongScene::preload() {
   /**
    * @todo Load texture or 3D model here
    */
-}
 
-void PongScene::create() {
   Manager* man = Manager::GetInstance();
 
   // You need to register all custom Component and System
   man->RegisterComponent<Velocity>();
   man->RegisterSystem<BallSystem>();
+}
+
+void PongScene::create() {
+  Manager* man = Manager::GetInstance();
 
   // You can create Entity with Component
   Entity test = man->AllocateEntity();
@@ -30,11 +32,11 @@ void PongScene::create() {
   player2     = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
   ball        = man->AllocateEntity(Transform::rtti, Velocity::rtti);
 
-  std::cout << "test=" << test << "\n";
-  std::cout << "player1=" << player1 << "\n";
-  std::cout << "player2=" << player2 << "\n";
-  std::cout << "ball=" << ball << "\n";
+  // std::cout << "test=" << test << "\n";
+  // std::cout << "player1=" << player1 << "\n";
+  // std::cout << "player2=" << player2 << "\n";
+  // std::cout << "ball=" << ball << "\n";
 
-  man->FreeEntity(test);
-  man->FreeEntity(player1);
+  // man->FreeEntity(test);
+  // man->FreeEntity(player1);
 }
