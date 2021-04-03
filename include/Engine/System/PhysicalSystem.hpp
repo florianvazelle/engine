@@ -4,5 +4,7 @@
 
 class PhysicalSystem : public System {
 public:
+  RTTI_DECLARATION(PhysicalSystem)
+
   void update(double deltaTime);
 };

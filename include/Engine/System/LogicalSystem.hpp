@@ -7,9 +7,7 @@
 
 class LogicalSystem : public System {
 public:
-  LogicalSystem() : entitiesQuery(MAX_ENTITIES) {}
-
-  std::vector<Entity> entitiesQuery;
+  RTTI_DECLARATION(LogicalSystem)
 
   void update(double deltaTime);
 };

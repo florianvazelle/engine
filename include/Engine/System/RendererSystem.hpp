@@ -4,5 +4,7 @@
 
 class RendererSystem : public System {
 public:
+  RTTI_DECLARATION(RendererSystem)
+
   void update(double deltaTime);
 };

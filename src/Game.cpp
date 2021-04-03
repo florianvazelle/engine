@@ -12,10 +12,11 @@
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 
-Game::Game(std::shared_ptr<IScene> scene)
+Game::Game(std::shared_ptr<Scene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
   // On enregistre tout les Components
   MAP_COMPONENT(REGISTER_COMPONENT)
+  MAP_SYSTEMS(REGISTER_SYSTEM)
 }
 
 void Game::preload() {
@@ -25,9 +26,9 @@ void Game::preload() {
 }
 
 void Game::update() {
-  context.c()->Update();                // Clock
-  context.i()->Update();                // Input
-  context.e()->Update(context, scene);  // Engine
+  context.c()->Update();         // Clock
+  context.i()->Update();         // Input
+  context.e()->Update(context);  // Engine
 }
 
 void Game::run() {

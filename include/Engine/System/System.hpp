@@ -3,19 +3,15 @@
 #include <thread>
 #include <vector>
 
-#include <Engine/System/ThreadPoolSystem.hpp>
+#include <Engine/Common/RTTI.hpp>
+#include <Engine/Common/ThreadPool.hpp>
 
 class System {
 public:
-  int num_threads;
-  ThreadPoolSystem func_pool;
-  std::vector<std::thread> thread_pool;
+  RTTI_DECLARATION(System)
+  size_t num_threads;
 
-  System() : num_threads(std::thread::hardware_concurrency()), thread_pool(num_threads), func_pool() {
-    for (int i = 0; i < num_threads; i++) {
-      thread_pool[i] = std::thread(&ThreadPoolSystem::infinite_loop_func, &func_pool);
-    }
-  }
+  System() : num_threads(std::thread::hardware_concurrency()) {}
 
   virtual void update(double deltaTime) = 0;
 };

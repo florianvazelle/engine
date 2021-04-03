@@ -8,6 +8,7 @@
 #include <Engine/Common/RTTI.hpp>
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
+#include <Engine/Factory/SystemFactory.hpp>
 
 /**
  * @brief Le Manager est un Thread-safe Singleton qui permet de gérer les données du jeu
@@ -83,6 +84,16 @@ public:
     entities.resize(idx);  // Normalement pas d'allocation car la taille max est déjà réservé
   }
 
+  /**
+   * @brief Permet d'enregistrer un System dans la SystemFactory
+   */
+  template <typename T> void RegisterSystem() { systFact->Register<T>(); }
+
+  /**
+   * @brief Permet d'update les System
+   */
+  void UpdateSystem(double deltaTime) { systFact->Update(deltaTime); }
+
 private:
   /**
    * @brief Initalise le Manager en créant une ComponentFactory et une EntityFactory
@@ -90,10 +101,12 @@ private:
   Manager() {
     compFact = std::make_unique<ComponentFactory>();
     entiFact = std::make_unique<EntityFactory>();
+    systFact = std::make_unique<SystemFactory>();
   }
 
   std::unique_ptr<ComponentFactory> compFact;
   std::unique_ptr<EntityFactory> entiFact;
+  std::unique_ptr<SystemFactory> systFact;
 
   static std::atomic<Manager *> s_instance;
   static std::mutex s_mutex;

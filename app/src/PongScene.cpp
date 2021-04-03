@@ -28,9 +28,3 @@ void PongScene::create() {
   man->FreeEntity(test);
   man->FreeEntity(player1);
 }
-
-void PongScene::update(double deltaTime) {
-  Manager* man = Manager::GetInstance();
-
-  man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
-}

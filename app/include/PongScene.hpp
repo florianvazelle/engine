@@ -1,18 +1,16 @@
 #pragma once
 
 #include <Engine/Common/Manager.hpp>
-#include <Engine/IScene.hpp>
+#include <Engine/Scene.hpp>
 
 /**
- * @brief Example of a custom IScene
+ * @brief Example of a custom Scene
  */
-class PongScene : public IScene {
+class PongScene : public Scene {
 public:
   void preload();
   void create();
-  void update(double deltaTime);
 
 private:
   Entity player1, player2, ball;
-  std::vector<Entity> entitiesQuery;
 };

@@ -2,18 +2,12 @@
 #include <Engine/Core/Engine.hpp>
 
 #include <Engine/Common/Log.hpp>
+#include <Engine/Common/Manager.hpp>
 #include <Engine/System/LogicalSystem.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
 
-Engine::Engine() : systems(3) {
-  // TODO : create a SystemFactory to register all systems
-  systems[0] = std::make_shared<LogicalSystem>();
-  systems[1] = std::make_shared<PhysicalSystem>();
-  systems[2] = std::make_shared<RendererSystem>();
-}
-
-void Engine::Update(Context& context, const std::shared_ptr<IScene>& scene) {
+void Engine::Update(Context& context) {
   LOG("Update!");
 
   double elapsedTime = context.c()->elpsTime();
@@ -26,8 +20,6 @@ void Engine::Update(Context& context, const std::shared_ptr<IScene>& scene) {
 
   float deltaTime = static_cast<float>(elapsedTime);
 
-  scene->update(deltaTime);
-  for (std::shared_ptr<System> system : systems) {
-    system->update(deltaTime);
-  }
+  Manager* man = Manager::GetInstance();
+  man->UpdateSystem(deltaTime);
 }

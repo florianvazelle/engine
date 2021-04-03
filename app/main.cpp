@@ -6,7 +6,7 @@
 
 #include <PongScene.hpp>
 
-#include "Engine/System/ThreadPoolSystem.hpp"
+#include <Engine/Common/ThreadPool.hpp>
 
 /*Test ThreadPool*/
 // ThreadPoolSystem func_pool;
@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   cxxopts::Options options(argv[0], "A pong game which use a simple game engine!");
 
   // Création de la PongScene
-  std::shared_ptr<IScene> scene = std::make_shared<PongScene>();
+  std::shared_ptr<Scene> scene = std::make_shared<PongScene>();
 
   // Création du jeu
   Game pong(scene);
