@@ -43,7 +43,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           IPool <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Pool_8hpp.html">&lt;Engine/Pool/Pool.hpp&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IPool_8hpp.html">&lt;Engine/Pool/IPool.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -54,6 +54,7 @@
               <ul>
                 <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
@@ -66,11 +67,6 @@
               class <a href="classComponentArray.html" class="m-doc">ComponentArray</a>
             </dt>
             <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              class <a href="classPool.html" class="m-doc">Pool</a>
-            </dt>
-            <dd>Une <a href="classPool.html" class="m-doc">Pool</a> alloue des objets pour une utilisation ultérieure.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -78,6 +74,23 @@
           <dl class="m-doc">
             <dt id="acd4a34009d5b0d239b22716145fa233d">
               <span class="m-doc-wrap-bumper"><a href="#acd4a34009d5b0d239b22716145fa233d" class="m-doc-self">~IPool</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a02fcb838591447f29953e26855933840">
+              <span class="m-doc-wrap-bumper">void <a href="#a02fcb838591447f29953e26855933840" class="m-doc-self">Allocate</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; e) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa261cd665fc5d63c701fbef535f7417b">
+              <span class="m-doc-wrap-bumper">void <a href="#aa261cd665fc5d63c701fbef535f7417b" class="m-doc-self">Free</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; e) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a2d51c42d49151250a573d3055b32c7a1">
+              <span class="m-doc-wrap-bumper">auto <a href="#a2d51c42d49151250a573d3055b32c7a1" class="m-doc-self">Get</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; e) -&gt; void* <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>

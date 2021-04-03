@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>engine | pong</title>
+  <title>ThreadPool class | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,11 +42,46 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          engine
+          ThreadPool <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="ThreadPool_8hpp.html">&lt;Engine/Common/ThreadPool.hpp&gt;</a></div>
         </h1>
-<p>It&#x27;s a work in progress small game engine, usable like a C++ library.</p><section id="autotoc_md1"><h2><a href="#autotoc_md1">Features</a></h2><ul><li>No allocation during game loop (<a href="https://en.wikipedia.org/wiki/Object_pool_pattern">Object pool pattern</a>)</li><li>Custom <a href="https://en.wikipedia.org/wiki/Run-time_type_information">run-time type identification</a> with compile-time hashing</li><li>Data-driven oriented design with Entity, <a href="classComponent.html" class="m-doc">Component</a> and <a href="classSystem.html" class="m-doc">System</a></li><li>Multithreading system with <a href="https://en.wikipedia.org/wiki/Thread_pool">Thread Pool</a></li></ul></section><section id="autotoc_md2"><h2><a href="#autotoc_md2">Building</a></h2><section id="autotoc_md3"><h3><a href="#autotoc_md3">Build and run the standalone target</a></h3><p>Use the following command to build and run the executable target.</p><pre class="m-code">cmake -Bbuild
-cmake --build build
-./build/bin/GreeterStandalone --help</pre></section></section><section id="autotoc_md4"><h2><a href="#autotoc_md4">Dependencies</a></h2><ul><li>C++11 compiler :<ul><li>Visual Studio 2015</li><li>GCC 5+ or Clang 5+</li></ul></li><li><a href="https://cmake.org/">CMake</a> for build system creation (&gt;= 3.8)</li><li><a href="https://conan.io/">Conan</a> for install packages (&gt;= 1.0)</li><li><a href="https://doxygen.org/">Doxygen</a> for generate documentation (&gt;= 1.8, optional)</li></ul></section><section id="autotoc_md5"><h2><a href="#autotoc_md5">References</a></h2><ul><li><a href="https://github.com/isocpp/CppCoreGuidelines">Guidelines</a></li><li><a href="https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm">Interfaces</a></li><li><a href="https://thinkingeek.com/2017/11/19/simple-memory-pool/">Pool and Arena</a></li><li><a href="https://austinmorlan.com/posts/entity_component_system/">ECS Tutorial</a></li><li><a href="https://www.axelmenzel.de/articles/rtti">RTTI Tutorial</a></li><li><a href="https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/">SIMD matrix multiplication</a></li><li><a href="https://en.wikipedia.org/wiki/Double-checked_locking">Double-check locking</a></li><li><a href="https://www.tutorialspoint.com/design_pattern/factory_pattern.htm">Factory Design</a></li></ul></section>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="ac291710e33dbbed96ee20711080d506d">
+              <span class="m-doc-wrap-bumper"><a href="#ac291710e33dbbed96ee20711080d506d" class="m-doc-self">ThreadPool</a>(</span><span class="m-doc-wrap">size_t)</span>
+            </dt>
+            <dd>Le constructeur démarre un certain nombre de thread (workers)</dd>
+            <dt id="a44d3d2ab618970605e684efc216655eb">
+              <span class="m-doc-wrap-bumper"><a href="#a44d3d2ab618970605e684efc216655eb" class="m-doc-self">~ThreadPool</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Le destructeur join tout les threads.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a0f468c6994a8b82cf759d649ea74fff2">
+              <div class="m-doc-template">template&lt;class F, class... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0f468c6994a8b82cf759d649ea74fff2" class="m-doc-self">push</a>(</span><span class="m-doc-wrap">F&amp;&amp; f,
+              Args &amp;&amp; ... args) &gt;::type &gt; -&gt; auto</span>
+            </dt>
+            <dd>Permet d&#x27;ajouter une nouvelle tache à la <a href="classThreadPool.html" class="m-doc">ThreadPool</a>.</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

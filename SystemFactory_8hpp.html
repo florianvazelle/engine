@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>IScene class | pong</title>
+  <title>Engine/Factory/SystemFactory.hpp file | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,8 +42,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          IScene <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IScene_8hpp.html">&lt;Engine/IScene.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="dir_0b6ee6e7e9547e675db4add2e5de97da.html">Engine</a>/</span><span class="m-breadcrumb"><a href="dir_7f7d6bb581b230708099404857d42eed.html">Factory</a>/</span>SystemFactory.hpp <span class="m-thin">file</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -52,24 +51,34 @@
             <li>
               Reference
               <ul>
-                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#define-members">Defines</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="pub-methods">
-          <h2><a href="#pub-methods">Public functions</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
-            <dt id="af931e4575deb4e9c83051460b8bef110">
-              <span class="m-doc-wrap-bumper">void <a href="#af931e4575deb4e9c83051460b8bef110" class="m-doc-self">preload</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            <dt>
+              class <a href="classSystemFactory.html" class="m-doc">SystemFactory</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="aa8f13fafdaac861db0bfb0adca286848">
-              <span class="m-doc-wrap-bumper">void <a href="#aa8f13fafdaac861db0bfb0adca286848" class="m-doc-self">create</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">pure virtual</span></span>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt id="a5ff4181c7833a579f99ccc04792c3bc7">
+              <span class="m-doc-wrap-bumper">#define <a href="#a5ff4181c7833a579f99ccc04792c3bc7" class="m-doc-self">SYSTEMS</a></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ab3ffa09063ddb63ef4d4389964b938ae">
-              <span class="m-doc-wrap-bumper">void <a href="#ab3ffa09063ddb63ef4d4389964b938ae" class="m-doc-self">update</a>(</span><span class="m-doc-wrap">double deltaTime) <span class="m-label m-flat m-warning">pure virtual</span></span>
+            <dt id="a432668ef760a14e8f028aa33e70e7213">
+              <span class="m-doc-wrap-bumper">#define <a href="#a432668ef760a14e8f028aa33e70e7213" class="m-doc-self">REGISTER_SYSTEM</a>(</span><span class="m-doc-wrap">klass)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae31ae5a05d91606112a4e971b2c328a9">
+              <span class="m-doc-wrap-bumper">#define <a href="#ae31ae5a05d91606112a4e971b2c328a9" class="m-doc-self">REGISTER_SYSTEMS</a></span>
             </dt>
             <dd><span></span></dd>
           </dl>

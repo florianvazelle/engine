@@ -53,7 +53,6 @@
             <li>
               Reference
               <ul>
-                <li><a href="#base-classes">Base classes</a></li>
                 <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
@@ -61,15 +60,6 @@
             </li>
           </ul>
         </div>
-        <section id="base-classes">
-          <h2><a href="#base-classes">Base classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              class <a href="classIPool.html" class="m-doc">IPool</a>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -108,20 +98,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#aa08cd1f57eda26c77be480daa9b2eb06" class="m-doc">alloc</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; T*</span>
             </dt>
             <dd>Alloue un objet dans l&#x27;arène.</dd>
-            <dt id="aa54fd9c863970106c810f914ed2b8ebc">
-              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa54fd9c863970106c810f914ed2b8ebc" class="m-doc-self">alloc_with_id</a>(</span><span class="m-doc-wrap">const uint32_t&amp; id,
-              Args &amp;&amp; ... args) -&gt; T*</span>
-            </dt>
-            <dd><span></span></dd>
             <dt id="add46c4aee230f8753cb0ecbc845d9b0a">
               <span class="m-doc-wrap-bumper">void <a href="#add46c4aee230f8753cb0ecbc845d9b0a" class="m-doc-self">free</a>(</span><span class="m-doc-wrap">T* t)</span>
             </dt>
             <dd>Libère un objet dans l&#x27;arène.</dd>
-            <dt id="a375264a24afafba4d80f836e61e779e0">
-              <span class="m-doc-wrap-bumper">void <a href="#a375264a24afafba4d80f836e61e779e0" class="m-doc-self">free_with_id</a>(</span><span class="m-doc-wrap">const uint32_t&amp; id)</span>
-            </dt>
-            <dd><span></span></dd>
             <dt id="a74a59c5856c921e2e5619f6386550153">
               <span class="m-doc-wrap-bumper">auto <a href="#a74a59c5856c921e2e5619f6386550153" class="m-doc-self">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a href="classPool.html#a96123d4666abbcce03080fddb1c896c0" class="m-doc">iterator</a></span>
             </dt>
@@ -140,10 +120,6 @@
             <dd><span></span></dd>
             <dt id="a9238d7c7b40fdffcc96ee44eea2db447">
               <span class="m-doc-wrap-bumper">auto <a href="#a9238d7c7b40fdffcc96ee44eea2db447" class="m-doc-self">at</a>(</span><span class="m-doc-wrap">const uint32_t&amp; id) const -&gt; <a href="unionPool_1_1PoolItem.html" class="m-doc">PoolItem</a>*</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aa104cef488e3f19eb993b035b957099d">
-              <span class="m-doc-wrap-bumper">auto <a href="#aa104cef488e3f19eb993b035b957099d" class="m-doc-self">in_free_list</a>(</span><span class="m-doc-wrap"><a href="unionPool_1_1PoolItem.html" class="m-doc">PoolItem</a>* current_item) -&gt; bool</span>
             </dt>
             <dd><span></span></dd>
           </dl>
