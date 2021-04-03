@@ -7,6 +7,8 @@ project(pong VERSION 1.2.3.4 LANGUAGES CXX)
 set(LIBRARY_NAME engine)
 set(PROJECT_CXX_STANDARD 17)
 
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+
 # ---- Options ----
 
 option(ENABLE_TESTING "Whether to generate unit test program and test" ON)

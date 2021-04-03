@@ -4,11 +4,22 @@ It's a work in progress small game engine, usable like a C++ library.
 
 ## Features
 
-- No allocation during game loop ([Object pool pattern](https://en.wikipedia.org/wiki/Object_pool_pattern))
-- Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information) with compile-time hashing
-- Data-driven oriented design with Entity, Component and System
+- No allocation during game loop ([Object pooling](https://en.wikipedia.org/wiki/Object_pool_pattern))
+- Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information)
+- Data-driven oriented design with [Entity, Component and System](https://en.wikipedia.org/wiki/Entity_component_system)
 - Multithreading system with [Thread Pool](https://en.wikipedia.org/wiki/Thread_pool)
-- Basic SIMD operations
+- Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations
+
+### RTTI
+
+- Compile-time hashing (with [`constexpr`](https://en.cppreference.com/w/cpp/language/constexpr) and [CRC32](https://stackoverflow.com/questions/10953958/can-crc32-be-used-as-a-hash-function#10962213))
+- Disabling default C++ RTTI (with `-fno-rtti` flags)
+
+### ECS
+
+- Entity type is just an alias of `uint32_t`
+- Using of [Factory Design](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm) to allocate Component in Pools
+- We can `GetObjectsWithTag` to retrieve entities with certain components
 
 ## Building
 
@@ -40,4 +51,3 @@ cmake --build build
 - [RTTI Tutorial](https://www.axelmenzel.de/articles/rtti)
 - [SIMD matrix multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/)
 - [Double-check locking](https://en.wikipedia.org/wiki/Double-checked_locking)
-- [Factory Design](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm)
