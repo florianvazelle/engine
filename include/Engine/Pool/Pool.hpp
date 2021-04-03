@@ -5,15 +5,7 @@
 
 #include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Log.hpp>
-
-class IPool {
-public:
-  virtual ~IPool() = default;
-
-  virtual void Allocate(const Entity &e) = 0;
-  virtual void Free(const Entity &e)     = 0;
-  virtual void *Get(const Entity &e)     = 0;
-};
+#include <Engine/IPool.hpp>
 
 /**
  * @brief Une Pool alloue des objets pour une utilisation ultérieure
