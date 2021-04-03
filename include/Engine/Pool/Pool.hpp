@@ -5,7 +5,7 @@
 
 #include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Log.hpp>
-#include <Engine/IPool.hpp>
+#include <Engine/Pool/IPool.hpp>
 
 /**
  * @brief Une Pool alloue des objets pour une utilisation ultérieure
