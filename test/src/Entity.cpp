@@ -4,7 +4,7 @@
 #include <Engine/Common/Manager.hpp>
 
 TEST_CASE("GetObjectsWithTag") {
-  MAP_COMPONENT(REGISTER_COMPONENT)
+  REGISTER_COMPONENTS
 
   Manager* man = Manager::GetInstance();
   Entity test1 = man->AllocateEntity();

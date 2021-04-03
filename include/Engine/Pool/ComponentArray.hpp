@@ -7,9 +7,9 @@
 
 template <typename T> class ComponentArray : public IPool {
 public:
-  template <typename... Args> void Allocate(const Entity& entity, Args&&... args) {
+  void Allocate(const Entity& entity) {
     if (entity < MAX_ENTITIES && !componentIsSet[entity]) {
-      datnum[entity]         = T(std::forward<Args>(args)...);
+      datnum[entity]         = T();
       componentIsSet[entity] = true;
     }
   }
@@ -21,7 +21,7 @@ public:
     }
   }
 
-  T* Get(const Entity& entity) {
+  void* Get(const Entity& entity) {
     if (componentIsSet[entity])
       return &(datnum[entity]);
     else

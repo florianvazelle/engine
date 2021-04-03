@@ -15,8 +15,8 @@
 Game::Game(std::shared_ptr<Scene> scene)
     : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {
   // On enregistre tout les Components
-  MAP_COMPONENT(REGISTER_COMPONENT)
-  MAP_SYSTEMS(REGISTER_SYSTEM)
+  REGISTER_COMPONENTS
+  REGISTER_SYSTEMS
 }
 
 void Game::preload() {

@@ -3,17 +3,22 @@
 #include <iostream>
 #include <type_traits>
 
+#include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Log.hpp>
 
 class IPool {
 public:
   virtual ~IPool() = default;
+
+  virtual void Allocate(const Entity &e) = 0;
+  virtual void Free(const Entity &e)     = 0;
+  virtual void *Get(const Entity &e)     = 0;
 };
 
 /**
  * @brief Une Pool alloue des objets pour une utilisation ultérieure
  */
-template <typename T> class Pool : public IPool {
+template <typename T> class Pool {
 public:
   /**
    * @brief Les PoolItem stockent chaque élément d'une arène
@@ -70,7 +75,6 @@ public:
 
   private:
     std::unique_ptr<PoolItem[]> storage;  // Storage of this arena.
-    std::unique_ptr<Arena> next;          // Pointer to the next arena.
   };
 
   /**
@@ -103,36 +107,6 @@ public:
     return set_storage(current_item, std::forward<Args>(args)...);
   }
 
-  template <typename... Args> T *alloc_with_id(const uint32_t &id, Args &&... args) {
-    PoolItem *current_item = this->at(id);
-
-    // Mis a jour de la free_list
-    if (free_list != nullptr) {
-      // Si le début de la free_list correspond à mon current_item, comportement normal
-      if (free_list == current_item) {
-        // Update the free list to the next free item.
-        free_list = current_item->get_next_item();
-      } else {
-        // Sinon je vérifie que mon current_item ne soit pas dans la free list
-        PoolItem *tmp = free_list;
-        // On parcours la free list, jusqu'a la fin
-        do {
-          // Si mon current_item correspond
-          if (current_item == tmp->get_next_item()) {
-            // On l'enlève de la free list
-            tmp->set_next_item(current_item->get_next_item());
-            break;
-          }
-          tmp = tmp->get_next_item();
-        } while (tmp != nullptr);
-      }
-    }
-
-    // Si la free list est vide, on remplace directement l'élément qui nous intérésse
-
-    return set_storage(current_item, std::forward<Args>(args)...);
-  }
-
   /**
    * @brief Libère un objet dans l'arène
    */
@@ -148,8 +122,6 @@ public:
     current_item->set_next_item(free_list);
     free_list = current_item;
   }
-
-  void free_with_id(const uint32_t &id) { free(this->at(id)->get_storage()); }
 
   typedef PoolItem *iterator;
 
@@ -180,23 +152,6 @@ public:
   }
 
   PoolItem *at(const uint32_t &id) const { return this->at(id); }
-
-  bool in_free_list(PoolItem *current_item) {
-    if (free_list != nullptr) {
-      if (free_list == current_item) {
-        return true;
-      } else {
-        PoolItem *tmp = free_list;
-        do {
-          if (current_item == tmp->get_next_item()) {
-            return true;
-          }
-          tmp = tmp->get_next_item();
-        } while (tmp != nullptr);
-      }
-    }
-    return false;
-  }
 
 private:
   // Size of the arenas created by the pool.

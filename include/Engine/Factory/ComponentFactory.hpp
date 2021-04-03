@@ -16,26 +16,11 @@
 // All Engine's Component
 #define COMPONENTS Transform, Collider, Renderer
 
-// If client define custom Component
-#ifdef EXTRA_COMPONENTS
-#  define ALL_COMPONENTS COMPONENTS, EXTRA_COMPONENTS
-#else
-#  define ALL_COMPONENTS COMPONENTS
-#endif
-
-// Execute a function (which first parameter is a type) on all Component
-#define MAP_COMPONENT(func) MAP(func, ALL_COMPONENTS)
-
+// Register a Component
 #define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
 
-#define ALLOC_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->Allocate(entity);
-
-#define FREE_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) GetComponentPool<klass>()->Free(entity);
-
-#define HAS_COMPONENT(klass) \
-  if (rtti == klass::rtti.id()) result &= (Get<klass>(entity) != nullptr);
+// Register all Component
+#define REGISTER_COMPONENTS MAP(REGISTER_COMPONENT, COMPONENTS)
 
 /**
  * @brief Permet de gérer l'allocation/libération des Component
@@ -81,7 +66,7 @@ public:
    */
   template <typename T> T* Get(const Entity& entity) {
     auto pool = GetComponentPool<T>().get();
-    return pool->Get(entity);
+    return (T*)pool->Get(entity);
   }
 
   /**
@@ -93,10 +78,7 @@ public:
   template <typename... Args> bool Has(const Entity& entity, Args&&... args) {
     bool result = true;
     // clang-format off
-    ([&](auto& arg) {
-      const RTTI::type& rtti = arg.id();
-      MAP_COMPONENT(HAS_COMPONENT)
-    } (args), ...);
+    ([&](auto& arg) { result &= (componentArrays[arg.id()]->Get(entity) != nullptr); } (args), ...);
     // clang-format on
     return result;
   }

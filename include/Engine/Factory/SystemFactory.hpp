@@ -10,17 +10,11 @@
 // All Engine's System
 #define SYSTEMS LogicalSystem, PhysicalSystem, RendererSystem
 
-// If client define custom Component
-#ifdef EXTRA_SYSTEMS
-#  define ALL_SYSTEMS EXTRA_SYSTEMS, SYSTEMS
-#else
-#  define ALL_SYSTEMS SYSTEMS
-#endif
-
-// Execute a function (which first parameter is a type) on all Component
-#define MAP_SYSTEMS(func) MAP(func, ALL_SYSTEMS)
-
+// Register a System
 #define REGISTER_SYSTEM(klass) Manager::GetInstance()->RegisterSystem<klass>();
+
+// Register all System
+#define REGISTER_SYSTEMS MAP(REGISTER_SYSTEM, SYSTEMS)
 
 class SystemFactory {
 public:

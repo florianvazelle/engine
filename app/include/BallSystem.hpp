@@ -5,11 +5,13 @@
 #include <Engine/Common/Entity.hpp>
 #include <Engine/System/System.hpp>
 
-// #define EXTRA_SYSTEMS BallSystem
-
+/**
+ * @brief Example of a custom System
+ */
 class BallSystem : public System {
 public:
   RTTI_DECLARATION(BallSystem)
+
   ThreadPool thread_pool;
   std::vector<Entity> entitiesQuery;
   std::vector<std::future<void>> results;

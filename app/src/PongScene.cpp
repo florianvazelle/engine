@@ -7,18 +7,28 @@
 #include <Engine/Component/Collider.hpp>
 #include <Engine/Component/Renderer.hpp>
 #include <Engine/Component/Transform.hpp>
+
+#include <BallSystem.hpp>
 #include <Velocity.hpp>
 
-void PongScene::preload() {}
+void PongScene::preload() {
+  /**
+   * @todo Load texture or 3D model here
+   */
+}
 
 void PongScene::create() {
-  entitiesQuery.reserve(MAX_ENTITIES);
-
   Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity();
-  player1      = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
-  player2      = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
-  ball         = man->AllocateEntity(Transform::rtti, Velocity::rtti);
+
+  // You need to register all custom Component and System
+  man->RegisterComponent<Velocity>();
+  man->RegisterSystem<BallSystem>();
+
+  // You can create Entity with Component
+  Entity test = man->AllocateEntity();
+  player1     = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  player2     = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  ball        = man->AllocateEntity(Transform::rtti, Velocity::rtti);
 
   std::cout << "test=" << test << "\n";
   std::cout << "player1=" << player1 << "\n";

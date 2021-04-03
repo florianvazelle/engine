@@ -51,7 +51,9 @@ public:
   template <typename... Args> Entity AllocateEntity(Args &&... args) {
     const Entity &id = entiFact->Allocate();
 
+    // clang-format off
     ([&](auto &arg) { AllocateComponent(arg.id(), id); }(args), ...);
+    // clang-format on
 
     return id;
   }

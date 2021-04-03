@@ -42,7 +42,7 @@ public:
       std::unique_lock<std::mutex> lock(m_lock);
 
       // On bloque l'ajout de nouvelle tache, après avoir stoper la ThreadPool
-      if (!m_accept_functions) throw std::runtime_error("enqueue on stopped ThreadPool");
+      if (!m_accept_functions) throw std::runtime_error("ThreadPool is stopped, you cannot push new task!");
 
       m_function_queue.emplace([func]() { (*func)(); });
     }

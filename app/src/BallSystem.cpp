@@ -12,13 +12,14 @@ void BallSystem::update(double deltaTime) {
   Manager* man = Manager::GetInstance();
   man->GetObjectsWithTag(entitiesQuery, Transform::rtti, Velocity::rtti);
 
+  results.resize(entitiesQuery.size());
   for (int i = 0; i < entitiesQuery.size(); i++) {
-    results.emplace_back(thread_pool.push(
+    results[i] = thread_pool.push(
         [&](const Entity& entity) {
           Transform* t = man->GetComponent<Transform>(entity);
           Velocity* v  = man->GetComponent<Velocity>(entity);
         },
-        entitiesQuery[i]));
+        entitiesQuery[i]);
   }
 
   for (auto&& result : results) result.get();
