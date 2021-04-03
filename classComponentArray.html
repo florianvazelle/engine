@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Velocity class | pong</title>
+  <title>ComponentArray class | pong</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,8 +42,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          Velocity <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Velocity_8hpp.html">&lt;Engine/Component/Velocity.hpp&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="ComponentArray_8hpp.html">&lt;Engine/Pool/ComponentArray.hpp&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          ComponentArray <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,7 +54,7 @@
               Reference
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
@@ -62,28 +63,26 @@
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classComponent.html" class="m-doc">Component</a>
+              class <a href="classIPool.html" class="m-doc">IPool</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a187e49dd195f35d9566d87e75c2bd43d">
-              float <a href="#a187e49dd195f35d9566d87e75c2bd43d" class="m-doc-self">x</a>
+            <dt id="a858548ac42eb16c8eb624f9352f7a710">
+              <div class="m-doc-template">template&lt;typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a href="#a858548ac42eb16c8eb624f9352f7a710" class="m-doc-self">Allocate</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; entity,
+              Args &amp;&amp; ... args)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="adf369bfba58dde57499b342b5e7b77f8">
-              float <a href="#adf369bfba58dde57499b342b5e7b77f8" class="m-doc-self">y</a>
+            <dt id="a60a0e777a193d5e789ae7c826654a9c8">
+              <span class="m-doc-wrap-bumper">void <a href="#a60a0e777a193d5e789ae7c826654a9c8" class="m-doc-self">Free</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; entity)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ae1d09649386160968df9cf6902830fd0">
-              float <a href="#ae1d09649386160968df9cf6902830fd0" class="m-doc-self">z</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a5525df667b9760c101857446262044cb">
-              float <a href="#a5525df667b9760c101857446262044cb" class="m-doc-self">padding</a>
+            <dt id="a923ada2085380d58f665d6e047d49fcf">
+              <span class="m-doc-wrap-bumper">auto <a href="#a923ada2085380d58f665d6e047d49fcf" class="m-doc-self">Get</a>(</span><span class="m-doc-wrap">const <a href="Entity_8hpp.html#aff1ac8fd0b927c16980eeb4053d1d5ca" class="m-doc">Entity</a>&amp; entity) -&gt; T*</span>
             </dt>
             <dd><span></span></dd>
           </dl>
