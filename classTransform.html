@@ -72,20 +72,64 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="aa08ca4266efabc768973cdeea51945ab">
-              <span class="m-doc-wrap-bumper"><a href="#aa08ca4266efabc768973cdeea51945ab" class="m-doc-self">Transform</a>(</span><span class="m-doc-wrap">)</span>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a href="#aa08ca4266efabc768973cdeea51945ab" class="m-doc">Transform</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd><span></span></dd>
+            <dd></dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ac31c4ca15835730519104d05709c4288">
-              <span class="m-doc-wrap-bumper">void <a href="#ac31c4ca15835730519104d05709c4288" class="m-doc-self">translate</a>(</span><span class="m-doc-wrap">float vx,
-              float vy,
-              float vz,
-              float vw)</span>
+            <dt id="a9122d9edc46ba725896912e0b1ac6415">
+              <span class="m-doc-wrap-bumper">void <a href="#a9122d9edc46ba725896912e0b1ac6415" class="m-doc-self">identity</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa5f2d5a77440283a42ef8364f0cea082">
+              <span class="m-doc-wrap-bumper">void <a href="#aa5f2d5a77440283a42ef8364f0cea082" class="m-doc-self">dot</a>(</span><span class="m-doc-wrap">const <a href="structfloat4.html" class="m-doc">float4</a>&amp; ta,
+              const <a href="structfloat4.html" class="m-doc">float4</a>&amp; tb,
+              const <a href="structfloat4.html" class="m-doc">float4</a>&amp; tc,
+              const <a href="structfloat4.html" class="m-doc">float4</a>&amp; td)</span>
+            </dt>
+            <dd>Effectue une multiplication matricielle.</dd>
+            <dt id="ab2d11de77783f564b947464a4abd2d56">
+              <span class="m-doc-wrap-bumper">void <a href="#ab2d11de77783f564b947464a4abd2d56" class="m-doc-self">translate</a>(</span><span class="m-doc-wrap">const <a href="structfloat4.html" class="m-doc">float4</a>&amp; vec)</span>
+            </dt>
+            <dd>Effectue une translation de vecteur (x, y, z, w)</dd>
+            <dt id="a7b3c4942aad0962db3ba41a12697e05e">
+              <span class="m-doc-wrap-bumper">void <a href="#a7b3c4942aad0962db3ba41a12697e05e" class="m-doc-self">rotateX</a>(</span><span class="m-doc-wrap">float deg)</span>
+            </dt>
+            <dd>Effectue une rotation sur l&#x27;axe X, de deg radians.</dd>
+            <dt id="a387021e8f4b2d184ad12cee2c52790ac">
+              <span class="m-doc-wrap-bumper">void <a href="#a387021e8f4b2d184ad12cee2c52790ac" class="m-doc-self">rotateY</a>(</span><span class="m-doc-wrap">float deg)</span>
+            </dt>
+            <dd>Effectue une rotation sur l&#x27;axe Y, de deg radians.</dd>
+            <dt id="a1b7f63d50444426629d24ddf13f81b21">
+              <span class="m-doc-wrap-bumper">void <a href="#a1b7f63d50444426629d24ddf13f81b21" class="m-doc-self">rotateZ</a>(</span><span class="m-doc-wrap">float deg)</span>
+            </dt>
+            <dd>Effectue une rotation sur l&#x27;axe Z, de deg radians.</dd>
+            <dt id="a1730e249d506ceaeb0ca7d418318dfe4">
+              <span class="m-doc-wrap-bumper">void <a href="#a1730e249d506ceaeb0ca7d418318dfe4" class="m-doc-self">scale</a>(</span><span class="m-doc-wrap">float f)</span>
+            </dt>
+            <dd>Effectue un redimensionnement de facteur f.</dd>
+            <dt id="accc8e8ea29e680a871fce24ebd6c3457">
+              <span class="m-doc-wrap-bumper">auto <a href="#accc8e8ea29e680a871fce24ebd6c3457" class="m-doc-self">x</a>(</span><span class="m-doc-wrap">) const -&gt; const float&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aadb11b086142058cf142cfd4c0b572df">
+              <span class="m-doc-wrap-bumper">auto <a href="#aadb11b086142058cf142cfd4c0b572df" class="m-doc-self">y</a>(</span><span class="m-doc-wrap">) const -&gt; const float&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae1255b33acdb0ae2e5f3f94be124f40c">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae1255b33acdb0ae2e5f3f94be124f40c" class="m-doc-self">z</a>(</span><span class="m-doc-wrap">) const -&gt; const float&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abe1173ac10496f49038114b1d232d347">
+              <span class="m-doc-wrap-bumper">auto <a href="#abe1173ac10496f49038114b1d232d347" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">const unsigned int i) -&gt; <a href="structfloat4.html" class="m-doc">float4</a>&amp;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa3afd933259edb71ac1c9d4dc8758a9c">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa3afd933259edb71ac1c9d4dc8758a9c" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">const unsigned int i) const -&gt; const <a href="structfloat4.html" class="m-doc">float4</a>&amp;</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -93,11 +137,32 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a16d561de1319bfa81fb095df44eebf39">
-              __m128* <a href="#a16d561de1319bfa81fb095df44eebf39" class="m-doc-self">trans</a>
+            <dt id="a9e6ede72e3017a5552a4eb892a431469">
+              <a href="structfloat4.html" class="m-doc">float4</a> <a href="#a9e6ede72e3017a5552a4eb892a431469" class="m-doc-self">a</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae3a7f2319bacc0c60f5186e2fc96629e">
+              <a href="structfloat4.html" class="m-doc">float4</a> <a href="#ae3a7f2319bacc0c60f5186e2fc96629e" class="m-doc-self">b</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af356240662d8eb29955b2950396c0d9b">
+              <a href="structfloat4.html" class="m-doc">float4</a> <a href="#af356240662d8eb29955b2950396c0d9b" class="m-doc-self">c</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ab325c5cc5479e683ad38a0a92a849f74">
+              <a href="structfloat4.html" class="m-doc">float4</a> <a href="#ab325c5cc5479e683ad38a0a92a849f74" class="m-doc-self">d</a>
             </dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aa08ca4266efabc768973cdeea51945ab"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> Transform::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa08ca4266efabc768973cdeea51945ab" class="m-doc-self">Transform</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+<p>[[a.x, a.y, a.z, a.w], [b.x, b.y, b.z, b.w], [c.x, c.y, c.z, c.w], [d.x, d.y, d.z, d.w]]</p>
+          </div></section>
         </section>
       </div>
     </div>
