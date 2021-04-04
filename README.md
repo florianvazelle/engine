@@ -8,7 +8,7 @@ It's a work in progress small game engine, usable like a C++ library.
 - Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information)
 - Data-driven oriented design with [Entity, Component and System](https://en.wikipedia.org/wiki/Entity_component_system)
 - Multithreading system with [Thread Pool](https://en.wikipedia.org/wiki/Thread_pool)
-- Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations
+- Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations for Matrix multiplication
 
 ### RTTI
 

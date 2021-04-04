@@ -19,7 +19,7 @@ void BallSystem::update(double deltaTime) {
           Transform* t = man->GetComponent<Transform>(entity);
           Velocity* v  = man->GetComponent<Velocity>(entity);
 
-          t->translate(v->x, v->y, v->z, v->w);
+          t->translate(v->direction);
         },
         entitiesQuery[i]);
   }
