@@ -34,14 +34,20 @@ void Game::run(const std::shared_ptr<Scene>& scene) {
     // Main Loop
     while (context.window()->is_open()) {
       LOG(LOG_INFO, "~~~ New frame!");
+      int start = SDL_GetTicks();
 
       context.clock()->Update();          // Clock
       context.input()->Update();          // Input
       context.engine()->Update(context);  // Engine
 
-      // emule un delai de traitement (une synchro verticale par ex.)
-      std::this_thread::sleep_for(
-          std::chrono::milliseconds(10));  // TODO : on peut le supprimer par la suite
+      // Limit the framerate
+      int time = SDL_GetTicks() - start;
+      if (time < 0) continue;  // if time is negative, the time probably overflew, so continue asap
+
+      int sleepTime = 166 - time;
+      if (sleepTime > 0) {
+        SDL_Delay(sleepTime);
+      }
     }
 
   } catch (const std::exception& e) {
