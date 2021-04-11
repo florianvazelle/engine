@@ -31,12 +31,14 @@ void PongScene::create() {
   Entity ball = man->AllocateEntity(Transform::rtti, Velocity::rtti, BallRenderer::rtti);
 
   Transform* t1 = man->GetComponent<Transform>(e1);
-  t1->translate(float4{20, 20, 0, 1});
+  t1->translate(float4{20.f, 20.f, 0.f, 1.f});
 
   Transform* t2 = man->GetComponent<Transform>(e2);
-  t2->translate(float4{20, 60, 0, 1});
+  t2->translate(float4{WINDOW_WIDTH - 30.f, 20.f, 0.f, 1.f});
 
-  std::cout << "player1=" << e1 << std::endl;
-  std::cout << "player2=" << e2 << std::endl;
-  std::cout << "ball=" << ball << std::endl;
+  Transform* t3 = man->GetComponent<Transform>(ball);
+  t3->translate(float4{WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 1.f});
+
+  Velocity* v = man->GetComponent<Velocity>(ball);
+  v->direction = float4{-1.f, 0.75f, 0.f, 1.f};  // intial velocity
 }

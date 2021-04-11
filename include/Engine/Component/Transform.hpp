@@ -12,6 +12,14 @@ struct alignas(16) float4 {
   float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
   bool operator==(const float4& f) const { return (x == f.x && y == f.y && z == f.z && w == f.w); }
+  float4 operator*(const float& f) const { return {x * f, y * f, z * f, w * f}; }
+  float4& operator*=(const float& f) {
+    this->x *= f;
+    this->y *= f;
+    this->z *= f;
+    this->w *= f;
+    return (*this);
+  }
 
   float& operator[](const unsigned int i) {
     return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
@@ -104,8 +112,8 @@ class Transform : public IComponent {
   void scale(float f) { dot({f, 0, 0, 0}, {0, f, 0, 0}, {0, 0, f, 0}, {0, 0, 0, 1}); }
 
   inline const float& x() const { return a.w; }
-  inline const float& y() const { return a.w; }
-  inline const float& z() const { return a.w; }
+  inline const float& y() const { return b.w; }
+  inline const float& z() const { return c.w; }
 
   float4& operator[](const unsigned int i) {
     return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);

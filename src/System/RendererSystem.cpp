@@ -21,10 +21,10 @@ void RendererSystem::update(Context& context) {
 
   man->results.resize(man->entitiesQuery.size());
   for (unsigned int i = 0; i < man->entitiesQuery.size(); i++) {
-    IRenderer* rend = man->GetComponentWithParent<IRenderer>(man->entitiesQuery[i]);
-    man->results[i] =
-        man->threadPool.push([&](const Context& c, const Entity& e) { rend->render(c, e); },
-                             context, man->entitiesQuery[i]);
+    IRenderer* irend = man->GetComponentWithParent<IRenderer>(man->entitiesQuery[i]);
+    man->results[i] = man->threadPool.push(
+        [](IRenderer* rend, const Context& c, const Entity& e) { rend->render(c, e); }, irend,
+        context, man->entitiesQuery[i]);
   }
 
   for (auto&& result : man->results) result.get();
