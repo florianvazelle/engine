@@ -1,15 +1,15 @@
 #pragma once
 
-#include <array>
-
 #include <Engine/Common/Entity.hpp>
 #include <Engine/Pool/Pool.hpp>
+#include <array>
 
-template <typename T> class ComponentArray : public IPool {
-public:
+template <typename T>
+class ComponentArray : public IPool {
+ public:
   void Allocate(const Entity& entity) {
     if (entity < MAX_ENTITIES && !componentIsSet[entity]) {
-      datnum[entity]         = T();
+      // datnum[entity] = T();
       componentIsSet[entity] = true;
     }
   }
@@ -28,7 +28,7 @@ public:
       return nullptr;
   }
 
-private:
+ private:
   std::array<T, MAX_ENTITIES> datnum;
   std::array<bool, MAX_ENTITIES> componentIsSet;
 };

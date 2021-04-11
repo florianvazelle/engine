@@ -1,11 +1,10 @@
+#include <Engine/Common/Log.hpp>
 #include <Engine/System/LogicalSystem.hpp>
 
-#include <Engine/Common/Log.hpp>
+RTTI_DEFINITION(LogicalSystem, ISystem)
 
-RTTI_DEFINITION(LogicalSystem, System)
-
-void LogicalSystem::update(double deltaTime) {
-  LOG("Update!");
+void LogicalSystem::update(Context& context) {
+  LOG(LOG_INFO, "[LogicalSystem] Update!");
   /**
    * @todo Mettre ici la logique: comportements, déplacements, animations etc...
    * Certains objets doivent toujours être updaté tandis que

@@ -1,13 +1,13 @@
 #pragma once
 
+#include <Engine/Common/Entity.hpp>
+#include <Engine/System/ISystem.hpp>
 #include <vector>
 
-#include <Engine/Common/Entity.hpp>
-#include <Engine/System/System.hpp>
+class LogicalSystem : public ISystem {
+ public:
+  RTTI_DECLARATION
+  ~LogicalSystem() {}
 
-class LogicalSystem : public System {
-public:
-  RTTI_DECLARATION(LogicalSystem)
-
-  void update(double deltaTime);
+  void update(Context& context);
 };

@@ -1,10 +1,11 @@
 #pragma once
 
-#include <Engine/System/System.hpp>
+#include <Engine/System/ISystem.hpp>
 
-class PhysicalSystem : public System {
-public:
-  RTTI_DECLARATION(PhysicalSystem)
+class PhysicalSystem : public ISystem {
+ public:
+  RTTI_DECLARATION
+  ~PhysicalSystem() {}
 
-  void update(double deltaTime);
+  void update(Context& context);
 };

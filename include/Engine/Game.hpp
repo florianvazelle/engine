@@ -1,21 +1,19 @@
 #pragma once
 
-#include <memory>
-
 #include <Engine/Core/Context.hpp>
 #include <Engine/Scene.hpp>
-#include <Engine/System/System.hpp>
+#include <Engine/System/ISystem.hpp>
+#include <memory>
+#include <string>
 
 class Game {
-public:
+ public:
   Game() = delete;
-  Game(std::shared_ptr<Scene> scene);
+  Game(std::string title, const int w, const int h, std::uint32_t flags);
+  ~Game();
 
-  void preload();
-  void update();
-  void run();
+  void run(const std::shared_ptr<Scene>& scene);
 
-private:
-  std::shared_ptr<Scene> scene;
+ private:
   Context context;
 };

@@ -1,11 +1,10 @@
 #pragma once
 
+#include <Engine/Common/Entity.hpp>
 #include <vector>
 
-#include <Engine/Common/Entity.hpp>
-
 class Scene {
-public:
+ public:
   virtual void preload() = 0;
-  virtual void create()  = 0;
+  virtual void create() = 0;
 };

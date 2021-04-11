@@ -1,11 +1,10 @@
+#include <Engine/Common/Log.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
 
-#include <Engine/Common/Log.hpp>
+RTTI_DEFINITION(PhysicalSystem, ISystem)
 
-RTTI_DEFINITION(PhysicalSystem, System)
-
-void PhysicalSystem::update(double deltaTime) {
-  LOG("Update!");
+void PhysicalSystem::update(Context& context) {
+  LOG(LOG_INFO, "[PhysicalSystem] Update!");
   /**
    * @todo Mettre ici la simulation physique: détection de collisions, résolution des
    * pénétrations et des interactions. Les objets éloignés ou qui

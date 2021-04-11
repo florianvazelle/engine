@@ -1,41 +1,42 @@
 #pragma once
 
-#include <iostream>
-#include <type_traits>
-
 #include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Log.hpp>
 #include <Engine/Pool/IPool.hpp>
+#include <iostream>
+#include <memory>
+#include <type_traits>
 
 /**
  * @brief Une Pool alloue des objets pour une utilisation ultérieure
  */
-template <typename T> class Pool {
-public:
+template <typename T>
+class Pool {
+ public:
   /**
    * @brief Les PoolItem stockent chaque élément d'une arène
    * On définie un union pour partager l'espace
    */
   union PoolItem {
-  public:
+   public:
     // Methods for the list of free items.
-    PoolItem *get_next_item() const { return next; }
-    void set_next_item(PoolItem *n) { next = n; }
+    PoolItem* get_next_item() const { return next; }
+    void set_next_item(PoolItem* n) { next = n; }
 
     // Methods for the storage of the item.
-    T *get_storage() { return reinterpret_cast<T *>(&datum); }
+    T* get_storage() { return reinterpret_cast<T*>(&datum); }
 
     // Given a T* cast it to a PoolItem*
-    static PoolItem *storage_to_item(T *t) {
-      PoolItem *current_item = reinterpret_cast<PoolItem *>(t);
+    static PoolItem* storage_to_item(T* t) {
+      PoolItem* current_item = reinterpret_cast<PoolItem*>(t);
       return current_item;
     }
 
-  private:
+   private:
     using StorageType = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 
     // Points to the next freely available item.
-    PoolItem *next;
+    PoolItem* next;
 
     // Storage of the item. Note that this is a union
     // so it is shared with the pointer "next" above.
@@ -43,7 +44,7 @@ public:
   };
 
   class Arena {
-  public:
+   public:
     /**
      * @brief Le constructeur alloue un table de PoolItem, de taille arena_size
      */
@@ -63,22 +64,23 @@ public:
     // Returns a pointer to the array of items. This is used by the arena
     // itself. This is only used to update free_list during initialization
     // or when creating a new arena when the current one is full.
-    PoolItem *get_storage() const { return storage.get(); }
+    PoolItem* get_storage() const { return storage.get(); }
 
-  private:
+   private:
     std::unique_ptr<PoolItem[]> storage;  // Storage of this arena.
   };
 
   /**
    * @brief Crée une nouvelle Pool qui utilisera des Arena de arena_size
    */
-  Pool(size_t arena_size) : arena_size(arena_size), arena(new Arena(arena_size)), free_list(arena->get_storage()) {}
+  Pool(size_t arena_size)
+      : arena_size(arena_size), arena(new Arena(arena_size)), free_list(arena->get_storage()) {}
 
   /**
    * @brief Au moment de la destruction de la Pool, on va libéré toute les valeurs qui y sont stocké
    */
   ~Pool() {
-    PoolItem *s = arena->get_storage();
+    PoolItem* s = arena->get_storage();
     for (int i = 0; i < arena_size; ++i) {
       free((s + i)->get_storage());
     }
@@ -88,11 +90,12 @@ public:
    * @brief Alloue un objet dans l'arène
    * @return Pointeur vers l'objet alloué
    */
-  template <typename... Args> T *alloc(Args &&... args) {
+  template <typename... Args>
+  T* alloc(Args&&... args) {
     assert(free_list != nullptr && "Unable to get more object from the pool, Arena is full.");
 
     // Get the first free item.
-    PoolItem *current_item = free_list;
+    PoolItem* current_item = free_list;
     // Update the free list to the next free item.
     free_list = current_item->get_next_item();
 
@@ -102,23 +105,23 @@ public:
   /**
    * @brief Libère un objet dans l'arène
    */
-  void free(T *t) {
+  void free(T* t) {
     // Destroy the object.
     t->T::~T();
 
     // Convert this pointer to T to its enclosing pointer of an item of the
     // arena.
-    PoolItem *current_item = PoolItem::storage_to_item(t);
+    PoolItem* current_item = PoolItem::storage_to_item(t);
 
     // Add the item at the beginning of the free list.
     current_item->set_next_item(free_list);
     free_list = current_item;
   }
 
-  typedef PoolItem *iterator;
+  typedef PoolItem* iterator;
 
   iterator begin() {
-    PoolItem *current_item = arena->get_storage();
+    PoolItem* current_item = arena->get_storage();
     if (in_free_list(current_item)) return next(current_item);
     return current_item;
   }
@@ -127,7 +130,7 @@ public:
 
   // TODO : we can override operator++
   iterator next(iterator item) {
-    PoolItem *current_item = item->get_next_item();
+    PoolItem* current_item = item->get_next_item();
     if (current_item == nullptr) return end();
 
     while (in_free_list(current_item)) {
@@ -138,14 +141,14 @@ public:
     return current_item;
   }
 
-  PoolItem *at(const uint32_t &id) {
+  PoolItem* at(const uint32_t& id) {
     assert(id < arena_size && "Pool out of range.");
     return arena->get_storage() + id;
   }
 
-  PoolItem *at(const uint32_t &id) const { return this->at(id); }
+  PoolItem* at(const uint32_t& id) const { return this->at(id); }
 
-private:
+ private:
   // Size of the arenas created by the pool.
   size_t arena_size;
 
@@ -155,11 +158,12 @@ private:
 
   // List of free elements. The list can be threaded between different arenas
   // depending on the deallocation pattern.
-  PoolItem *free_list;
+  PoolItem* free_list;
 
-  template <typename... Args> T *set_storage(PoolItem *current_item, Args &&... args) {
+  template <typename... Args>
+  T* set_storage(PoolItem* current_item, Args&&... args) {
     // Get the storage for T.
-    T *result = current_item->get_storage();
+    T* result = current_item->get_storage();
 
     // Construct the object in the obtained storage.
     new (result) T(std::forward<Args>(args)...);

@@ -1,20 +1,22 @@
-cmake_minimum_required(VERSION 3.8)
+#
+# Tests configuration
+#
 
-# ---- Project ----
-
-set(TEST_MAIN ${LIBRARY_NAME}Tests)
+set(TEST_MAIN ${PROJECT_NAME}Tests)
 set(TEST_RUNNER_PARAMS "")
 
-# ---- Add source files ----
+#
+# Entry Point
+#
 
 file(GLOB_RECURSE PROJECT_TEST_SOURCES "${CMAKE_SOURCE_DIR}/test/src/*.cpp")
 
-# ---- Create Entry Point ----
-
 add_executable(${TEST_MAIN} ${PROJECT_TEST_SOURCES})
 
-# Link the executable to library.
-target_link_libraries(${TEST_MAIN} PRIVATE ${LIBRARY_NAME})
+# Link the executable to library
+target_link_libraries(${TEST_MAIN} PRIVATE ${PROJECT_NAME})
+
+target_include_directories(${TEST_MAIN} PRIVATE ${DOCTEST_INCLUDE_DIR})
 
 set_target_properties(${TEST_MAIN} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
@@ -23,8 +25,8 @@ set_target_properties(${TEST_MAIN} PROPERTIES
     CXX_EXTENSIONS NO
 )
 
-# add in ctest
+# Add in ctest
 add_test(
     # Use some per-module/project prefix so that it is easier to run only tests for this module
-    NAME ${LIBRARY_NAME}.${TEST_MAIN}
+    NAME ${PROJECT_NAME}.${TEST_MAIN}
     COMMAND ${TEST_MAIN} ${TEST_RUNNER_PARAMS})

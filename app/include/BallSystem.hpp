@@ -1,22 +1,17 @@
 #pragma once
 
+#include <Engine/Common/Entity.hpp>
+#include <Engine/Common/ThreadPool.hpp>
+#include <Engine/System/ISystem.hpp>
 #include <vector>
 
-#include <Engine/Common/Entity.hpp>
-#include <Engine/System/System.hpp>
-
 /**
- * @brief Example of a custom System
+ * @brief Example of a custom ISystem
  */
-class BallSystem : public System {
-public:
-  RTTI_DECLARATION(BallSystem)
+class BallSystem final : public ISystem {
+ public:
+  RTTI_DECLARATION
+  ~BallSystem() {}
 
-  ThreadPool thread_pool;
-  std::vector<Entity> entitiesQuery;
-  std::vector<std::future<void>> results;
-
-  BallSystem() : System(), entitiesQuery(MAX_ENTITIES), thread_pool(num_threads), results(MAX_ENTITIES) {}
-
-  void update(double deltaTime);
+  void update(Context& context);
 };

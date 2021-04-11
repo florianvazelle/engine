@@ -1,7 +1,8 @@
 
-#include <doctest/doctest.h>
+#include <doctest.h>
 
 #include <Engine/Common/Manager.hpp>
+#include <Engine/Core/Context.hpp>
 
 TEST_CASE("GetObjectsWithTag") {
   REGISTER_COMPONENTS
@@ -9,7 +10,7 @@ TEST_CASE("GetObjectsWithTag") {
   Manager* man = Manager::GetInstance();
   Entity test1 = man->AllocateEntity();
   Entity test2 = man->AllocateEntity(Transform::rtti);
-  Entity test3 = man->AllocateEntity(Transform::rtti, Renderer::rtti);
+  Entity test3 = man->AllocateEntity(Transform::rtti);
   Entity test4 = man->AllocateEntity(Transform::rtti, Collider::rtti);
 
   std::vector<Entity> entities(10);
@@ -36,23 +37,44 @@ TEST_CASE("GetObjectsWithTag") {
   CHECK(entities[2] == test4);
 }
 
+class TestRenderer : public IRenderer {
+ public:
+  RTTI_DECLARATION
+  ~TestRenderer() = default;
+
+  void render(const Context& context, const Entity& entity) {}
+};
+
+RTTI_DEFINITION(TestRenderer, IRenderer)
+
+TEST_CASE("GetObjectsWithParentTag") {
+  REGISTER_COMPONENT(TestRenderer)
+
+  Manager* man = Manager::GetInstance();
+  Entity test = man->AllocateEntity(Transform::rtti, TestRenderer::rtti);
+
+  std::vector<Entity> entities(10);
+  man->GetObjectsWithParentTag<IRenderer>(entities);
+
+  CHECK(entities.size() == 1);
+  CHECK(entities[0] == test);
+}
+
 TEST_CASE("Alloc Entity") {
   Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti);
+  Entity test = man->AllocateEntity(Transform::rtti);
 
   CHECK(man->GetComponent<Transform>(test) != nullptr);
-  CHECK(man->GetComponent<Collider>(test) != nullptr);
-  CHECK(man->GetComponent<Renderer>(test) == nullptr);
+  CHECK(man->GetComponent<Collider>(test) == nullptr);
 
   man->FreeEntity(test);
 }
 
 TEST_CASE("Alloc Entity") {
   Manager* man = Manager::GetInstance();
-  Entity test  = man->AllocateEntity(Transform::rtti, Collider::rtti, Renderer::rtti);
+  Entity test = man->AllocateEntity(Transform::rtti, Collider::rtti);
   man->FreeEntity(test);
 
   CHECK(man->GetComponent<Transform>(test) == nullptr);
   CHECK(man->GetComponent<Collider>(test) == nullptr);
-  CHECK(man->GetComponent<Renderer>(test) == nullptr);
 }

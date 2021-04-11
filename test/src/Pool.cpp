@@ -1,8 +1,7 @@
 
-#include <doctest/doctest.h>
+#include <doctest.h>
 
 #include <Engine/Pool/Pool.hpp>
-
 #include <iostream>
 
 struct Foo {

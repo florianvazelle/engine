@@ -1,4 +1,4 @@
-#include <doctest/doctest.h>
+#include <doctest.h>
 
 #include <Engine/Common/Manager.hpp>
 #include <Engine/Component/Transform.hpp>

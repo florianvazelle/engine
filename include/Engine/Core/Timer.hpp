@@ -16,15 +16,17 @@ struct Timer {
 };
 
 class Clock {
-public:
+ public:
   Clock();
 
   void Update();
-  void AddTimer(Timer& timer, std::function<void(void)> event) { m_Timers.push_back({timer, event}); }
+  void AddTimer(Timer& timer, std::function<void(void)> event) {
+    m_Timers.push_back({timer, event});
+  }
 
   inline double elpsTime() const { return ElapsedTime; }
 
-private:
+ private:
   std::vector<std::pair<Timer, std::function<void()>>> m_Timers;
 
   TimeSource::TimePoint TimePointAtStartup;
@@ -32,5 +34,5 @@ private:
   TimeSource::TimePoint CurrentTimePoint;
 
   double TimeSinceStartup = 0.0;
-  double ElapsedTime      = 0.0;
+  double ElapsedTime = 0.0;
 };

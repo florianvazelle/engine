@@ -1,24 +1,89 @@
-cmake_minimum_required(VERSION 3.8)
+#
+# engine
+#
 
-# ---- Project ----
+cmake_minimum_required(VERSION 3.12.4)
 
-project(pong VERSION 1.2.3.4 LANGUAGES CXX)
+#
+# Building in-tree is not allowed (we take care of your craziness).
+#
 
-set(LIBRARY_NAME engine)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message(FATAL_ERROR "Prevented in-tree built. Please create a build directory outside of the source code and call cmake from there. Thank you.")
+endif()
+
+#
+# Check project clone recursively
+#
+
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+    # Update submodules as needed
+    option(ENGINE_GIT_SUBMODULE "Check submodules during build" ON)
+
+    if(ENGINE_GIT_SUBMODULE)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+        endif()
+    endif()
+endif()
+
+#
+# Project configuration
+#
+
+project(
+    engine
+    DESCRIPTION "A small data-driven game engine"
+    HOMEPAGE_URL "https://github.com/florianvazelle/engine"
+    LANGUAGES CXX
+)
+
 set(PROJECT_CXX_STANDARD 17)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+# https://stackoverflow.com/questions/41361631/optimize-in-cmake-by-default
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
-# ---- Options ----
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-option(ENABLE_TESTING "Whether to generate unit test program and test" ON)
-option(ENABLE_DOC "Whether to generate documentation" OFF)
+option(ENGINE_USE_LIBCPP "Use libc++ by adding -stdlib=libc++ flag if availbale." ON)
+option(ENGINE_USE_SANITIZER "Enable sanitizers by adding -fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined flags" OFF)
 
-# ---- Add source files ----
+#
+# Compiler stuff
+#
 
-file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
-file(GLOB_RECURSE LIBRARY_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
-file(GLOB_RECURSE PROJECT_ALL_FILES "app/include/*.hpp" "app/src/*.cpp" "app/*.cpp")
+if(NOT WIN32 AND ENGINE_USE_LIBCPP)
+    include(CheckCXXSourceCompiles)
+    include(CMakePushCheckState)
+
+    cmake_push_check_state()
+
+    set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -stdlib=libc++")
+
+    check_cxx_source_compiles("
+        #include<type_traits>
+        int main() { return std::is_same_v<int, char>; }
+    " ENGINE_HAS_LIBCPP)
+
+    if(NOT ENGINE_HAS_LIBCPP)
+        message(VERBOSE "The option ENGINE_USE_LIBCPP is set (by default) but libc++ is not available. The flag will not be added to the target.")
+    endif()
+
+    cmake_pop_check_state()
+endif()
+
+#
+# Add engine library target
+#
 
 # ---- Tool ----
 
@@ -26,6 +91,8 @@ file(GLOB_RECURSE PROJECT_MODULES "${CMAKE_SOURCE_DIR}/cmake/*.cmake")
 foreach(ARG ${PROJECT_MODULES})
   include(${ARG})
 endforeach()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
 # ---- Conan package ----
 
@@ -39,49 +106,122 @@ endif()
 
 # ---- Create library ----
 
-add_library(${LIBRARY_NAME} OBJECT ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
+file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE PROJECT_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
+
+add_library(${PROJECT_NAME} OBJECT ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 # Lib needs its header files, and users of the library must also see these (PUBLIC).
-target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-target_link_libraries(${LIBRARY_NAME} PUBLIC ${CONAN_LIBS})
+# Find SDL2, SDL2_image and SDL2_gfx libraries
+find_package(SDL2 REQUIRED)
+find_package(SDL2_gfx REQUIRED)
 
-# ---- Create Entry Point ----
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::Main SDL2::GFX ${CONAN_LIBS})
 
-# Add an executable for the file app/main.cc.
-# If you add more executables, copy these lines accordingly.
-add_executable(${PROJECT_NAME} ${PROJECT_ALL_FILES})
+if(ENGINE_USE_SANITIZER)
+    target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined>)
+    target_link_libraries(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined>)
+endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/app/include)
+if(ENGINE_HAS_LIBCPP)
+    target_compile_options(${PROJECT_NAME} BEFORE PRIVATE -stdlib=libc++)
+endif()
 
-# Link the executable to library.
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARY_NAME})
-
-# Set the properties you require, e.g. what C++ standard to use. Here applied to library and main.
+# Set the properties you require, e.g. what C++ standard to use. 
 set_target_properties(
-      ${PROJECT_NAME} ${LIBRARY_NAME}
-      PROPERTIES 
+    ${PROJECT_NAME}
+    PROPERTIES 
         CXX_STANDARD ${PROJECT_CXX_STANDARD} 
         CXX_STANDARD_REQUIRED YES 
         CXX_EXTENSIONS NO
 )
 
-add_compile_definitions(GREETER_VERSION="${CMAKE_PROJECT_VERSION}")
+# https://stackoverflow.com/questions/1620918/cmake-and-libpthread
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
 
-# ---- Auto-generated docs ----
+#
+# Entry point
+#
 
-if(ENABLE_DOC)
-  add_subdirectory("${CMAKE_SOURCE_DIR}/docs")
+option(ENGINE_BUILD_APP "Enable building with entry point." ON)
+
+if(ENGINE_BUILD_APP)
+    option(ENGINE_INSTALL_APP "Enable installation of the entry point." OFF)
+
+    file(GLOB_RECURSE APP_SOURCES "${CMAKE_SOURCE_DIR}/app/src/*.cpp")
+    file(GLOB_RECURSE APP_HEADERS "${CMAKE_SOURCE_DIR}/app/include/*.hpp")
+
+    set(APP_NAME pong)
+
+    # Add an executable for the file app/main.cc
+    add_executable(${APP_NAME} app/main.cpp ${APP_SOURCES} ${APP_HEADERS})
+
+    target_include_directories(${APP_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/app/include)
+
+    # Link the executable to library
+    target_link_libraries(${APP_NAME} PRIVATE ${PROJECT_NAME})
+
+    # Set the properties you require, e.g. what C++ standard to use. 
+    set_target_properties(
+        ${APP_NAME}
+        PROPERTIES 
+            CXX_STANDARD ${PROJECT_CXX_STANDARD} 
+            CXX_STANDARD_REQUIRED YES 
+            CXX_EXTENSIONS NO
+    )
+
+    # Install the executable
+    if (ENGINE_INSTALL_APP)
+        install(TARGETS pong DESTINATION bin)
+    endif()
 endif()
 
-# ---- Install ----
+#
+# Tests
+#
 
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+option(ENGINE_BUILD_TESTING "Enable building tests." OFF)
 
-# ---- Test ----
+if(ENGINE_BUILD_TESTING)
+    # https://github.com/onqtam/doctest/blob/master/doc/markdown/build-systems.md
+    include(ExternalProject)
+    find_package(Git REQUIRED)
 
-# Set up tests (see test/CMakeLists.txt).
-if(ENABLE_TESTING)
-  enable_testing()
-  add_subdirectory("${CMAKE_SOURCE_DIR}/test")
+    ExternalProject_Add(
+        doctest
+        PREFIX ${CMAKE_BINARY_DIR}/doctest
+        GIT_REPOSITORY https://github.com/onqtam/doctest.git
+        TIMEOUT 10
+        UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        LOG_DOWNLOAD ON
+    )
+
+    # Expose required variable (DOCTEST_INCLUDE_DIR) to parent scope
+    ExternalProject_Get_Property(doctest source_dir)
+    set(DOCTEST_INCLUDE_DIR ${source_dir}/doctest CACHE INTERNAL "Path to include folder for doctest")
+
+    include(CTest)
+    enable_testing()
+    add_subdirectory(test)
+endif()
+
+#
+# Documentation
+#
+
+option(ENGINE_BUILD_DOCS "Enable building with documentation." OFF)
+
+if(ENGINE_BUILD_DOCS)
+    find_package(Doxygen 1.8)
+
+    if(DOXYGEN_FOUND)
+        add_subdirectory(docs)
+    endif()
 endif()

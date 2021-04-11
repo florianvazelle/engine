@@ -1,24 +1,24 @@
 #pragma once
 
-#include <memory>
-
 #include <Engine/Common/Manager.hpp>
 #include <Engine/System/LogicalSystem.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
+#include <memory>
 
-// All Engine's System
+// All Engine's ISystem
 #define SYSTEMS LogicalSystem, PhysicalSystem, RendererSystem
 
-// Register a System
+// Register a ISystem
 #define REGISTER_SYSTEM(klass) Manager::GetInstance()->RegisterSystem<klass>();
 
-// Register all System
+// Register all ISystem
 #define REGISTER_SYSTEMS MAP(REGISTER_SYSTEM, SYSTEMS)
 
 class SystemFactory {
-public:
-  template <typename T> void Register() {
+ public:
+  template <typename T>
+  void Register() {
     const RTTI::type& id = T::rtti.id();
 
     if (systems.find(id) == systems.end()) {
@@ -26,23 +26,23 @@ public:
     }
   }
 
-  void Update(double deltaTime) {
-    // On update d'abord les System rajoutés
+  void Update(Context& context) {
+    // On update d'abord les ISystem rajoutés
     for (auto const& x : systems) {
-      if (x.first == LogicalSystem::rtti.id() || x.first == PhysicalSystem::rtti.id()
-          || x.first == RendererSystem::rtti.id())
+      if (x.first == LogicalSystem::rtti.id() || x.first == PhysicalSystem::rtti.id() ||
+          x.first == RendererSystem::rtti.id())
         continue;
-      x.second->update(deltaTime);
+      x.second->update(context);
     }
 
-    // Puis ensuite les System de l'Engine
-    systems[LogicalSystem::rtti.id()]->update(deltaTime);
-    systems[PhysicalSystem::rtti.id()]->update(deltaTime);
-    systems[RendererSystem::rtti.id()]->update(deltaTime);
+    // Puis ensuite les ISystem de l'Engine
+    systems[LogicalSystem::rtti.id()]->update(context);
+    systems[PhysicalSystem::rtti.id()]->update(context);
+    systems[RendererSystem::rtti.id()]->update(context);
 
     // TODO : faire un système de dépendance entre les systèmes pour pouvoir choisir l'ordre
   }
 
-private:
-  std::map<const RTTI::type, std::shared_ptr<System>> systems{};
+ private:
+  std::map<const RTTI::type, std::shared_ptr<ISystem>> systems{};
 };

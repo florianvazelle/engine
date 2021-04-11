@@ -1,10 +1,15 @@
 #pragma once
 
-#include <Engine/System/System.hpp>
+#include <stdio.h>
+#include <stdlib.h>
 
-class RendererSystem : public System {
-public:
-  RTTI_DECLARATION(RendererSystem)
+#include <Engine/Common/ThreadPool.hpp>
+#include <Engine/System/ISystem.hpp>
 
-  void update(double deltaTime);
+class RendererSystem : public ISystem {
+ public:
+  RTTI_DECLARATION
+  ~RendererSystem() {}
+
+  void update(Context& context);
 };

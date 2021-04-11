@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Engine/Common/Entity.hpp>
+#include <Engine/Common/RTTI.hpp>
+#include <Engine/Component/IComponent.hpp>
+#include <Engine/Pool/Pool.hpp>
 #include <any>
 #include <array>
 #include <cassert>
@@ -10,16 +14,11 @@
 #include <stdexcept>
 #include <vector>
 
-#include <Engine/Common/Entity.hpp>
-#include <Engine/Common/RTTI.hpp>
-#include <Engine/Component/Component.hpp>
-#include <Engine/Pool/Pool.hpp>
-
 /**
  * @brief Permet de gérer l'allocation/libération des Entity
  */
 class EntityFactory {
-public:
+ public:
   /**
    * @brief Initialise la queue avec toute les Entity possible
    */
@@ -42,7 +41,7 @@ public:
    */
   bool IsSet(const Entity& entity) const { return entityIsSet[entity]; }
 
-private:
+ private:
   std::array<bool, MAX_ENTITIES> entityIsSet;
   std::queue<Entity> availableEntities{};  // Queue des Entity disponibles
   uint32_t livingEntityCount{};            // Total des Entity en "vie"

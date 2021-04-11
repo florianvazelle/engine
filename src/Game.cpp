@@ -1,53 +1,47 @@
-#include <Engine/Game.hpp>
-
-#include <iostream>
-#include <thread>
-
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
 #include <Engine/Component/Collider.hpp>
-#include <Engine/Component/Component.hpp>
-#include <Engine/Component/Renderer.hpp>
+#include <Engine/Component/IComponent.hpp>
+#include <Engine/Component/IRenderer.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
+#include <Engine/Game.hpp>
+#include <iostream>
+#include <thread>
 
-Game::Game(std::shared_ptr<Scene> scene)
-    : scene(scene), context(std::make_shared<Clock>(), std::make_shared<Input>(), std::make_shared<Engine>()) {}
+Game::Game(std::string title, const int w, const int h, std::uint32_t flags) : context() {
+  // Setup SDL2 and stuff.
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
+    throw_sdl2_exception("Failed to init SDL2.");
+  }
 
-void Game::preload() {
-  scene->preload();
-
-  // On enregistre tout les Component et tout les System
-  REGISTER_COMPONENTS
-  REGISTER_SYSTEMS
+  context.window()->create(title, w, h, flags);
 }
 
-void Game::update() {
-  context.c()->Update();         // Clock
-  context.i()->Update();         // Input
-  context.e()->Update(context);  // Engine
-}
+Game::~Game() noexcept { SDL_Quit(); }
 
-void Game::run() {
+void Game::run(const std::shared_ptr<Scene>& scene) {
   try {
-    preload();
+    scene->preload();
+
+    // On enregistre tout les IComponent et tout les ISystem
+    REGISTER_COMPONENTS
+    REGISTER_SYSTEMS
 
     scene->create();
 
-    bool needToQuit = false;
-
     // Main Loop
-    while (!needToQuit) {
-      LOG("~~~ New frame!");
+    while (context.window()->is_open()) {
+      LOG(LOG_INFO, "~~~ New frame!");
 
-      update();
+      context.clock()->Update();          // Clock
+      context.input()->Update();          // Input
+      context.engine()->Update(context);  // Engine
 
       // emule un delai de traitement (une synchro verticale par ex.)
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));  // TODO : on peut le supprimer par la suite
-
-      // On regarde si l'utilisateur veut quitter le programme
-      needToQuit = context.i()->QuitButtonIsPressed();
+      std::this_thread::sleep_for(
+          std::chrono::milliseconds(10));  // TODO : on peut le supprimer par la suite
     }
 
   } catch (const std::exception& e) {

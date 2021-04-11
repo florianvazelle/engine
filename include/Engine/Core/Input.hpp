@@ -1,12 +1,12 @@
 #pragma once
 
 class Input {
-public:
+ public:
   void Update();
   bool GetQuitButtonState();
 
   inline bool QuitButtonIsPressed() const { return QuitButtonPressed; }
 
-private:
+ private:
   bool QuitButtonPressed = false;
 };

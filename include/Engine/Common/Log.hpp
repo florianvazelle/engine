@@ -1,20 +1,42 @@
 #pragma once
 
-#include "spdlog/spdlog.h"
+#include <SDL2/SDL_error.h>
 
-// #ifdef DEBUG
-#define LOG(str)                                                              \
-  {                                                                           \
-    spdlog::set_pattern("[%H:%M:%S] [%^%l%$] [thread %t] [" __FILE__ "] %v"); \
-    spdlog::info(str);                                                        \
-  }
+#include <cassert>
+#include <iostream>
 
-#define LOG_WARN(str)                                                         \
-  {                                                                           \
-    spdlog::set_pattern("[%H:%M:%S] [%^%l%$] [thread %t] [" __FILE__ "] %v"); \
-    spdlog::warn(str);                                                        \
-  }
-// #else
-// #  define LOG(str)
-// #  define LOG_WARN(str)
-// #endif
+/**
+ * Example usage:
+ * LOG_ERROR << "Woops." << LOG_NEWLINE;
+ * OR
+ * LOG_ERROR << "Woops." << LOG_FLUSH;
+ * OR
+ * LOG(LOG_ERROR, "Woops.");
+ */
+
+// Log something to console.
+#define LOG(level, msg) level << msg << std::endl
+
+// Log an error message.
+#define LOG_ERROR std::cout << "[ERROR]:    "
+
+// Log a warning.
+#define LOG_WARNING std::cout << "[WARNING]:  "
+
+// Log some information.
+#define LOG_INFO std::cout << "[INFO]:     "
+
+// Flush the log. Also ends the current line.
+#define LOG_FLUSH std::endl
+
+// Provide a NewLine in a log.
+#define LOG_NEWLINE "\n"
+
+// Convenience function.
+inline void throw_sdl2_exception(std::string message) {
+  message += "\n[SDL2]:   ";
+  message += SDL_GetError();
+
+  LOG(LOG_ERROR, message);
+  throw std::runtime_error(message);
+}

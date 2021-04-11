@@ -1,4 +1,6 @@
-# ---- Dependencies ----
+#
+# Dependencies
+#
 
 include(../cmake/manual/cpm.cmake)
 
@@ -9,7 +11,9 @@ CPMAddPackage(
   GIT_TAG 42d4a9a48f31f5df6e246c948403b54b50574a2a
 )
 
-# ---- Doxygen variables ----
+#
+# Doxygen configuration (documentation)
+#
 
 # set Doxyfile variables
 set(DOXYGEN_PROJECT_NAME ${PROJECT_NAME})

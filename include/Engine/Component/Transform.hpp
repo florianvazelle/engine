@@ -1,11 +1,11 @@
 #pragma once
 
 #include <immintrin.h>
+
+#include <Engine/Component/IComponent.hpp>
 #include <cmath>
 
-#include <Engine/Component/Component.hpp>
-
-struct alignas(4) float4 {
+struct alignas(16) float4 {
   float x, y, z, w;
 
   float4() : x(0), y(0), z(0), w(0) {}
@@ -13,13 +13,17 @@ struct alignas(4) float4 {
 
   bool operator==(const float4& f) const { return (x == f.x && y == f.y && z == f.z && w == f.w); }
 
-  float& operator[](const unsigned int i) { return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w); }
-  const float& operator[](const unsigned int i) const { return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w); }
+  float& operator[](const unsigned int i) {
+    return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
+  }
+  const float& operator[](const unsigned int i) const {
+    return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
+  }
 };
 
-class alignas(16) Transform : public Component {
-public:
-  RTTI_DECLARATION(Transform)
+class Transform : public IComponent {
+ public:
+  RTTI_DECLARATION
   float4 a, b, c, d;
 
   /**
@@ -66,27 +70,32 @@ public:
   /**
    * @brief Effectue une translation de vecteur (x, y, z, w)
    */
-  void translate(const float4& vec) { dot({1, 0, 0, vec.x}, {0, 1, 0, vec.y}, {0, 0, 1, vec.z}, {0, 0, 0, vec.w}); }
+  void translate(const float4& vec) {
+    dot({1, 0, 0, vec.x}, {0, 1, 0, vec.y}, {0, 0, 1, vec.z}, {0, 0, 0, vec.w});
+  }
 
   /**
    * @brief Effectue une rotation sur l'axe X, de deg radians
    */
   void rotateX(float deg) {
-    dot({1, 0, 0, 0}, {0, std::cos(deg), -std::sin(deg), 0}, {0, std::sin(deg), std::cos(deg), 0}, {0, 0, 0, 1});
+    dot({1, 0, 0, 0}, {0, std::cos(deg), -std::sin(deg), 0}, {0, std::sin(deg), std::cos(deg), 0},
+        {0, 0, 0, 1});
   }
 
   /**
    * @brief Effectue une rotation sur l'axe Y, de deg radians
    */
   void rotateY(float deg) {
-    dot({std::cos(deg), 0, std::sin(deg), 0}, {0, 1, 0, 0}, {-std::sin(deg), 0, std::cos(deg), 0}, {0, 0, 0, 1});
+    dot({std::cos(deg), 0, std::sin(deg), 0}, {0, 1, 0, 0}, {-std::sin(deg), 0, std::cos(deg), 0},
+        {0, 0, 0, 1});
   }
 
   /**
    * @brief Effectue une rotation sur l'axe Z, de deg radians
    */
   void rotateZ(float deg) {
-    dot({std::cos(deg), -std::sin(deg), 0, 0}, {std::sin(deg), std::cos(deg), 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1});
+    dot({std::cos(deg), -std::sin(deg), 0, 0}, {std::sin(deg), std::cos(deg), 0, 0}, {0, 0, 1, 0},
+        {0, 0, 0, 1});
   }
 
   /**
@@ -98,6 +107,10 @@ public:
   inline const float& y() const { return a.w; }
   inline const float& z() const { return a.w; }
 
-  float4& operator[](const unsigned int i) { return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d); }
-  const float4& operator[](const unsigned int i) const { return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d); }
+  float4& operator[](const unsigned int i) {
+    return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);
+  }
+  const float4& operator[](const unsigned int i) const {
+    return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);
+  }
 };
