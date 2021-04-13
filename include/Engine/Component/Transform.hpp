@@ -6,7 +6,15 @@
 #include <cmath>
 
 struct alignas(16) float4 {
-  float x, y, z, w;
+  union {
+    struct {
+      float x, y, z, w;
+    };
+
+    struct {
+      __m128 data;
+    };
+  };
 
   float4() : x(0), y(0), z(0), w(0) {}
   float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
@@ -14,10 +22,8 @@ struct alignas(16) float4 {
   bool operator==(const float4& f) const { return (x == f.x && y == f.y && z == f.z && w == f.w); }
   float4 operator*(const float& f) const { return {x * f, y * f, z * f, w * f}; }
   float4& operator*=(const float& f) {
-    this->x *= f;
-    this->y *= f;
-    this->z *= f;
-    this->w *= f;
+    const __m128 ARx = _mm_set1_ps(f);
+    this->data = _mm_mul_ps(ARx, this->data);
     return (*this);
   }
 
@@ -40,7 +46,7 @@ struct alignas(16) float4 {
 class Transform : public IComponent {
  public:
   RTTI_DECLARATION
-  float4 a, b, c, d;  // TODO : make a union with __m128[4]
+  float4 a, b, c, d;
 
   /**
    * [[a.x, a.y, a.z, a.w],
@@ -74,10 +80,8 @@ class Transform : public IComponent {
     const __m128 Z = _mm_mul_ps(ARz, BCz);
     const __m128 W = _mm_mul_ps(ARw, BCw);
 
-    const __m128 R = _mm_add_ps(_mm_add_ps(X, Y), _mm_add_ps(Z, W));
-
     float4 res;
-    _mm_store_ps(&res[0], R);
+    res.data = _mm_add_ps(_mm_add_ps(X, Y), _mm_add_ps(Z, W));
     return res;
   }
 
@@ -85,24 +89,18 @@ class Transform : public IComponent {
    * @brief Effectue une multiplication matricielle, tels que this = this * T
    */
   inline void dot(const float4& ta, const float4& tb, const float4& tc, const float4& td) {
-    const __m128 BCx = _mm_setr_ps(ta.x, ta.y, ta.z, ta.w);
-    const __m128 BCy = _mm_setr_ps(tb.x, tb.y, tb.z, tb.w);
-    const __m128 BCz = _mm_setr_ps(tc.x, tc.y, tc.z, tc.w);
-    const __m128 BCw = _mm_setr_ps(td.x, td.y, td.z, td.w);
-
     for (unsigned int i = 0; i < 4; ++i) {
       __m128 ARx = _mm_set1_ps((*this)[i][0]);
       __m128 ARy = _mm_set1_ps((*this)[i][1]);
       __m128 ARz = _mm_set1_ps((*this)[i][2]);
       __m128 ARw = _mm_set1_ps((*this)[i][3]);
 
-      __m128 X = _mm_mul_ps(ARx, BCx);
-      __m128 Y = _mm_mul_ps(ARy, BCy);
-      __m128 Z = _mm_mul_ps(ARz, BCz);
-      __m128 W = _mm_mul_ps(ARw, BCw);
+      __m128 X = _mm_mul_ps(ARx, ta.data);
+      __m128 Y = _mm_mul_ps(ARy, tb.data);
+      __m128 Z = _mm_mul_ps(ARz, tc.data);
+      __m128 W = _mm_mul_ps(ARw, td.data);
 
-      __m128 R = _mm_add_ps(_mm_add_ps(X, Y), _mm_add_ps(Z, W));
-      _mm_store_ps(&(*this)[i][0], R);
+      (*this)[i].data = _mm_add_ps(_mm_add_ps(X, Y), _mm_add_ps(Z, W));
     }
   }
 

@@ -70,3 +70,12 @@ TEST_CASE("float4 Multiplication") {
 
   CHECK((r * v) == 1);
 }
+
+TEST_CASE("float4 Multiplication") {
+  float4 v = {-1, -1, 0, 1};
+  float4 result = {-4, -4, 0, 4};
+
+  v *= 4;
+
+  CHECK(v == result);
+}
