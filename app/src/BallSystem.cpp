@@ -2,8 +2,8 @@
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
 #include <Engine/Component/Transform.hpp>
+#include <Engine/Component/Velocity.hpp>
 #include <PongScene.hpp>
-#include <Velocity.hpp>
 
 RTTI_DEFINITION(BallSystem, ISystem)
 
@@ -23,7 +23,7 @@ void BallSystem::update(Context& context) {
   Transform* t = man->GetComponent<Transform>(e);
   Velocity* v = man->GetComponent<Velocity>(e);
 
-  t->translate(v->direction * (context.deltaTime() / 2.0f));
+  t->translate(v->direction * (context.deltaTime() / 20.0f));
 
   // Ensure ball can be reset.
   if (t->x() < 0.f) {
@@ -32,7 +32,7 @@ void BallSystem::update(Context& context) {
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
 
     v->direction = float4{-1.f, 0.75f, 0.f, 1.f};
-  } else if (t->x() > (WINDOW_WIDTH - 16.f)) { // screen width - sprite width
+  } else if (t->x() > (WINDOW_WIDTH - 16.f)) {  // screen width - sprite width
     // Ball passed the ai paddle, reset it.
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
@@ -44,7 +44,7 @@ void BallSystem::update(Context& context) {
   if (t->y() < 0.f) {
     // Reverse ball, "bouncing" it.
     v->direction *= -1.f;
-  } else if (t->y() > (WINDOW_HEIGHT - 16.f)) { // screen height - sprite height
+  } else if (t->y() > (WINDOW_HEIGHT - 16.f)) {  // screen height - sprite height
     // Reverse ball, "bouncing" it.
     v->direction *= -1.f;
   }

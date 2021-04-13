@@ -1,6 +1,5 @@
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
-#include <Engine/Component/Collider.hpp>
 #include <Engine/Component/IComponent.hpp>
 #include <Engine/Component/IRenderer.hpp>
 #include <Engine/Component/Transform.hpp>

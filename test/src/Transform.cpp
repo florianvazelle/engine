@@ -22,3 +22,51 @@ TEST_CASE("Translate") {
   CHECK(t.c == float4{0, 0, 1, 0});
   CHECK(t.d == float4{0, 0, 0, 1});
 }
+
+TEST_CASE("Inverse") {
+  Transform mat;
+
+  float data[16] = {-1, 0, 1, 1, 1, -2, 1, -1, 1, 0, -1, 1, 1, 0, 1, -1};
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      mat[i][j] = data[i + j * 4];
+    }
+  }
+
+  float result[16] = {0.0f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.0f, 0.5f,
+                      0.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f,  0.5f, 0.0f};
+
+  Transform inv = mat.inverse();
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      CHECK(result[i + j * 4] == inv[i][j]);
+    }
+  }
+}
+
+TEST_CASE("Vector Multiplication") {
+  float4 v = {-1, -1, 0, 0};
+  float4 result = {-1, -1, 0, 0};
+
+  Transform t;
+  t.translate({0, 0, 3, 1});
+
+  CHECK(t * v == result);
+}
+
+TEST_CASE("Point Multiplication") {
+  float4 v = {-1, -1, 0, 1};
+  float4 result = {-1, -1, 3, 1};
+
+  Transform t;
+  t.translate({0, 0, 3, 1});
+
+  CHECK(t * v == result);
+}
+
+TEST_CASE("float4 Multiplication") {
+  float4 v = {-1, -1, 0, 1};
+  float4 r = {0, 0, 3, 1};
+
+  CHECK((r * v) == 1);
+}

@@ -50,4 +50,5 @@ cmake --build build
 - [ECS Tutorial](https://austinmorlan.com/posts/entity_component_system/)
 - [RTTI Tutorial](https://www.axelmenzel.de/articles/rtti)
 - [SIMD matrix multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/)
+- [SIMD matrix inverse](https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html)
 - [Double-check locking](https://en.wikipedia.org/wiki/Double-checked_locking)

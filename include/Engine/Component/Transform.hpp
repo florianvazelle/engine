@@ -24,15 +24,23 @@ struct alignas(16) float4 {
   float& operator[](const unsigned int i) {
     return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
   }
+
   const float& operator[](const unsigned int i) const {
     return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
   }
+
+  float operator*(const float4& vec) const {
+    return (x * vec.x + y * vec.y + z * vec.z + w * vec.w);
+  }
+
+  float4 operator-(const float4& vec) const { return {x - vec.x, y - vec.y, z - vec.z, w - vec.w}; }
+  float4 operator-() const { return {-x, -y, -z, -w}; }
 };
 
 class Transform : public IComponent {
  public:
   RTTI_DECLARATION
-  float4 a, b, c, d;
+  float4 a, b, c, d;  // TODO : make a union with __m128[4]
 
   /**
    * [[a.x, a.y, a.z, a.w],
@@ -50,10 +58,33 @@ class Transform : public IComponent {
     d = float4(0, 0, 0, 1);
   }
 
+  inline float4 operator*(const float4& vec) const {
+    const __m128 BCx = _mm_setr_ps(a.x, b.x, c.x, d.x);
+    const __m128 BCy = _mm_setr_ps(a.y, b.y, c.y, d.y);
+    const __m128 BCz = _mm_setr_ps(a.z, b.z, c.z, d.z);
+    const __m128 BCw = _mm_setr_ps(a.w, b.w, c.w, d.w);
+
+    const __m128 ARx = _mm_set1_ps(vec[0]);
+    const __m128 ARy = _mm_set1_ps(vec[1]);
+    const __m128 ARz = _mm_set1_ps(vec[2]);
+    const __m128 ARw = _mm_set1_ps(vec[3]);
+
+    const __m128 X = _mm_mul_ps(ARx, BCx);
+    const __m128 Y = _mm_mul_ps(ARy, BCy);
+    const __m128 Z = _mm_mul_ps(ARz, BCz);
+    const __m128 W = _mm_mul_ps(ARw, BCw);
+
+    const __m128 R = _mm_add_ps(_mm_add_ps(X, Y), _mm_add_ps(Z, W));
+
+    float4 res;
+    _mm_store_ps(&res[0], R);
+    return res;
+  }
+
   /**
-   * @brief Effectue une multiplication matricielle
+   * @brief Effectue une multiplication matricielle, tels que this = this * T
    */
-  void dot(const float4& ta, const float4& tb, const float4& tc, const float4& td) {
+  inline void dot(const float4& ta, const float4& tb, const float4& tc, const float4& td) {
     const __m128 BCx = _mm_setr_ps(ta.x, ta.y, ta.z, ta.w);
     const __m128 BCy = _mm_setr_ps(tb.x, tb.y, tb.z, tb.w);
     const __m128 BCz = _mm_setr_ps(tc.x, tc.y, tc.z, tc.w);
@@ -121,4 +152,62 @@ class Transform : public IComponent {
   const float4& operator[](const unsigned int i) const {
     return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);
   }
+
+  /**
+   * @brief Retourne la matrice inverse
+   */
+  Transform inverse() const;
+
+  float4 globalToLocal(const float4& vec) const { return inverse() * vec; }
+  float4 localToGlobal(const float4& vec) const { return (*this) * vec; }
+
+  bool intersect(const Transform& trans) const {
+    auto intersectSegmentPlane = [](const float4& v0, const float4& n, const float4& p0,
+                                    const float4& p1) -> bool {
+      const float4 w = v0 - p0;
+      const float4 u = p1 - p0;
+
+      const float s1 = (-n * w) / (n * u);
+
+      return 0 <= s1 && s1 <= 1;
+    };
+
+    // We are in local world, so coordinate are easy to determinate
+
+    // center of each face
+    static const float4 faces[6] = {
+        {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {-1, 0, 0, 0}, {0, -1, 0, 0}, {0, 0, -1, 0},
+    };
+
+    // each vertex of a cube
+    static const float4 vertices[8] = {
+        {1, 1, 1, 0},  {1, -1, -1, 0}, {-1, 1, -1, 0}, {-1, -1, 1, 0},
+        {-1, 1, 1, 0}, {1, 1, -1, 0},  {1, -1, 1, 0},  {-1, -1, -1, 0},
+    };
+
+    // each edge of a cube
+    static const float4 edges[12][2] = {
+        {vertices[0], vertices[4]}, {vertices[0], vertices[5]}, {vertices[0], vertices[6]},
+        {vertices[1], vertices[6]}, {vertices[1], vertices[5]}, {vertices[1], vertices[7]},
+        {vertices[2], vertices[4]}, {vertices[2], vertices[5]}, {vertices[2], vertices[6]},
+        {vertices[3], vertices[4]}, {vertices[3], vertices[6]}, {vertices[3], vertices[7]},
+    };
+
+    // For each face of the cube
+    for (int i = 0; i < 6; i++) {
+      // We compute v0 and normal of the face's plane
+      const float4 v0 = faces[i];
+      const float4 n = faces[i];  // normalized normal
+
+      for (int j = 0; j < 8; j++) {
+        const float4 p0 = trans.localToGlobal(edges[j][0]);
+        const float4 p1 = trans.localToGlobal(edges[j][1]);
+
+        if (intersectSegmentPlane(v0, n, p0, p1)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
 };

@@ -4,7 +4,7 @@
 #include <Engine/Component/Transform.hpp>
 
 /**
- * @brief Example of a custom IComponent
+ * @brief Add Velocity to an Entity, add Physical to this Entity
  */
 class Velocity final : public IComponent {
  public:

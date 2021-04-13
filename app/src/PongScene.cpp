@@ -3,11 +3,11 @@
 #include <BarRenderer.hpp>
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
-#include <Engine/Component/Collider.hpp>
+#include <Engine/Component/ICollider.hpp>
 #include <Engine/Component/IRenderer.hpp>
 #include <Engine/Component/Transform.hpp>
+#include <Engine/Component/Velocity.hpp>
 #include <PongScene.hpp>
-#include <Velocity.hpp>
 #include <iostream>
 
 void PongScene::preload() {
@@ -20,14 +20,13 @@ void PongScene::create() {
   Manager* man = Manager::GetInstance();
 
   // You need to register all custom IComponent and ISystem
-  man->RegisterComponent<Velocity>();
   man->RegisterComponent<BallRenderer>();
   man->RegisterComponent<BarRenderer>();
   man->RegisterSystem<BallSystem>();
 
   // You can create Entity with IComponent
-  Entity e1 = man->AllocateEntity(Transform::rtti, Collider::rtti, BarRenderer::rtti);
-  Entity e2 = man->AllocateEntity(Transform::rtti, Collider::rtti, BarRenderer::rtti);
+  Entity e1 = man->AllocateEntity(Transform::rtti, RectCollider::rtti, BarRenderer::rtti);
+  Entity e2 = man->AllocateEntity(Transform::rtti, RectCollider::rtti, BarRenderer::rtti);
   Entity ball = man->AllocateEntity(Transform::rtti, Velocity::rtti, BallRenderer::rtti);
 
   Transform* t1 = man->GetComponent<Transform>(e1);

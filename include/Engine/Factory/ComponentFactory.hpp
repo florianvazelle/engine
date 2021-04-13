@@ -3,9 +3,10 @@
 #include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Macro.hpp>
 #include <Engine/Common/RTTI.hpp>
-#include <Engine/Component/Collider.hpp>
 #include <Engine/Component/IComponent.hpp>
+#include <Engine/Component/RectCollider.hpp>
 #include <Engine/Component/Transform.hpp>
+#include <Engine/Component/Velocity.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 #include <Engine/Pool/ComponentArray.hpp>
 #include <map>
@@ -13,7 +14,7 @@
 #include <string>
 
 // All Engine's IComponent
-#define COMPONENTS Transform, Collider
+#define COMPONENTS Transform, RectCollider, Velocity
 
 // Register a IComponent
 #define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
