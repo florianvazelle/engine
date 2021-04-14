@@ -26,7 +26,7 @@ class SystemFactory {
     }
   }
 
-  void Update(Context& context) {
+  void Update(const Context& context) {
     // On update d'abord les ISystem rajoutés
     for (auto const& x : systems) {
       if (x.first == LogicalSystem::rtti.id() || x.first == PhysicalSystem::rtti.id() ||
@@ -38,10 +38,12 @@ class SystemFactory {
     // Puis ensuite les ISystem de l'Engine
     systems[LogicalSystem::rtti.id()]->update(context);
     systems[PhysicalSystem::rtti.id()]->update(context);
-    systems[RendererSystem::rtti.id()]->update(context);
+    // systems[RendererSystem::rtti.id()]->update(context);
 
     // TODO : faire un système de dépendance entre les systèmes pour pouvoir choisir l'ordre
   }
+
+  void Render(const Context& context) { systems[RendererSystem::rtti.id()]->update(context); }
 
  private:
   std::map<const RTTI::type, std::shared_ptr<ISystem>> systems{};

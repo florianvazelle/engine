@@ -6,9 +6,18 @@
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
 
-void Engine::Update(Context& context) {
+void Engine::FixedUpdate(const Context& context) const {
   LOG(LOG_INFO, "[Engine] Update!");
 
+  context.clock()->FixedUpdate([context]() {
+    Manager* man = Manager::GetInstance();
+    man->UpdateSystem(context);
+  });
+}
+
+void Engine::Render(const Context& context) const {
+  LOG(LOG_INFO, "[Engine] Render!");
+
   Manager* man = Manager::GetInstance();
-  man->UpdateSystem(context);
+  man->RenderSystem(context);
 }

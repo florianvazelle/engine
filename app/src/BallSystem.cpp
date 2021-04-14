@@ -7,7 +7,7 @@
 
 RTTI_DEFINITION(BallSystem, ISystem)
 
-void BallSystem::update(Context& context) {
+void BallSystem::update(const Context& context) const {
   LOG(LOG_INFO, "--- Ball Update ---");
 
   // Get the Manager
@@ -23,7 +23,8 @@ void BallSystem::update(Context& context) {
   Transform* t = man->GetComponent<Transform>(e);
   Velocity* v = man->GetComponent<Velocity>(e);
 
-  t->translate(v->direction * (context.deltaTime() / 20.0f));
+  // Allow the ball to move based on a fixed-timestep loop.
+  t->translate(v->direction * context.clock()->deltaTime());
 
   // Ensure ball can be reset.
   if (t->x() < 0.f) {

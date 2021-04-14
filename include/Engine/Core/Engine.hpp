@@ -7,5 +7,6 @@ class Context;
 
 class Engine {
  public:
-  void Update(Context& context);
+  void FixedUpdate(const Context& context) const;
+  void Render(const Context& context) const;
 };

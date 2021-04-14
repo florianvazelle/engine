@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Engine/Common/Log.hpp>
+#include <Engine/Core/Clock.hpp>
 #include <Engine/Core/Engine.hpp>
 #include <Engine/Core/Input.hpp>
-#include <Engine/Core/Timer.hpp>
 #include <Engine/Core/Window.hpp>
 #include <memory>
 
@@ -25,18 +25,6 @@ class Context {
   inline Input* input() const { return m_input.get(); };
   inline Window* window() const { return m_window.get(); };
   inline Engine* engine() const { return m_engine.get(); };
-
-  inline float deltaTime() const {
-    double elapsedTime = m_clock->elpsTime();
-
-    // tout lag est maximise 100 ms (1/10 de seconde)
-    // cela permet d'eviter de faire sauter le moteur en cas de breakpoint ou
-    // lag enorme alternativement on peut appliquer une correction en
-    // extrapolant a partir du temps ecoule
-    if (elapsedTime > 0.10) elapsedTime = 0.10;
-
-    return static_cast<float>(elapsedTime);
-  };
 
  private:
   SPC m_clock;

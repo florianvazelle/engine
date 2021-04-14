@@ -4,7 +4,7 @@
 
 RTTI_DEFINITION(RendererSystem, ISystem)
 
-void RendererSystem::update(Context& context) {
+void RendererSystem::update(const Context& context) const {
   LOG(LOG_INFO, "[RendererSystem] Update!");
   /**
    * @todo Mettre ici le rendu: seuls les objets visibles méritent d’être affiché.

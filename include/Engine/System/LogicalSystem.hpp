@@ -9,5 +9,5 @@ class LogicalSystem : public ISystem {
   RTTI_DECLARATION
   ~LogicalSystem() {}
 
-  void update(Context& context);
+  void update(const Context& context) const;
 };

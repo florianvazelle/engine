@@ -11,5 +11,5 @@ class RendererSystem : public ISystem {
   RTTI_DECLARATION
   ~RendererSystem() {}
 
-  void update(Context& context);
+  void update(const Context& context) const;
 };

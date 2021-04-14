@@ -5,7 +5,7 @@
 
 RTTI_DEFINITION(PhysicalSystem, ISystem)
 
-void PhysicalSystem::update(Context& context) {
+void PhysicalSystem::update(const Context& context) const {
   LOG(LOG_INFO, "[PhysicalSystem] Update!");
   /**
    * @todo Mettre ici la simulation physique: détection de collisions, résolution des
