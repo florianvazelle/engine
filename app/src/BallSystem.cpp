@@ -40,13 +40,13 @@ void BallSystem::update() const {
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
 
-    v->direction = float4{random(-1, 1), random(-1, 1), 0.f, 1.f};
+    v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};
   } else if (t->x() > (WINDOW_WIDTH - 16.f)) {  // screen width - sprite width
     // Ball passed the ai paddle, reset it.
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
 
-    v->direction = float4{random(-1, 1), random(-1, 1), 0.f, 1.f};
+    v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};
   }
 
   // Lock to screen.

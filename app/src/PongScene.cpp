@@ -40,5 +40,5 @@ void PongScene::create() {
   t3->scale({8, 8, 1, 1});
 
   Velocity* v = registry->GetComponent<Velocity>(ball);
-  v->direction = float4{random(-1, 1), random(-1, 1), 0.f, 1.f};  // intial velocity
+  v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};  // intial velocity
 }

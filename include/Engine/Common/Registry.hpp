@@ -143,7 +143,7 @@ class Registry : public Singleton<Registry> {
    * @brief Initalise le Registry en créant une ComponentFactory et une EntityFactory
    */
   Registry()
-      : numThreads(std::thread::hardware_concurrency()),
+      : numThreads(1),  // std::thread::hardware_concurrency()),
         threadPool(numThreads),
         entitiesQuery(MAX_ENTITIES),
         results(MAX_ENTITIES) {
