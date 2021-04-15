@@ -27,7 +27,13 @@ void BallSystem::update() const {
 
   // Allow the ball to move based on a fixed-timestep loop.
   Context* context = Context::GetInstance();
-  t->translate(v->direction * context->clock()->deltaTime());
+
+  t->translate({
+      v->direction.x * context->clock()->deltaTime(),
+      v->direction.y * context->clock()->deltaTime(),
+      v->direction.z * context->clock()->deltaTime(),
+      1,
+  });
 
   // Ensure ball can be reset.
   if (t->x() < 0.f) {

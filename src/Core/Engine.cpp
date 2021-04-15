@@ -11,7 +11,7 @@ void Engine::FixedUpdate() const {
 
   // 60 updates per second. We divide 1000 by 60 instead of 1 because sdl operates on milliseconds
   // not nanoseconds.
-  const constexpr float dt = 1000.0f / 60.0f;
+  const constexpr double dt = 1000.0 / 60.0;
 
   Context* context = Context::GetInstance();
   Manager* man = Manager::GetInstance();

@@ -35,5 +35,5 @@ class Clock {
   inline float deltaTime() const { return accumulator; }
 
  private:
-  float time, accumulator, current_time, new_time, frame_time;
+  double time, accumulator, current_time, new_time, frame_time;
 };

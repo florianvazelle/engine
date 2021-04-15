@@ -12,14 +12,19 @@ TEST_CASE("Identity") {
 }
 
 TEST_CASE("Translate") {
-  float4 v = {-1, -1, 0, 1};
-
   Transform t;
-  t.translate(v);
+  t.translate({-1, -1, 0, 1});
 
   CHECK(t.a == float4{1, 0, 0, -1});
   CHECK(t.b == float4{0, 1, 0, -1});
   CHECK(t.c == float4{0, 0, 1, 0});
+  CHECK(t.d == float4{0, 0, 0, 1});
+
+  t.translate({2, 5, 1, 1});
+
+  CHECK(t.a == float4{1, 0, 0, 1});
+  CHECK(t.b == float4{0, 1, 0, 4});
+  CHECK(t.c == float4{0, 0, 1, 1});
   CHECK(t.d == float4{0, 0, 0, 1});
 }
 
