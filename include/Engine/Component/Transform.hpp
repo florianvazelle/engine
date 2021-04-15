@@ -138,7 +138,7 @@ class Transform : public IComponent {
   /**
    * @brief Effectue un redimensionnement de facteur f
    */
-  void scale(float f) { dot({f, 0, 0, 0}, {0, f, 0, 0}, {0, 0, f, 0}, {0, 0, 0, 1}); }
+  void scale(float4 f) { dot({f.x, 0, 0, 0}, {0, f.y, 0, 0}, {0, 0, f.z, 0}, {0, 0, 0, f.w}); }
 
   inline const float& x() const { return a.w; }
   inline const float& y() const { return b.w; }

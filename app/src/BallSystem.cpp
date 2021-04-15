@@ -3,6 +3,7 @@
 #include <BallSystem.hpp>
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Random.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
 #include <PongScene.hpp>
@@ -41,18 +42,18 @@ void BallSystem::update() const {
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
 
-    v->direction = float4{-1.f, 0.75f, 0.f, 1.f};
+    v->direction = float4{random(-1, 1), random(-1, 1), 0.f, 1.f};
   } else if (t->x() > (WINDOW_WIDTH - 16.f)) {  // screen width - sprite width
     // Ball passed the ai paddle, reset it.
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
 
-    v->direction = float4{-1.f, 0.75f, 0.f, 1.f};
+    v->direction = float4{random(-1, 1), random(-1, 1), 0.f, 1.f};
   }
 
   // Lock to screen.
   if (t->y() < 0.f || t->y() > (WINDOW_HEIGHT - 16.f)) {
     // Reverse ball, "bouncing" it.
-    v->direction *= -1.f;
+    v->direction.y *= -1.f;
   }
 }
