@@ -7,5 +7,5 @@ class BarRenderer final : public IRenderer {
   RTTI_DECLARATION
   ~BarRenderer(){};
 
-  void render(const Context& context, const Entity& entity);
+  void render(const Entity& entity);
 };

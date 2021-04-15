@@ -4,7 +4,7 @@
 
 RTTI_DEFINITION(RendererSystem, ISystem)
 
-void RendererSystem::update(const Context& context) const {
+void RendererSystem::update() const {
   LOG(LOG_INFO, "[RendererSystem] Update!");
   /**
    * @todo Mettre ici le rendu: seuls les objets visibles méritent d’être affiché.
@@ -12,23 +12,29 @@ void RendererSystem::update(const Context& context) const {
    * champs (ombres et lumières, partiellement visibles...)
    */
 
+  Context* context = Context::GetInstance();
+
   // Flush renderer.
-  SDL_SetRenderDrawColor(context.window()->renderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderClear(context.window()->renderer());
+  SDL_SetRenderDrawColor(context->window()->renderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+  SDL_RenderClear(context->window()->renderer());
 
   Manager* man = Manager::GetInstance();
   man->GetObjectsWithParentTag<IRenderer>(man->entitiesQuery);
 
-  man->results.resize(man->entitiesQuery.size());
+  // man->results.resize(man->entitiesQuery.size());
+  // for (unsigned int i = 0; i < man->entitiesQuery.size(); i++) {
+  //   IRenderer* irend = man->GetComponentWithParent<IRenderer>(man->entitiesQuery[i]);
+  //   man->results[i] = man->threadPool.push(
+  //       [](IRenderer* rend, const Entity& e) { rend->render(e); }, irend, man->entitiesQuery[i]);
+  // }
+
+  // for (auto&& result : man->results) result.get();
+
   for (unsigned int i = 0; i < man->entitiesQuery.size(); i++) {
     IRenderer* irend = man->GetComponentWithParent<IRenderer>(man->entitiesQuery[i]);
-    man->results[i] = man->threadPool.push(
-        [](IRenderer* rend, const Context& c, const Entity& e) { rend->render(c, e); }, irend,
-        context, man->entitiesQuery[i]);
+    irend->render(man->entitiesQuery[i]);
   }
 
-  for (auto&& result : man->results) result.get();
-
   // Draw everything.
-  SDL_RenderPresent(context.window()->renderer());
+  SDL_RenderPresent(context->window()->renderer());
 }

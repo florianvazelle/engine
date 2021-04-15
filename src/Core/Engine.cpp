@@ -6,18 +6,26 @@
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
 
-void Engine::FixedUpdate(const Context& context) const {
+void Engine::FixedUpdate() const {
   LOG(LOG_INFO, "[Engine] Update!");
 
-  context.clock()->FixedUpdate([context]() {
-    Manager* man = Manager::GetInstance();
-    man->UpdateSystem(context);
-  });
+  // 60 updates per second. We divide 1000 by 60 instead of 1 because sdl operates on milliseconds
+  // not nanoseconds.
+  const constexpr float dt = 1000.0f / 60.0f;
+
+  Context* context = Context::GetInstance();
+  Manager* man = Manager::GetInstance();
+
+  // This is a fixed-step gameloop
+  while (context->clock()->deltaTime() >= dt) {
+    man->UpdateSystem();
+    context->clock()->Increment(dt);
+  }
 }
 
-void Engine::Render(const Context& context) const {
+void Engine::Render() const {
   LOG(LOG_INFO, "[Engine] Render!");
 
   Manager* man = Manager::GetInstance();
-  man->RenderSystem(context);
+  man->RenderSystem();
 }

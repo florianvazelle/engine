@@ -42,7 +42,7 @@ class TestRenderer : public IRenderer {
   RTTI_DECLARATION
   ~TestRenderer() = default;
 
-  void render(const Context& context, const Entity& entity) {}
+  void render(const Entity& entity) {}
 };
 
 RTTI_DEFINITION(TestRenderer, IRenderer)

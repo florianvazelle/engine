@@ -3,7 +3,7 @@
 
 RTTI_DEFINITION(LogicalSystem, ISystem)
 
-void LogicalSystem::update(const Context& context) const {
+void LogicalSystem::update() const {
   LOG(LOG_INFO, "[LogicalSystem] Update!");
   /**
    * @todo Mettre ici la logique: comportements, déplacements, animations etc...

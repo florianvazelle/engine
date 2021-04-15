@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include <BallSystem.hpp>
 #include <Engine/Common/Log.hpp>
 #include <Engine/Common/Manager.hpp>
@@ -7,7 +9,7 @@
 
 RTTI_DEFINITION(BallSystem, ISystem)
 
-void BallSystem::update(const Context& context) const {
+void BallSystem::update() const {
   LOG(LOG_INFO, "--- Ball Update ---");
 
   // Get the Manager
@@ -24,7 +26,8 @@ void BallSystem::update(const Context& context) const {
   Velocity* v = man->GetComponent<Velocity>(e);
 
   // Allow the ball to move based on a fixed-timestep loop.
-  t->translate(v->direction * context.clock()->deltaTime());
+  Context* context = Context::GetInstance();
+  t->translate(v->direction * context->clock()->deltaTime());
 
   // Ensure ball can be reset.
   if (t->x() < 0.f) {
@@ -42,10 +45,7 @@ void BallSystem::update(const Context& context) const {
   }
 
   // Lock to screen.
-  if (t->y() < 0.f) {
-    // Reverse ball, "bouncing" it.
-    v->direction *= -1.f;
-  } else if (t->y() > (WINDOW_HEIGHT - 16.f)) {  // screen height - sprite height
+  if (t->y() < 0.f || t->y() > (WINDOW_HEIGHT - 16.f)) {
     // Reverse ball, "bouncing" it.
     v->direction *= -1.f;
   }

@@ -132,8 +132,8 @@ class Manager {
   /**
    * @brief Permet d'update les ISystem
    */
-  void UpdateSystem(const Context& context) { systFact->Update(context); }
-  void RenderSystem(const Context& context) { systFact->Render(context); }
+  void UpdateSystem() { systFact->Update(); }
+  void RenderSystem() { systFact->Render(); }
 
   const size_t numThreads;
   ThreadPool threadPool;

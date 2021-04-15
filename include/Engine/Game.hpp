@@ -9,11 +9,9 @@
 class Game {
  public:
   Game() = delete;
+  Game(Game& game) = delete;
   Game(std::string title, const int w, const int h, std::uint32_t flags);
   ~Game();
 
   void run(const std::shared_ptr<Scene>& scene);
-
- private:
-  Context context;
 };

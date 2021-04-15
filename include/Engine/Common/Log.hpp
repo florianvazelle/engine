@@ -15,7 +15,7 @@
  */
 
 // Log something to console.
-#define LOG(level, msg) level << msg << std::endl
+#define LOG(level, msg) level << msg << "\n"
 
 // Log an error message.
 #define LOG_ERROR std::cout << "[ERROR]:    "

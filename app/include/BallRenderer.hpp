@@ -10,5 +10,5 @@ class BallRenderer final : public IRenderer {
   RTTI_DECLARATION
   ~BallRenderer(){};
 
-  void render(const Context& context, const Entity& entity);
+  void render(const Entity& entity);
 };

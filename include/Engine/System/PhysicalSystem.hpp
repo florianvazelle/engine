@@ -7,5 +7,5 @@ class PhysicalSystem : public ISystem {
   RTTI_DECLARATION
   ~PhysicalSystem() {}
 
-  void update(const Context& context) const;
+  void update() const;
 };

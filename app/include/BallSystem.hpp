@@ -13,5 +13,5 @@ class BallSystem final : public ISystem {
   RTTI_DECLARATION
   ~BallSystem() {}
 
-  void update(const Context& context) const;
+  void update() const;
 };

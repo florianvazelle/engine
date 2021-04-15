@@ -39,5 +39,5 @@ void PongScene::create() {
   t3->translate(float4{WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 1.f});
 
   Velocity* v = man->GetComponent<Velocity>(ball);
-  v->direction = float4{-1.f, 0.75f, 0.f, 1.f};  // intial velocity
+  v->direction = float4{-1.f, 0.55f, 0.f, 1.f};  // intial velocity
 }
