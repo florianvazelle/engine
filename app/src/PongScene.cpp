@@ -24,7 +24,8 @@ void PongScene::create() {
   // You can create Entity with IComponent
   Entity e1 = registry->AllocateEntity(Transform::rtti, RectCollider::rtti, BarRenderer::rtti);
   Entity e2 = registry->AllocateEntity(Transform::rtti, RectCollider::rtti, BarRenderer::rtti);
-  Entity ball = registry->AllocateEntity(Transform::rtti, Velocity::rtti, BallRenderer::rtti);
+  Entity ball = registry->AllocateEntity(Transform::rtti, RectCollider::rtti, Velocity::rtti,
+                                         BallRenderer::rtti);
 
   Transform* t1 = registry->GetComponent<Transform>(e1);
   t1->translate(float4{20.f, 20.f, 0.f, 1.f});

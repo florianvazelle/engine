@@ -13,20 +13,18 @@ void PhysicalSystem::update() const {
    * ne subissent pas de force ou restitution sont endormis.
    */
 
-  // Registry* registry = Registry::GetInstance();
-  // registry->GetObjectsWithParentTag<ICollider>(registry->entitiesQuery);
+  Registry* registry = Registry::GetInstance();
+  registry->GetObjectsWithParentTag<ICollider>(registry->entitiesQuery);
 
-  // registry->results.resize(registry->entitiesQuery.size());
-  // for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
-  //   for (unsigned int j = 0; j < registry->entitiesQuery.size(); j++) {
-  //     if (i == j) continue;
+  registry->results.resize(registry->entitiesQuery.size() - 1);
+  for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
+    for (unsigned int j = i + 1; j < registry->entitiesQuery.size(); j++) {
+      ICollider* icoll = registry->GetComponentWithParent<ICollider>(registry->entitiesQuery[i]);
+      registry->results[i] = registry->threadPool.push(
+          [](ICollider* coll, const Entity& e1, const Entity& e2) { coll->intersect(e1, e2); },
+          icoll, registry->entitiesQuery[i], registry->entitiesQuery[j]);
+    }
+  }
 
-  //     ICollider* icoll = registry->GetComponentWithParent<ICollider>(registry->entitiesQuery[i]);
-  //     registry->results[i] = registry->threadPool.push(
-  //         [](ICollider* coll, const Entity& e1, const Entity& e2) { coll->intersect(e1, e2); },
-  //         icoll, registry->entitiesQuery[i], registry->entitiesQuery[j]);
-  //   }
-  // }
-
-  // for (auto&& result : registry->results) result.get();
+  for (auto&& result : registry->results) result.get();
 }

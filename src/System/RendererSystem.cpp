@@ -21,20 +21,15 @@ void RendererSystem::update() const {
   Registry* registry = Registry::GetInstance();
   registry->GetObjectsWithParentTag<IRenderer>(registry->entitiesQuery);
 
-  // registry->results.resize(registry->entitiesQuery.size());
-  // for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
-  //   IRenderer* irend = registry->GetComponentWithParent<IRenderer>(registry->entitiesQuery[i]);
-  //   registry->results[i] = registry->threadPool.push(
-  //       [](IRenderer* rend, const Entity& e) { rend->render(e); }, irend,
-  //       registry->entitiesQuery[i]);
-  // }
-
-  // for (auto&& result : registry->results) result.get();
-
+  registry->results.resize(registry->entitiesQuery.size());
   for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
     IRenderer* irend = registry->GetComponentWithParent<IRenderer>(registry->entitiesQuery[i]);
-    irend->render(registry->entitiesQuery[i]);
+    registry->results[i] =
+        registry->threadPool.push([](IRenderer* rend, const Entity& e) { rend->render(e); }, irend,
+                                  registry->entitiesQuery[i]);
   }
+
+  for (auto&& result : registry->results) result.get();
 
   // Draw everything.
   SDL_RenderPresent(context->window()->renderer());
