@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Engine/Common/Entity.hpp>
-#include <Engine/Common/Log.hpp>
 #include <Engine/Pool/IPool.hpp>
+#include <Engine/Util/Log.hpp>
 #include <iostream>
 #include <memory>
 #include <type_traits>
@@ -81,7 +81,7 @@ class Pool {
    */
   ~Pool() {
     PoolItem* s = arena->get_storage();
-    for (int i = 0; i < arena_size; ++i) {
+    for (unsigned int i = 0; i < arena_size; ++i) {
       free((s + i)->get_storage());
     }
   }

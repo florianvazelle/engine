@@ -5,6 +5,7 @@
 
 void Input::Update() const {
   Context* context = Context::GetInstance();
+
   Window* window = context->window();
   SDL_Event& event = window->m_event;
 
@@ -13,18 +14,15 @@ void Input::Update() const {
     // https://wiki.libsdl.org/SDL_Event
     switch (event.type) {
       case SDL_QUIT:
-        context->window()->close();
+        window->close();
         break;
 
       case SDL_KEYDOWN:
         SDL_Keycode& sym = event.key.keysym.sym;
         if (sym == SDLK_ESCAPE) {
-          context->window()->close();
+          window->close();
         }
         break;
-
-        // case SDL_KEYUP:
-        //   break;
     }
   }
 }

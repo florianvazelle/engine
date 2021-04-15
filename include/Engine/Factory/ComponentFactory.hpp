@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/Common/Entity.hpp>
-#include <Engine/Common/Macro.hpp>
 #include <Engine/Common/RTTI.hpp>
 #include <Engine/Component/IComponent.hpp>
 #include <Engine/Component/RectCollider.hpp>
@@ -9,6 +8,7 @@
 #include <Engine/Component/Velocity.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 #include <Engine/Pool/ComponentArray.hpp>
+#include <Engine/Util/Macro.hpp>
 #include <map>
 #include <memory>
 #include <string>
@@ -17,7 +17,7 @@
 #define COMPONENTS Transform, RectCollider, Velocity
 
 // Register a IComponent
-#define REGISTER_COMPONENT(klass) Manager::GetInstance()->RegisterComponent<klass>();
+#define REGISTER_COMPONENT(klass) Registry::GetInstance()->RegisterComponent<klass>();
 
 // Register all IComponent
 #define REGISTER_COMPONENTS MAP(REGISTER_COMPONENT, COMPONENTS)

@@ -1,13 +1,13 @@
 #include <unistd.h>
 
-#include <Engine/Common/Log.hpp>
-#include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Registry.hpp>
 #include <Engine/Component/IComponent.hpp>
 #include <Engine/Component/IRenderer.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 #include <Engine/Game.hpp>
+#include <Engine/Util/Log.hpp>
 #include <iostream>
 #include <thread>
 

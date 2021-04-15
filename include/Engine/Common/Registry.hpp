@@ -1,25 +1,23 @@
 #pragma once
 
 #include <Engine/Common/RTTI.hpp>
+#include <Engine/Common/Singleton.hpp>
 #include <Engine/Component/IRenderer.hpp>
 #include <Engine/Factory/ComponentFactory.hpp>
 #include <Engine/Factory/EntityFactory.hpp>
 #include <Engine/Factory/SystemFactory.hpp>
-#include <atomic>
 #include <map>
-#include <mutex>
 #include <vector>
 
 /**
- * @brief Le Manager est un Thread-safe Singleton qui permet de gérer les données du jeu
+ * @brief Le Registry permet de gérer les données du jeu
  */
-class Manager {
- public:
-  /**
-   * @brief Retourne une unique instance du Manager (double-check locking)
-   */
-  static Manager* GetInstance();
+class Registry : public Singleton<Registry> {
+  // needs to be friend in order to
+  // access the private constructor/destructor
+  friend class Singleton<Registry>;
 
+ public:
   /**
    * @brief Permet d'allouer un IComponent
    * cf. ComponentFactory
@@ -142,9 +140,9 @@ class Manager {
 
  private:
   /**
-   * @brief Initalise le Manager en créant une ComponentFactory et une EntityFactory
+   * @brief Initalise le Registry en créant une ComponentFactory et une EntityFactory
    */
-  Manager()
+  Registry()
       : numThreads(1),  // std::thread::hardware_concurrency()),
         threadPool(numThreads),
         entitiesQuery(MAX_ENTITIES),
@@ -153,11 +151,9 @@ class Manager {
     entiFact = std::make_unique<EntityFactory>();
     systFact = std::make_unique<SystemFactory>();
   }
+  ~Registry() {}
 
   std::unique_ptr<ComponentFactory> compFact;
   std::unique_ptr<EntityFactory> entiFact;
   std::unique_ptr<SystemFactory> systFact;
-
-  static std::atomic<Manager*> s_instance;
-  static std::mutex s_mutex;
 };

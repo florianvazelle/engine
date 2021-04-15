@@ -1,5 +1,5 @@
 #include <BarRenderer.hpp>
-#include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Registry.hpp>
 
 RTTI_DEFINITION(BarRenderer, IRenderer)
 
@@ -7,9 +7,9 @@ void BarRenderer::render(const Entity& entity) {
   LOG(LOG_INFO, "[BarRenderer]");
 
   Context* context = Context::GetInstance();
-  Manager* man = Manager::GetInstance();
+  Registry* registry = Registry::GetInstance();
 
-  Transform* trans = man->GetComponent<Transform>(entity);
+  Transform* trans = registry->GetComponent<Transform>(entity);
 
   // First we set the rectangle fill colour to that of the spritecomponents.
   SDL_SetRenderDrawColor(context->window()->renderer(), 255.f, 255.f, 255.f, 255.f);

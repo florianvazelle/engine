@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <Engine/Common/Log.hpp>
+#include <Engine/Util/Log.hpp>
 #include <chrono>
 #include <functional>
 #include <vector>

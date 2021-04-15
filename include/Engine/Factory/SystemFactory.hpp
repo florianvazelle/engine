@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Registry.hpp>
 #include <Engine/System/LogicalSystem.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
 #include <Engine/System/RendererSystem.hpp>
@@ -10,7 +10,7 @@
 #define SYSTEMS LogicalSystem, PhysicalSystem, RendererSystem
 
 // Register a ISystem
-#define REGISTER_SYSTEM(klass) Manager::GetInstance()->RegisterSystem<klass>();
+#define REGISTER_SYSTEM(klass) Registry::GetInstance()->RegisterSystem<klass>();
 
 // Register all ISystem
 #define REGISTER_SYSTEMS MAP(REGISTER_SYSTEM, SYSTEMS)

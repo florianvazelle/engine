@@ -1,13 +1,13 @@
 #include <BallRenderer.hpp>
-#include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Registry.hpp>
 
 RTTI_DEFINITION(BallRenderer, IRenderer)
 
 void BallRenderer::render(const Entity& entity) {
   LOG(LOG_INFO, "[BallRenderer]");
-  Manager* man = Manager::GetInstance();
+  Registry* registry = Registry::GetInstance();
 
-  Transform* trans = man->GetComponent<Transform>(entity);
+  Transform* trans = registry->GetComponent<Transform>(entity);
 
   auto x = static_cast<Sint16>(trans->x());
   auto y = static_cast<Sint16>(trans->y());

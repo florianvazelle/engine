@@ -1,11 +1,11 @@
 #include <unistd.h>
 
 #include <BallSystem.hpp>
-#include <Engine/Common/Log.hpp>
-#include <Engine/Common/Manager.hpp>
-#include <Engine/Common/Random.hpp>
+#include <Engine/Common/Registry.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
+#include <Engine/Util/Log.hpp>
+#include <Engine/Util/Random.hpp>
 #include <PongScene.hpp>
 
 RTTI_DEFINITION(BallSystem, ISystem)
@@ -13,18 +13,18 @@ RTTI_DEFINITION(BallSystem, ISystem)
 void BallSystem::update() const {
   LOG(LOG_INFO, "--- Ball Update ---");
 
-  // Get the Manager
-  Manager* man = Manager::GetInstance();
+  // Get the Registry
+  Registry* registry = Registry::GetInstance();
   // Get all Entity with Transform and Velocity Component
-  man->GetObjectsWithTag(man->entitiesQuery, Transform::rtti, Velocity::rtti);
+  registry->GetObjectsWithTag(registry->entitiesQuery, Transform::rtti, Velocity::rtti);
 
-  assert(man->entitiesQuery.size() != 0);
+  assert(registry->entitiesQuery.size() != 0);
 
-  Entity e = man->entitiesQuery[0];
+  Entity e = registry->entitiesQuery[0];
 
   // Update the Transform with Velocity
-  Transform* t = man->GetComponent<Transform>(e);
-  Velocity* v = man->GetComponent<Velocity>(e);
+  Transform* t = registry->GetComponent<Transform>(e);
+  Velocity* v = registry->GetComponent<Velocity>(e);
 
   // Allow the ball to move based on a fixed-timestep loop.
   Context* context = Context::GetInstance();

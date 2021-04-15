@@ -1,5 +1,5 @@
-#include <Engine/Common/Log.hpp>
 #include <Engine/Core/Window.hpp>
+#include <Engine/Util/Log.hpp>
 
 Window::Window() : m_is_open{true}, m_window{nullptr}, m_renderer{nullptr} {}
 

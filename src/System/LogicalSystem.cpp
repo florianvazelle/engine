@@ -1,5 +1,5 @@
-#include <Engine/Common/Log.hpp>
 #include <Engine/System/LogicalSystem.hpp>
+#include <Engine/Util/Log.hpp>
 
 RTTI_DEFINITION(LogicalSystem, ISystem)
 

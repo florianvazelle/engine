@@ -1,7 +1,7 @@
-#include <Engine/Common/Log.hpp>
-#include <Engine/Common/Manager.hpp>
+#include <Engine/Common/Registry.hpp>
 #include <Engine/Component/ICollider.hpp>
 #include <Engine/System/PhysicalSystem.hpp>
+#include <Engine/Util/Log.hpp>
 
 RTTI_DEFINITION(PhysicalSystem, ISystem)
 
@@ -13,20 +13,20 @@ void PhysicalSystem::update() const {
    * ne subissent pas de force ou restitution sont endormis.
    */
 
-  // Manager* man = Manager::GetInstance();
-  // man->GetObjectsWithParentTag<ICollider>(man->entitiesQuery);
+  // Registry* registry = Registry::GetInstance();
+  // registry->GetObjectsWithParentTag<ICollider>(registry->entitiesQuery);
 
-  // man->results.resize(man->entitiesQuery.size());
-  // for (unsigned int i = 0; i < man->entitiesQuery.size(); i++) {
-  //   for (unsigned int j = 0; j < man->entitiesQuery.size(); j++) {
+  // registry->results.resize(registry->entitiesQuery.size());
+  // for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
+  //   for (unsigned int j = 0; j < registry->entitiesQuery.size(); j++) {
   //     if (i == j) continue;
 
-  //     ICollider* icoll = man->GetComponentWithParent<ICollider>(man->entitiesQuery[i]);
-  //     man->results[i] = man->threadPool.push(
+  //     ICollider* icoll = registry->GetComponentWithParent<ICollider>(registry->entitiesQuery[i]);
+  //     registry->results[i] = registry->threadPool.push(
   //         [](ICollider* coll, const Entity& e1, const Entity& e2) { coll->intersect(e1, e2); },
-  //         icoll, man->entitiesQuery[i], man->entitiesQuery[j]);
+  //         icoll, registry->entitiesQuery[i], registry->entitiesQuery[j]);
   //   }
   // }
 
-  // for (auto&& result : man->results) result.get();
+  // for (auto&& result : registry->results) result.get();
 }
