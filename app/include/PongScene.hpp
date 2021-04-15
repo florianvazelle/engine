@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Engine/Common/Registry.hpp>
 #include <Engine/Scene.hpp>
 
 #define WINDOW_WIDTH 800

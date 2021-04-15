@@ -2,14 +2,10 @@
 #include <BallSystem.hpp>
 #include <BarRenderer.hpp>
 #include <Engine/Common/Registry.hpp>
-#include <Engine/Component/ICollider.hpp>
-#include <Engine/Component/IRenderer.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
-#include <Engine/Util/Log.hpp>
 #include <Engine/Util/Random.hpp>
 #include <PongScene.hpp>
-#include <iostream>
 
 void PongScene::preload() {
   /**

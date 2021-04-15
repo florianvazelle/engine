@@ -1,10 +1,8 @@
-#include <unistd.h>
-
 #include <BallSystem.hpp>
+#include <Engine/Common/Entity.hpp>
 #include <Engine/Common/Registry.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
-#include <Engine/Util/Log.hpp>
 #include <Engine/Util/Random.hpp>
 #include <PongScene.hpp>
 
