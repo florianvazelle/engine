@@ -30,16 +30,16 @@ Use the following command to build and run the executable target.
 ```bash
 cmake -Bbuild
 cmake --build build
-./build/bin/GreeterStandalone --help
+./build/pong
 ```
 
 ## Dependencies
 
 - C++17 compiler :
-  - Visual Studio 2015
-  - GCC 5+ or Clang 5+
-- [CMake](https://cmake.org/) for build system creation (>= 3.8)
-- [Conan](https://conan.io/) for install packages (>= 1.0)
+  - Visual Studio 2016
+  - GCC 7+ or Clang 8+
+- [CMake](https://cmake.org/) for build system creation (>= 3.12.4)
+- [Git](https://git-scm.com/) for cmake automatic dependencies
 - [Doxygen](https://doxygen.org/) for generate documentation (>= 1.8, optional)
 
 ## References

@@ -1,5 +1,3 @@
-#include <unistd.h>
-
 #include <Engine/Common/Registry.hpp>
 #include <Engine/Component/IComponent.hpp>
 #include <Engine/Component/IRenderer.hpp>

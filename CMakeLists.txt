@@ -2,7 +2,7 @@
 # engine
 #
 
-cmake_minimum_required(VERSION 3.12.4)
+cmake_minimum_required(VERSION 3.12)
 
 #
 # Building in-tree is not allowed (we take care of your craziness).
@@ -13,33 +13,13 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 #
-# Check project clone recursively
+# Install SDL2 dependencies
 #
 
-find_package(Git QUIET)
-if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    # Update submodules as needed
-    option(ENGINE_GIT_SUBMODULE "Check submodules during build" ON)
+include(cmake/vcpkg.cmake)
 
-    if(ENGINE_GIT_SUBMODULE)
-        message(STATUS "Submodule update")
-        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
-                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
-        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
-            message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
-        endif()
-    endif()
-endif()
-
-#
-# vcpkg integration
-#
-
-# https://github.com/Microsoft/vcpkg/blob/master/docs/users/integration.md#using-an-environment-variable-instead-of-a-command-line-option
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-endif()
+vcpkg_bootstrap()
+vcpkg_install_packages(sdl2 sdl2-gfx)
 
 #
 # Project configuration
@@ -56,10 +36,11 @@ set(PROJECT_CXX_STANDARD 17)
 
 # https://stackoverflow.com/questions/41361631/optimize-in-cmake-by-default
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+    message(STATUS "No build type selected, default to Release")
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -Wall -Wextra -msse4.1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -Wall -msse4.1")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -94,18 +75,6 @@ endif()
 # Add engine library target
 #
 
-# ---- Conan package ----
-
-if(CONAN_EXPORTED)
-    include(${CMAKE_CURRENT_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
-else()
-    include("${CMAKE_SOURCE_DIR}/cmake/manual/conan.cmake")
-    conan_cmake_run(CONANFILE conanfile.txt BASIC_SETUP BUILD missing)
-endif()
-
-# ---- Create library ----
-
 file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 file(GLOB_RECURSE PROJECT_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
 
@@ -114,23 +83,24 @@ add_library(${PROJECT_NAME} OBJECT ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 # Lib needs its header files, and users of the library must also see these (PUBLIC).
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-# Find SDL2 and SDL2_gfx libraries and link it to the project
-if(DEFINED ENV{VCPKG_ROOT})
-    find_package(SDL2 CONFIG REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2-static)
+if(WIN32)
+    # Visual Studio 2018 15.8 implemented conformant support for std::aligned_storage, but the conformant support is only enabled when the following flag is passed, to avoid
+    # breaking backwards compatibility with code that relied on the non-conformant behavior (the old nonconformant behavior is not used with Binaryen)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ENABLE_EXTENDED_ALIGNED_STORAGE")
 
-    find_package(sdl2-gfx CONFIG REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2_gfx)
-else()
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
-    
-    find_package(SDL2 REQUIRED)
-    find_package(SDL2_gfx REQUIRED)
-
-    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::Main SDL2::GFX)
+    # Just setting vcpkg.cmake as toolchain file does not seem to actually pull in the code
+    include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CONAN_LIBS})
+# Find SDL2 and SDL2_gfx libraries and link it to the project
+find_package(SDL2 CONFIG REQUIRED)
+find_package(sdl2-gfx CONFIG REQUIRED)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_gfx)
+else()
+    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_gfx)
+endif()
 
 if(ENGINE_USE_SANITIZER)
     target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined>)
@@ -188,7 +158,7 @@ if(ENGINE_BUILD_APP)
 
     # Install the executable
     if (ENGINE_INSTALL_APP)
-        install(TARGETS pong DESTINATION bin)
+        install(TARGETS ${APP_NAME} DESTINATION bin)
     endif()
 endif()
 

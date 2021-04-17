@@ -11,3 +11,5 @@ imgui.ini
 **/*.h
 
 docs/out*
+/.vcpkg
+/Testing

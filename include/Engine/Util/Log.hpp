@@ -37,6 +37,5 @@ inline void throw_sdl2_exception(std::string message) {
   message += "\n[SDL2]:   ";
   message += SDL_GetError();
 
-  LOG(LOG_ERROR, message);
   throw std::runtime_error(message);
 }

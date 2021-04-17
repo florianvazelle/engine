@@ -2,7 +2,7 @@
 # Dependencies
 #
 
-include(../cmake/manual/cpm.cmake)
+include(../cmake/cpm.cmake)
 
 CPMAddPackage(
   NAME MCSS
@@ -33,6 +33,6 @@ add_custom_target(
   WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-add_dependencies(${LIBRARY_NAME} GenerateDocs)
+add_dependencies(${PROJECT_NAME} GenerateDocs)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION .)
