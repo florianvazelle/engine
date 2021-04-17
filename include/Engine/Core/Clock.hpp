@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_timer.h>
 
 #include <Engine/Util/Log.hpp>
 #include <chrono>

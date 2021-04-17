@@ -33,6 +33,15 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 endif()
 
 #
+# vcpkg integration
+#
+
+# https://github.com/Microsoft/vcpkg/blob/master/docs/users/integration.md#using-an-environment-variable-instead-of-a-command-line-option
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
+#
 # Project configuration
 #
 
@@ -85,15 +94,6 @@ endif()
 # Add engine library target
 #
 
-# ---- Tool ----
-
-file(GLOB_RECURSE PROJECT_MODULES "${CMAKE_SOURCE_DIR}/cmake/*.cmake")
-foreach(ARG ${PROJECT_MODULES})
-  include(${ARG})
-endforeach()
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
-
 # ---- Conan package ----
 
 if(CONAN_EXPORTED)
@@ -114,11 +114,23 @@ add_library(${PROJECT_NAME} OBJECT ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 # Lib needs its header files, and users of the library must also see these (PUBLIC).
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-# Find SDL2, SDL2_image and SDL2_gfx libraries
-find_package(SDL2 REQUIRED)
-find_package(SDL2_gfx REQUIRED)
+# Find SDL2 and SDL2_gfx libraries and link it to the project
+if(DEFINED ENV{VCPKG_ROOT})
+    find_package(SDL2 CONFIG REQUIRED)
+    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2-static)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::Main SDL2::GFX ${CONAN_LIBS})
+    find_package(sdl2-gfx CONFIG REQUIRED)
+    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2_gfx)
+else()
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
+    
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_gfx REQUIRED)
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::Main SDL2::GFX)
+endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CONAN_LIBS})
 
 if(ENGINE_USE_SANITIZER)
     target_compile_options(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined>)

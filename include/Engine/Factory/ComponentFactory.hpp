@@ -100,7 +100,8 @@ class ComponentFactory {
   bool Has(const Entity& entity, Args&&... args) const {
     bool result = true;
     // clang-format off
-    ([&](auto& arg) { result &= (componentArrays.at(arg.id())->Get(entity) != nullptr); } (args), ...);
+    auto check_has = [&](auto& arg) { result &= (componentArrays.at(arg.id())->Get(entity) != nullptr); };
+    (check_has(args), ...);
     // clang-format on
     return result;
   }

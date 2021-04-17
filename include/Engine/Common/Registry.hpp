@@ -68,7 +68,8 @@ class Registry : public Singleton<Registry> {
     const Entity& id = entiFact->Allocate();
 
     // clang-format off
-    ([&](auto &arg) { AllocateComponent(arg.id(), id); }(args), ...);
+    auto allocate = [&](auto &arg) { AllocateComponent(arg.id(), id); };
+    (allocate(args), ...);
     // clang-format on
 
     return id;
