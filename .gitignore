@@ -12,4 +12,7 @@ imgui.ini
 
 docs/out*
 /.vcpkg
+
+/CMakeFiles
+CMakeCache.txt
 /Testing

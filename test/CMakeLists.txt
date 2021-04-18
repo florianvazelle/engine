@@ -1,3 +1,5 @@
+include(../cmake/external/doctest.cmake)
+
 #
 # Tests configuration
 #
@@ -5,28 +7,15 @@
 set(TEST_MAIN ${PROJECT_NAME}Tests)
 set(TEST_RUNNER_PARAMS "")
 
-#
-# Entry Point
-#
-
 file(GLOB_RECURSE PROJECT_TEST_SOURCES "${CMAKE_SOURCE_DIR}/test/src/*.cpp")
 
 add_executable(${TEST_MAIN} ${PROJECT_TEST_SOURCES})
 
-# Link the executable to library
+# Link the executable to our library
 target_link_libraries(${TEST_MAIN} PRIVATE ${PROJECT_NAME})
 
+# Add doctest
 target_include_directories(${TEST_MAIN} PRIVATE ${DOCTEST_INCLUDE_DIR})
 
-set_target_properties(${TEST_MAIN} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
-    CXX_STANDARD ${PROJECT_CXX_STANDARD} 
-    CXX_STANDARD_REQUIRED YES 
-    CXX_EXTENSIONS NO
-)
-
 # Add in ctest
-add_test(
-    # Use some per-module/project prefix so that it is easier to run only tests for this module
-    NAME ${PROJECT_NAME}.${TEST_MAIN}
-    COMMAND ${TEST_MAIN} ${TEST_RUNNER_PARAMS})
+add_test(NAME ${PROJECT_NAME}.${TEST_MAIN} COMMAND ${TEST_MAIN} ${TEST_RUNNER_PARAMS})

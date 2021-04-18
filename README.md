@@ -38,7 +38,7 @@ cmake --build build
 - C++17 compiler :
   - Visual Studio 2016
   - GCC 7+ or Clang 8+
-- [CMake](https://cmake.org/) for build system creation (>= 3.12.4)
+- [CMake](https://cmake.org/) for build system creation (>= 3.12)
 - [Git](https://git-scm.com/) for cmake automatic dependencies
 - [Doxygen](https://doxygen.org/) for generate documentation (>= 1.8, optional)
 

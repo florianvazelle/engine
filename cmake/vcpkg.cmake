@@ -118,7 +118,7 @@ macro(_install_or_update_vcpkg)
     
     if(NOT EXISTS ${VCPKG_ROOT})
         message(STATUS "Cloning vcpkg in ${VCPKG_ROOT}")
-        execute_process(COMMAND ${GIT_EXECUTABLE} clone https://github.com/Microsoft/vcpkg.git ${VCPKG_ROOT})
+        execute_process(COMMAND ${GIT_EXECUTABLE} clone --depth 1 https://github.com/Microsoft/vcpkg.git ${VCPKG_ROOT})
     else()
         # The following command has no effect if the vcpkg repository is in a detached head state.
         message(STATUS "Auto-updating vcpkg in ${VCPKG_ROOT}")
