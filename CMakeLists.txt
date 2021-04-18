@@ -64,7 +64,7 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_gfx)
 endif()
 
-add_libcpp_option(TARGET ${PROJECT_NAME})
+# add_libcpp_option(TARGET ${PROJECT_NAME})
 add_threads_option(TARGET ${PROJECT_NAME})
 add_sanitizer_options(TARGET ${PROJECT_NAME})
 

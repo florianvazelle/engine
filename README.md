@@ -38,18 +38,14 @@ cmake --build build
 - C++17 compiler :
   - Visual Studio 2016
   - GCC 7+ or Clang 8+
-- [CMake](https://cmake.org/) for build system creation (>= 3.12)
 - [Git](https://git-scm.com/) for cmake automatic dependencies
+- [CMake](https://cmake.org/) for build system creation (>= 3.12)
 - [Doxygen](https://doxygen.org/) for generate documentation (>= 1.8, optional)
 
 ## References
 
-- [Guidelines](https://github.com/isocpp/CppCoreGuidelines)
-- [Interfaces](https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm)
 - [Pool and Arena](https://thinkingeek.com/2017/11/19/simple-memory-pool/)
 - [ECS Tutorial](https://austinmorlan.com/posts/entity_component_system/)
-- [RTTI Tutorial](https://www.axelmenzel.de/articles/rtti)
-- [SIMD Matrix Multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/)
-- [SIMD Matrix Inverse](https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html)
+- SIMD Matrix [Multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/), [Inverse](https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html)
 - [Fixed-Step Game Loop](https://gafferongames.com/post/fix_your_timestep/)
 - [Double-check locking](https://en.wikipedia.org/wiki/Double-checked_locking)
