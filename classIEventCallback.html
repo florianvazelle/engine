@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SystemFactory class | engine</title>
+  <title>IEventCallback class | engine</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -42,8 +42,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          SystemFactory <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SystemFactory_8hpp.html">&lt;Engine/Factory/SystemFactory.hpp&gt;</a></div>
+          IEventCallback <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="EventCallback_8hpp.html">&lt;Engine/Event/EventCallback.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -52,25 +52,27 @@
             <li>
               Reference
               <ul>
+                <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              class <a href="classEventCallback.html" class="m-doc">EventCallback</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="aa188155d451f04aec81475db4c2336a1">
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa188155d451f04aec81475db4c2336a1" class="m-doc-self">Register</a>(</span><span class="m-doc-wrap">) -&gt; T*</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a680cf7b73b9fc3ab37b076ecfa00f360">
-              <span class="m-doc-wrap-bumper">void <a href="#a680cf7b73b9fc3ab37b076ecfa00f360" class="m-doc-self">Update</a>(</span><span class="m-doc-wrap">)</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a3ee8bdb33229d00be8776b86f6c1915e">
-              <span class="m-doc-wrap-bumper">void <a href="#a3ee8bdb33229d00be8776b86f6c1915e" class="m-doc-self">Render</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="a002b7b5dbb7ea6a96fff1936798d2c32">
+              <span class="m-doc-wrap-bumper">void <a href="#a002b7b5dbb7ea6a96fff1936798d2c32" class="m-doc-self">Trigger</a>(</span><span class="m-doc-wrap">const <a href="classIEvent.html" class="m-doc">IEvent</a>&amp;) <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
