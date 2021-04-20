@@ -1,6 +1,8 @@
 #include <BallRenderer.hpp>
 #include <BallSystem.hpp>
 #include <BarRenderer.hpp>
+#include <BarSystem.hpp>
+#include <Engine/Common/Dispatcher.hpp>
 #include <Engine/Common/Registry.hpp>
 #include <Engine/Component/Transform.hpp>
 #include <Engine/Component/Velocity.hpp>
@@ -15,6 +17,7 @@ void PongScene::preload() {
 
 void PongScene::create() {
   Registry* registry = Registry::GetInstance();
+  Dispatcher* dispatcher = Dispatcher::GetInstance();
 
   // You need to register all custom IComponent and ISystem
   registry->RegisterComponent<BallRenderer>();
@@ -41,4 +44,10 @@ void PongScene::create() {
 
   Velocity* v = registry->GetComponent<Velocity>(ball);
   v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};  // intial velocity
+
+  // You can assign event with system method
+  BarSystem* barSystem = registry->RegisterSystem<BarSystem>();
+
+  dispatcher->RegisterAction<KeyDown>(barSystem, &BarSystem::onKeyDown);
+  dispatcher->RegisterAction<KeyUp>(barSystem, &BarSystem::onKeyUp);
 }

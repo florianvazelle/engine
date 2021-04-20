@@ -8,7 +8,8 @@ It's a work in progress small game engine, usable like a C++ library.
 - Custom [run-time type identification](https://en.wikipedia.org/wiki/Run-time_type_information)
 - Data-driven oriented design with [Entity, Component and System](https://en.wikipedia.org/wiki/Entity_component_system)
 - Multithreading system with [Thread Pool](https://en.wikipedia.org/wiki/Thread_pool)
-- Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations for Matrix multiplication
+- Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations
+- Event and Delegate System
 
 ### RTTI
 
@@ -48,4 +49,5 @@ cmake --build build
 - [ECS Tutorial](https://austinmorlan.com/posts/entity_component_system/)
 - SIMD Matrix [Multiplication](https://blog.qiqitori.com/2018/05/matrix-multiplication-using-simd-instructions/), [Inverse](https://lxjk.github.io/2017/09/03/Fast-4x4-Matrix-Inverse-with-SSE-SIMD-Explained.html)
 - [Fixed-Step Game Loop](https://gafferongames.com/post/fix_your_timestep/)
+- [Event and Delegate](https://tongtunggiang.com/2017/cpp-event-delegate/)
 - [Double-check locking](https://en.wikipedia.org/wiki/Double-checked_locking)

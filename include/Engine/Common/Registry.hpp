@@ -124,8 +124,8 @@ class Registry : public Singleton<Registry> {
    * @brief Permet d'enregistrer un ISystem dans la SystemFactory
    */
   template <typename T>
-  void RegisterSystem() {
-    systFact->Register<T>();
+  T* RegisterSystem() {
+    return systFact->Register<T>();
   }
 
   /**

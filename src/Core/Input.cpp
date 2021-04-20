@@ -1,9 +1,14 @@
 #include <SDL2/SDL_events.h>
 
+#include <Engine/Common/Dispatcher.hpp>
 #include <Engine/Core/Context.hpp>
 #include <Engine/Core/Input.hpp>
+#include <Engine/Event/KeyDown.hpp>
+#include <Engine/Event/KeyUp.hpp>
+
 
 void Input::Update() const {
+  Dispatcher* dispatcher = Dispatcher::GetInstance();
   Context* context = Context::GetInstance();
 
   Window* window = context->window();
@@ -17,12 +22,19 @@ void Input::Update() const {
         window->close();
         break;
 
-      case SDL_KEYDOWN:
+      case SDL_KEYDOWN: {
         SDL_Keycode& sym = event.key.keysym.sym;
         if (sym == SDLK_ESCAPE) {
           window->close();
+        } else {
+          dispatcher->Trigger(KeyDown(sym));
         }
-        break;
+      } break;
+
+      case SDL_KEYUP: {
+        SDL_Keycode& sym = event.key.keysym.sym;
+        dispatcher->Trigger(KeyUp(sym));
+      } break;
     }
   }
 }

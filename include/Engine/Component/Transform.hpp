@@ -144,6 +144,8 @@ class Transform : public IComponent {
   inline const float& y() const { return b.w; }
   inline const float& z() const { return c.w; }
 
+  inline float& y() { return b.w; }
+
   float4& operator[](const unsigned int i) {
     return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);
   }

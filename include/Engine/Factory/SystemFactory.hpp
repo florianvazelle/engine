@@ -18,12 +18,14 @@
 class SystemFactory {
  public:
   template <typename T>
-  void Register() {
+  T* Register() {
     const RTTI::type& id = T::rtti.id();
 
     if (systems.find(id) == systems.end()) {
       systems.insert({id, std::make_shared<T>()});
     }
+
+    return (T*)systems[id].get();
   }
 
   void Update() {
