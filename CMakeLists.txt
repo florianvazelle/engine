@@ -92,7 +92,7 @@ if(ENGINE_BUILD_APP)
 
     # Install the executable
     if (ENGINE_INSTALL_APP)
-        install(TARGETS ${APP_NAME} DESTINATION bin)
+        install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} DESTINATION .)
     endif()
 endif()
 

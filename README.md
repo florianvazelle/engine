@@ -31,7 +31,7 @@ Use the following command to build and run the executable target.
 ```bash
 cmake -Bbuild
 cmake --build build
-./build/pong
+./build/bin/pong
 ```
 
 ## Dependencies
