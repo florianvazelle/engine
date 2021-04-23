@@ -19,8 +19,16 @@ struct alignas(16) float4 {
   float4() : x(0), y(0), z(0), w(0) {}
   float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
+  float4& operator=(const float4& f) {
+    x = f.x;
+    y = f.y;
+    z = f.z;
+    w = f.w;
+    return *this;
+  }
+
   bool operator==(const float4& f) const { return (x == f.x && y == f.y && z == f.z && w == f.w); }
-  float4 operator*(const float& f) const { return {x * f, y * f, z * f, w * f}; }
+  float4 operator*(const float& f) const { return {x * f, y * f, z * f, 1}; }
   float4& operator*=(const float& f) {
     const __m128 ARx = _mm_set1_ps(f);
     this->data = _mm_mul_ps(ARx, this->data);
@@ -35,12 +43,16 @@ struct alignas(16) float4 {
     return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
   }
 
-  float operator*(const float4& vec) const {
-    return (x * vec.x + y * vec.y + z * vec.z + w * vec.w);
-  }
+  float operator*(const float4& vec) const { return (x * vec.x + y * vec.y + z * vec.z); }
 
-  float4 operator-(const float4& vec) const { return {x - vec.x, y - vec.y, z - vec.z, w - vec.w}; }
-  float4 operator-() const { return {-x, -y, -z, w}; }
+  float4 operator+(const float4& vec) const { return {x + vec.x, y + vec.y, z + vec.z, 1}; }
+  float4 operator-(const float4& vec) const { return {x - vec.x, y - vec.y, z - vec.z, 1}; }
+  float4 operator-() const { return {-x, -y, -z, 1}; }
+
+  friend std::ostream& operator<<(std::ostream& os, const float4& f) {
+    os << "(" << f.x << ", " << f.y << ", " << f.z << ", " << f.w << ")";
+    return os;
+  }
 };
 
 class Transform : public IComponent {
@@ -166,7 +178,15 @@ class Transform : public IComponent {
   float4 globalToLocal(const float4& vec) const { return inverse() * vec; }
   float4 localToGlobal(const float4& vec) const { return (*this) * vec; }
 
+  /**
+   * @brief Intersection of two cube
+   *
+   * In local space, we check, for each edges of a cube, if it's intersect a face of the other cube.
+   * For this, we compute a segment - plane intersection and we check if the face contains the
+   * impact point
+   */
   bool intersect(const Transform& trans) const {
+    // https://www.geomalgorithms.com/a05-_intersect-1.html
     auto intersectSegmentPlane = [](const float4& v0, const float4& n, const float4& p0,
                                     const float4& p1) -> bool {
       const float4 w = v0 - p0;
@@ -174,20 +194,23 @@ class Transform : public IComponent {
 
       const float s1 = (-n * w) / (n * u);
 
-      return 0 <= s1 && s1 <= 1;
+      const float4 ps1 = w + (u * s1);  // Point d'intersection P(s1)
+
+      return (0 <= s1 && s1 <= 1) &&
+             (-1 <= ps1.x && ps1.x <= 1 && -1 <= ps1.y && ps1.y <= 1 && -1 <= ps1.x && ps1.x <= 1);
     };
 
     // We are in local world, so coordinate are easy to determinate
 
     // center of each face
     static const float4 faces[6] = {
-        {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {-1, 0, 0, 0}, {0, -1, 0, 0}, {0, 0, -1, 0},
+        {1, 0, 0, 1}, {0, 1, 0, 1}, {0, 0, 1, 1}, {-1, 0, 0, 1}, {0, -1, 0, 1}, {0, 0, -1, 1},
     };
 
     // each vertex of a cube
     static const float4 vertices[8] = {
-        {1, 1, 1, 0},  {1, -1, -1, 0}, {-1, 1, -1, 0}, {-1, -1, 1, 0},
-        {-1, 1, 1, 0}, {1, 1, -1, 0},  {1, -1, 1, 0},  {-1, -1, -1, 0},
+        {1, 1, 1, 1},  {1, -1, -1, 1}, {-1, 1, -1, 1}, {-1, -1, 1, 1},
+        {-1, 1, 1, 1}, {1, 1, -1, 1},  {1, -1, 1, 1},  {-1, -1, -1, 1},
     };
 
     // each edge of a cube

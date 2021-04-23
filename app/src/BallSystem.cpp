@@ -8,6 +8,20 @@
 
 RTTI_DEFINITION(BallSystem, ISystem)
 
+void BallSystem::onCollide(Collide* collide) {
+  Registry* registry = Registry::GetInstance();
+
+  Velocity* v1 = registry->GetComponent<Velocity>(collide->entity1());
+  if (v1 != nullptr) {
+    v1->direction.x *= -1.f;
+  }
+
+  Velocity* v2 = registry->GetComponent<Velocity>(collide->entity2());
+  if (v2 != nullptr) {
+    v2->direction.x *= -1.f;
+  }
+}
+
 void BallSystem::update() const {
   LOG(LOG_INFO, "--- Ball Update ---");
 
@@ -35,17 +49,10 @@ void BallSystem::update() const {
   });
 
   // Ensure ball can be reset.
-  if (t->x() < 0.f) {
+  if (t->x() < 0.f || t->x() > (WINDOW_WIDTH - 16.f)) {
     // Ball passed the player paddle, reset it.
     t->identity();
-    t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
-    t->scale({8, 8, 1, 1});
-
-    v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};
-  } else if (t->x() > (WINDOW_WIDTH - 16.f)) {  // screen width - sprite width
-    // Ball passed the ai paddle, reset it.
-    t->identity();
-    t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
+    t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 1.f});
     t->scale({8, 8, 1, 1});
 
     v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};

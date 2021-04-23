@@ -11,12 +11,12 @@ class Dispatcher : public Singleton<Dispatcher> {
   friend class Singleton<Dispatcher>;
 
  public:
-  template <typename E, typename T>
-  void RegisterAction(T* instance, void (T::*function)(const IEvent&)) {
+  template <typename T, typename E>
+  void RegisterAction(T* instance, void (T::*function)(E*)) {
     const RTTI::type& id = E::rtti.id();
 
     if (inputEvents.find(id) == inputEvents.end()) {
-      inputEvents.insert({id, std::make_shared<EventCallback<T>>(instance, function)});
+      inputEvents.insert({id, std::make_shared<EventCallback<T, E>>(instance, function)});
     }
   }
 

@@ -7,5 +7,5 @@ class RectCollider : public ICollider {
   RTTI_DECLARATION
   ~RectCollider(){};
 
-  bool intersect(const Entity& e1, const Entity& e2);
+  void intersect(const Entity& e1, const Entity& e2);
 };

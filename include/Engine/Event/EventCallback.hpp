@@ -7,15 +7,14 @@ class IEventCallback {
   virtual void Trigger(const IEvent&) = 0;
 };
 
-template <typename T>
+template <typename T, typename E>
 class EventCallback : public IEventCallback {
  public:
-  EventCallback(T* instance, void (T::*function)(const IEvent&))
-      : instance(instance), function(function) {}
+  EventCallback(T* instance, void (T::*function)(E*)) : instance(instance), function(function) {}
 
-  void Trigger(const IEvent& event) { (instance->*function)(event); }
+  void Trigger(const IEvent& event) { (instance->*function)((E*)(&event)); }
 
  private:
   T* instance;
-  void (T::*function)(const IEvent&);
+  void (T::*function)(E*);
 };

@@ -9,8 +9,8 @@
 
 RTTI_DEFINITION(BarSystem, ISystem)
 
-void BarSystem::onKeyDown(const IEvent& keyDown) {
-  switch (keyDown.key()) {
+void BarSystem::onKeyDown(KeyDown* keyDown) {
+  switch (keyDown->key()) {
     case SDLK_z:
       player1_movement = BarSystem::MoveDirection::NORTH;
       break;
@@ -29,12 +29,12 @@ void BarSystem::onKeyDown(const IEvent& keyDown) {
   }
 }
 
-void BarSystem::onKeyUp(const IEvent& keyUp) {
-  if (keyUp.key() == SDLK_z || keyUp.key() == SDLK_s) {
+void BarSystem::onKeyUp(KeyUp* keyUp) {
+  if (keyUp->key() == SDLK_z || keyUp->key() == SDLK_s) {
     player1_movement = BarSystem::MoveDirection::STOPPED;
   }
 
-  if (keyUp.key() == SDLK_i || keyUp.key() == SDLK_k) {
+  if (keyUp->key() == SDLK_i || keyUp->key() == SDLK_k) {
     player2_movement = BarSystem::MoveDirection::STOPPED;
   }
 }

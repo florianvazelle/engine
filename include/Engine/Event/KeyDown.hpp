@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Event/IEvent.hpp>
+#include <Engine/Event/IEventKey.hpp>
 
-class KeyDown final : public IEvent {
+class KeyDown final : public IEventKey {
  public:
   RTTI_DECLARATION
 

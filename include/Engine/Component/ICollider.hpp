@@ -6,6 +6,6 @@
 class ICollider : public IComponent {
  public:
   RTTI_DECLARATION
-  virtual bool intersect(const Entity& e1, const Entity& e2) = 0;
+  virtual void intersect(const Entity& e1, const Entity& e2) = 0;
   virtual ~ICollider() = default;
 };

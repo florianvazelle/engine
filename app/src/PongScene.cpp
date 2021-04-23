@@ -22,7 +22,6 @@ void PongScene::create() {
   // You need to register all custom IComponent and ISystem
   registry->RegisterComponent<BallRenderer>();
   registry->RegisterComponent<BarRenderer>();
-  registry->RegisterSystem<BallSystem>();
 
   // You can create Entity with IComponent
   Entity e1 = registry->AllocateEntity(Transform::rtti, RectCollider::rtti, BarRenderer::rtti);
@@ -47,7 +46,10 @@ void PongScene::create() {
 
   // You can assign event with system method
   BarSystem* barSystem = registry->RegisterSystem<BarSystem>();
+  BallSystem* ballSystem = registry->RegisterSystem<BallSystem>();
 
-  dispatcher->RegisterAction<KeyDown>(barSystem, &BarSystem::onKeyDown);
-  dispatcher->RegisterAction<KeyUp>(barSystem, &BarSystem::onKeyUp);
+  dispatcher->RegisterAction<BarSystem, KeyDown>(barSystem, &BarSystem::onKeyDown);
+  dispatcher->RegisterAction<BarSystem, KeyUp>(barSystem, &BarSystem::onKeyUp);
+
+  dispatcher->RegisterAction<BallSystem, Collide>(ballSystem, &BallSystem::onCollide);
 }

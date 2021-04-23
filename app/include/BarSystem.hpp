@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/Component/Transform.hpp>
-#include <Engine/Event/IEvent.hpp>
 #include <Engine/Event/KeyDown.hpp>
 #include <Engine/Event/KeyUp.hpp>
 #include <Engine/System/ISystem.hpp>
@@ -13,8 +12,8 @@ class BarSystem final : public ISystem {
 
   void update() const;
 
-  void onKeyDown(const IEvent& keyDown);
-  void onKeyUp(const IEvent& keyUp);
+  void onKeyDown(KeyDown* keyDown);
+  void onKeyUp(KeyUp* keyUp);
 
  private:
   enum MoveDirection { NORTH, SOUTH, STOPPED };

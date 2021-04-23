@@ -1,3 +1,3 @@
 #include <Engine/Event/KeyUp.hpp>
 
-RTTI_DEFINITION(KeyUp, IEvent)
+RTTI_DEFINITION(KeyUp, IEventKey)
