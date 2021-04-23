@@ -43,7 +43,9 @@ struct alignas(16) float4 {
     return ((i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w);
   }
 
-  float operator*(const float4& vec) const { return (x * vec.x + y * vec.y + z * vec.z); }
+  float operator*(const float4& vec) const {
+    return (x * vec.x + y * vec.y + z * vec.z + w * vec.w);
+  }
 
   float4 operator+(const float4& vec) const { return {x + vec.x, y + vec.y, z + vec.z, 1}; }
   float4 operator-(const float4& vec) const { return {x - vec.x, y - vec.y, z - vec.z, 1}; }
@@ -197,7 +199,7 @@ class Transform : public IComponent {
       const float4 ps1 = w + (u * s1);  // Point d'intersection P(s1)
 
       return (0 <= s1 && s1 <= 1) &&
-             (-1 <= ps1.x && ps1.x <= 1 && -1 <= ps1.y && ps1.y <= 1 && -1 <= ps1.x && ps1.x <= 1);
+             (-1 < ps1.x && ps1.x < 1 && -1 < ps1.y && ps1.y < 1 && -1 < ps1.z && ps1.z < 1);
     };
 
     // We are in local world, so coordinate are easy to determinate
