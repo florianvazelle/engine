@@ -84,3 +84,35 @@ TEST_CASE("float4 Multiplication") {
 
   CHECK(v == result);
 }
+
+// TEST_CASE("Intersection 1") {
+//   Transform t1;
+//   t1.a = {1, 0, 0, 0};
+//   t1.b = {0, 1, 0, 0};
+//   t1.c = {0, 0, 1, 0};
+//   t1.d = {0, 0, 0, 1};
+
+//   Transform t2;
+//   t1.a = {1, 0, 0, 0.5f};
+//   t1.b = {0, 1, 0, 1};
+//   t1.c = {0, 0, 1, 0};
+//   t1.d = {0, 0, 0, 1};
+
+//   CHECK(t1.intersect(t2));
+// }
+
+// TEST_CASE("Intersection 2") {
+//   Transform t1;
+//   t1.a = {1, 0, 0, 0};
+//   t1.b = {0, 1, 0, 0};
+//   t1.c = {0, 0, 1, 0};
+//   t1.d = {0, 0, 0, 1};
+
+//   Transform t2;
+//   t1.a = {1, 0, 0, 2};
+//   t1.b = {0, 1, 0, 2};
+//   t1.c = {0, 0, 1, 2};
+//   t1.d = {0, 0, 0, 1};
+
+//   CHECK(!t1.intersect(t2));
+// }

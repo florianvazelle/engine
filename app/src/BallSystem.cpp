@@ -28,9 +28,9 @@ void BallSystem::update() const {
   Context* context = Context::GetInstance();
 
   t->translate({
-      v->direction.x * context->clock()->deltaTime(),
-      v->direction.y * context->clock()->deltaTime(),
-      v->direction.z * context->clock()->deltaTime(),
+      v->direction.x * 0.15f * context->clock()->deltaTime(),
+      v->direction.y * 0.15f * context->clock()->deltaTime(),
+      v->direction.z * 0.15f * context->clock()->deltaTime(),
       1,
   });
 
@@ -39,12 +39,14 @@ void BallSystem::update() const {
     // Ball passed the player paddle, reset it.
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
+    t->scale({8, 8, 1, 1});
 
     v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};
   } else if (t->x() > (WINDOW_WIDTH - 16.f)) {  // screen width - sprite width
     // Ball passed the ai paddle, reset it.
     t->identity();
     t->translate({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f, 0.f, 0.f});
+    t->scale({8, 8, 1, 1});
 
     v->direction = float4{random(-0.3, 0.25), random(-0.3, 0.25), 0.f, 1.f};
   }

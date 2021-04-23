@@ -40,7 +40,7 @@ struct alignas(16) float4 {
   }
 
   float4 operator-(const float4& vec) const { return {x - vec.x, y - vec.y, z - vec.z, w - vec.w}; }
-  float4 operator-() const { return {-x, -y, -z, -w}; }
+  float4 operator-() const { return {-x, -y, -z, w}; }
 };
 
 class Transform : public IComponent {
@@ -146,6 +146,11 @@ class Transform : public IComponent {
 
   inline float& y() { return b.w; }
 
+  inline const float4 size() const {
+    // maybe globaltolocal ..
+    return {a.x, b.y, c.z, d.w};
+  }
+
   float4& operator[](const unsigned int i) {
     return ((i == 0) ? a : (i == 1) ? b : (i == 2) ? c : d);
   }
@@ -200,8 +205,8 @@ class Transform : public IComponent {
       const float4 n = faces[i];  // normalized normal
 
       for (int j = 0; j < 8; j++) {
-        const float4 p0 = trans.localToGlobal(edges[j][0]);
-        const float4 p1 = trans.localToGlobal(edges[j][1]);
+        const float4 p0 = globalToLocal(trans.localToGlobal(edges[j][0]));
+        const float4 p1 = globalToLocal(trans.localToGlobal(edges[j][1]));
 
         if (intersectSegmentPlane(v0, n, p0, p1)) {
           return true;

@@ -13,6 +13,18 @@ bool RectCollider::intersect(const Entity& e1, const Entity& e2) {
   Transform* trans2 = registry->GetComponent<Transform>(e2);
 
   if (trans1->intersect(*trans2)) {
+    Velocity* v1 = registry->GetComponent<Velocity>(e1);
+    if (v1 != nullptr) {
+      v1->direction = -(v1->direction);
+      LOG(LOG_WARNING, "Intersect e1=" + std::to_string(e1) + " - e2=" + std::to_string(e2));
+    }
+
+    Velocity* v2 = registry->GetComponent<Velocity>(e2);
+    if (v2 != nullptr) {
+      v2->direction = -(v2->direction);
+      LOG(LOG_WARNING, "Intersect e1=" + std::to_string(e1) + " - e2=" + std::to_string(e2));
+    }
+
     return true;
   }
   return false;
