@@ -156,10 +156,10 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a15228ececd9c5581e9d114c01261557e" class="m-doc-self">localToGlobal</a>(</span><span class="m-doc-wrap">const <a href="structfloat4.html" class="m-doc">float4</a>&amp; vec) const -&gt; <a href="structfloat4.html" class="m-doc">float4</a></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a0bd25273554e86ad48c0b67273929677">
-              <span class="m-doc-wrap-bumper">auto <a href="#a0bd25273554e86ad48c0b67273929677" class="m-doc-self">intersect</a>(</span><span class="m-doc-wrap">const <a href="classTransform.html" class="m-doc">Transform</a>&amp; trans) const -&gt; bool</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a0bd25273554e86ad48c0b67273929677" class="m-doc">intersect</a>(</span><span class="m-doc-wrap">const <a href="classTransform.html" class="m-doc">Transform</a>&amp; trans) const -&gt; bool</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Intersection of two cube.</dd>
           </dl>
         </section>
         <section id="pub-attribs">
@@ -190,6 +190,13 @@
               <span class="m-doc-wrap-bumper"> Transform::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa08ca4266efabc768973cdeea51945ab" class="m-doc-self">Transform</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
 <p>[[a.x, a.y, a.z, a.w], [b.x, b.y, b.z, b.w], [c.x, c.y, c.z, c.w], [d.x, d.y, d.z, d.w]]</p>
+          </div></section>
+          <section class="m-doc-details" id="a0bd25273554e86ad48c0b67273929677"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool Transform::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0bd25273554e86ad48c0b67273929677" class="m-doc-self">intersect</a>(</span><span class="m-doc-wrap">const <a href="classTransform.html" class="m-doc">Transform</a>&amp; trans) const</span></span>
+            </h3>
+            <p>Intersection of two cube.</p>
+<p>In local space, we check, for each edges of a cube, if it&#x27;s intersect a face of the other cube. For this, we compute a segment - plane intersection and we check if the face contains the impact point</p>
           </div></section>
         </section>
       </div>

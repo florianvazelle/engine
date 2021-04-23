@@ -43,7 +43,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="EventCallback_8hpp.html">&lt;Engine/Event/EventCallback.hpp&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          <div class="m-doc-template">template&lt;typename T, typename E&gt;</div>
           EventCallback <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
@@ -72,9 +72,9 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a1789f79e16fbc3429aa5422655876b0c">
-              <span class="m-doc-wrap-bumper"><a href="#a1789f79e16fbc3429aa5422655876b0c" class="m-doc-self">EventCallback</a>(</span><span class="m-doc-wrap">T* instance,
-              void(T::*)(const <a href="classIEvent.html" class="m-doc">IEvent</a>&amp;) function)</span>
+            <dt id="a67f9c6e202d9069d47cec15098d6d83a">
+              <span class="m-doc-wrap-bumper"><a href="#a67f9c6e202d9069d47cec15098d6d83a" class="m-doc-self">EventCallback</a>(</span><span class="m-doc-wrap">T* instance,
+              void(T::*)(E*) function)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -82,8 +82,8 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ace92607419cfe877bc886c3be37d787f">
-              <span class="m-doc-wrap-bumper">void <a href="#ace92607419cfe877bc886c3be37d787f" class="m-doc-self">Trigger</a>(</span><span class="m-doc-wrap">const <a href="classIEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-warning">virtual</span></span>
+            <dt id="abec5ff69734977acedf600e0cba00311">
+              <span class="m-doc-wrap-bumper">void <a href="#abec5ff69734977acedf600e0cba00311" class="m-doc-self">Trigger</a>(</span><span class="m-doc-wrap">const <a href="classIEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
