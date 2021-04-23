@@ -1,4 +1,4 @@
-# engine
+# engine ![build](https://img.shields.io/github/workflow/status/florianvazelle/engine/build/main?label=Windows%20%7C%C2%A0Linux&logo=github)
 
 It's a work in progress small game engine, usable like a C++ library.
 
