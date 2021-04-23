@@ -9,7 +9,7 @@ It's a work in progress small game engine, usable like a C++ library.
 - Data-driven oriented design with [Entity, Component and System](https://en.wikipedia.org/wiki/Entity_component_system)
 - Multithreading system with [Thread Pool](https://en.wikipedia.org/wiki/Thread_pool)
 - Basic [SIMD](https://fr.wikipedia.org/wiki/Single_instruction_multiple_data) operations
-- Event and Delegate System
+- Event System
 
 ### RTTI
 
