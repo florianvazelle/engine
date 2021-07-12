@@ -3,9 +3,9 @@
 #include <engine/Game.hpp>
 #include <engine/Scene.hpp>
 #include <engine/async/ThreadPool.hpp>
-#include <engine/component/ICollider.hpp>
-#include <engine/component/IRenderer.hpp>
-#include <engine/component/RectCollider.hpp>
+#include <engine/component/renderer/RectRenderer.hpp>
+#include <engine/component/renderer/CircleRenderer.hpp>
+#include <engine/component/collider/RectCollider.hpp>
 #include <engine/component/Transform.hpp>
 #include <engine/component/Velocity.hpp>
 #include <engine/core/Clock.hpp>
@@ -23,7 +23,7 @@
 #include <engine/event/KeyDown.hpp>
 #include <engine/event/KeyUp.hpp>
 #include <engine/factory/ComponentFactory.hpp>
-#include <engine/factory/Dispatcher.hpp>
+#include <engine/event/Dispatcher.hpp>
 #include <engine/factory/EntityFactory.hpp>
 #include <engine/factory/Registry.hpp>
 #include <engine/factory/SystemFactory.hpp>

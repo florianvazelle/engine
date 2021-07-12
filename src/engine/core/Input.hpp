@@ -6,7 +6,7 @@
 #include <engine/core/Window.hpp>
 #include <engine/event/KeyDown.hpp>
 #include <engine/event/KeyUp.hpp>
-#include <engine/factory/Dispatcher.hpp>
+#include <engine/event/Dispatcher.hpp>
 
 class Context;
 

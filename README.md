@@ -20,7 +20,7 @@ It's a work in progress small game engine, usable like a C++ library.
 
 - Entity type is just an alias of `uint32_t`
 - Using of [Factory Design](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm) to allocate Component in Pools
-- We can `GetObjectsWithTag` to retrieve entities with certain components
+- We can `GetEntitiesWithTags` to retrieve entities with certain components
 
 ## Building
 

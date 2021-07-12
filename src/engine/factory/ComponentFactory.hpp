@@ -10,7 +10,7 @@
 #include <string>
 
 // All Engine's IComponent
-#define COMPONENTS Transform, RectCollider, Velocity
+#define COMPONENTS Transform, RectRenderer, CircleRenderer, RectCollider, Velocity
 
 // Register a IComponent
 #define REGISTER_COMPONENT(klass) \
@@ -83,25 +83,6 @@ class ComponentFactory {
   }
 
   /**
-   * @brief Permet de récupèrer le IComponent, fils d'un IComponent parent
-   * @param entity L'Entity qui possède le IComponent que l'on veut récupèrer
-   * @return Le pointeur vers le IComponent de l'Entity, si il n'existe pas,
-   * retourne nullptr
-   */
-  template <typename T>
-  T* GetWithParent(const Entity& entity) const {
-    for (const auto& c : componentArrays) {
-      if (T::IsA(c.first)) {
-        T* component = reinterpret_cast<T*>(c.second->Get(entity));
-        if (component != nullptr) {
-          return component;
-        }
-      }
-    }
-    return nullptr;
-  }
-
-  /**
    * @brief Permet de savoir si une Entity possède certains IComponent
    * @param entity L'Entity qui possède les IComponent
    * @param args Les différents RTTI des IComponent que l'on veut tester
@@ -115,18 +96,6 @@ class ComponentFactory {
     };
     (check_has(args), ...);
     return result;
-  }
-
-  template <typename T>
-  bool HasWithParent(const Entity& entity) const {
-    for (const auto& c : componentArrays) {
-      if (T::IsA(c.first)) {
-        if (c.second->Get(entity) != nullptr) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
  private:

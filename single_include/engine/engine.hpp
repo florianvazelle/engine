@@ -2,11 +2,14 @@
 
 // #include <engine/Game.hpp>
 
+
 // #include <engine/Game.hpp>
 
 // #include <engine/Scene.hpp>
 
+
 // #include <engine/ecs/Entity.hpp>
+
 
 #include <cstdint>
 
@@ -22,163 +25,20 @@ class Scene {
   virtual void preload() = 0;
   virtual void create() = 0;
 };
-// #include <engine/component/IRenderer.hpp>
+// #include <engine/component/Transform.hpp>
 
-#include <SDL2/SDL2_gfxPrimitives.h>
-#include <SDL2/SDL_render.h>
 
-// #include <engine/core/Context.hpp>
+#include <immintrin.h>
 
-// #include <engine/meta/Log.hpp>
-
-#include <SDL2/SDL_error.h>
-
-#include <cassert>
-#include <iostream>
-#include <ostream>
-#include <string>
-
-enum Code {
-  FG_RED = 31,
-  FG_GREEN = 32,
-  FG_YELLOW = 32,
-  FG_BLUE = 34,
-  FG_DEFAULT = 39,
-  BG_RED = 41,
-  BG_GREEN = 42,
-  BG_BLUE = 44,
-  BG_DEFAULT = 49
-};
-
-class Modifier {
-  Code code;
-
- public:
-  explicit Modifier(Code pCode) : code(pCode) {}
-  friend std::ostream& operator<<(std::ostream& os, const Modifier& mod) {
-    return os << "\033[" << mod.code << "m";
-  }
-};
-
-/**
- * Example usage:
- * LOG_ERROR << "Woops." << LOG_NEWLINE;
- * OR
- * LOG_ERROR << "Woops." << LOG_FLUSH;
- * OR
- * LOG(LOG_ERROR, "Woops.");
- */
-
-// Log something to console.
-#define LOG(level, msg) level << msg << "\n"
-
-// Log an error message.
-#define LOG_ERROR std::cout << Modifier(FG_RED) << "[ERROR]:    "
-
-// Log a warning.
-#define LOG_WARNING std::cout << Modifier(FG_YELLOW) << "[WARNING]:  "
-
-// Log some information.
-#define LOG_INFO std::cout << Modifier(FG_BLUE) << "[INFO]:     "
-
-// Flush the log. Also ends the current line.
-#define LOG_FLUSH std::endl
-
-// Provide a NewLine in a log.
-#define LOG_NEWLINE "\n"
-
-// Convenience function.
-inline void throw_sdl2_exception(const std::string& message) {
-  message += "\n[SDL2]:   ";
-  message += SDL_GetError();
-
-  throw std::runtime_error(message);
-}
-// #include <engine/meta/Singleton.hpp>
-
-#include <atomic>
-#include <mutex>
-
-/**
- * @brief Thread-safe Singleton
- *
- * https://stackoverflow.com/questions/34519073/inherit-singleton
- */
-template <typename T>
-class Singleton {
- public:
-  /**
-   * @brief Retourne une unique instance de T (double-check locking)
-   */
-  static T* GetInstance() noexcept(std::is_nothrow_constructible<T>::value);
-
- protected:
-  Singleton() noexcept = default;
-  Singleton(const Singleton&) = delete;
-  Singleton& operator=(const Singleton&) = delete;
-  virtual ~Singleton() = default;  // to silence base class Singleton<T> has a
-                                   // non-virtual destructor [-Weffc++]
-
-  static std::atomic<T*> s_instance;
-  static std::mutex s_mutex;
-};
-
-template <typename T>
-std::atomic<T*> Singleton<T>::s_instance{nullptr};
-
-template <typename T>
-std::mutex Singleton<T>::s_mutex;
-
-template <typename T>
-T* Singleton<T>::GetInstance() noexcept(
-    std::is_nothrow_constructible<T>::value) {
-  T* p = s_instance.load(std::memory_order_acquire);
-  if (p == nullptr) {  // 1st check
-    std::lock_guard<std::mutex> lock(s_mutex);
-    p = s_instance.load(std::memory_order_relaxed);
-    if (p == nullptr) {  // 2nd (double) check
-      p = new T();
-      s_instance.store(p, std::memory_order_release);
-    }
-  }
-  return p;
-}
-#include <memory>
-
-class Clock;
-class Input;
-class Window;
-class Engine;
-
-class Context : public Singleton<Context> {
-  friend class Singleton<Context>;
-
- public:
-  inline Clock* clock() const { return m_clock.get(); }
-  inline Input* input() const { return m_input.get(); }
-  inline Window* window() const { return m_window.get(); }
-  inline Engine* engine() const { return m_engine.get(); }
-
- private:
-  Context()
-      : m_clock(std::make_unique<Clock>()),
-        m_input(std::make_unique<Input>()),
-        m_window(std::make_unique<Window>()),
-        m_engine(std::make_unique<Engine>()) {}
-  ~Context() { LOG(LOG_INFO, "[Context] desctruction.."); }
-
-  std::unique_ptr<Clock> m_clock;
-  std::unique_ptr<Input> m_input;
-  std::unique_ptr<Window> m_window;
-  std::unique_ptr<Engine> m_engine;
-};
-// #include <engine/ecs/Entity.hpp>
-
+#include <cmath>
 // #include <engine/ecs/IComponent.hpp>
+
 
 // #include <engine/meta/RTTI.hpp>
 
+
 // #include <engine/meta/Hash.hpp>
+
 
 #include <cstdint>
 #include <string_view>  // C++17
@@ -266,6 +126,7 @@ using RTTI = uint32_t;
     return IsExactly(id) || SuperClass::IsA(id);                         \
   }
 
+
 /**
  * @brief IComponent is a pure interface
  */
@@ -274,39 +135,6 @@ class IComponent {
   RTTI_DEFINITION_BASE(IComponent)
   virtual ~IComponent() = default;
 };
-
-/**
- * @brief IRenderer is a pure interface
- */
-class IRenderer : public IComponent {
- public:
-  RTTI_DEFINITION(IRenderer, IComponent)
-  virtual void render(const Entity& entity) = 0;
-  virtual ~IRenderer() = default;
-};
-// #include <engine/component/RectCollider.hpp>
-
-#include <SDL_rect.h>
-
-// #include <engine/component/ICollider.hpp>
-
-// #include <engine/ecs/Entity.hpp>
-
-// #include <engine/ecs/IComponent.hpp>
-
-class ICollider : public IComponent {
- public:
-  RTTI_DEFINITION(ICollider, IComponent)
-  virtual void intersect(const Entity& e1, const Entity& e2) const = 0;
-  virtual ~ICollider() = default;
-};
-// #include <engine/component/Transform.hpp>
-
-#include <immintrin.h>
-
-#include <cmath>
-// #include <engine/ecs/IComponent.hpp>
-
 #include <iostream>
 
 #define MakeShuffleMask(x, y, z, w) (x | (y << 2) | (z << 4) | (w << 6))
@@ -668,186 +496,298 @@ class Transform final : public IComponent {
     return false;
   }
 };
-// #include <engine/event/Collide.hpp>
+// #include <engine/component/Velocity.hpp>
 
-// #include <engine/event/IEvent.hpp>
 
-// #include <engine/meta/RTTI.hpp>
+// #include <engine/component/Transform.hpp>
 
-class IEvent {
+// #include <engine/ecs/IComponent.hpp>
+
+
+/**
+ * @brief Add Velocity to an Entity, add Physical to this Entity
+ */
+class Velocity final : public IComponent {
  public:
-  RTTI_DEFINITION_BASE(IEvent)
+  RTTI_DEFINITION(Velocity, IComponent)
+  float4 direction;
+
+  Velocity() : direction(0, 0, 0, 1) {}
+};
+// #include <engine/component/collider/RectCollider.hpp>
+
+
+// #include <engine/ecs/IComponent.hpp>
+
+
+class RectCollider final : public IComponent {
+  RTTI_DEFINITION(RectCollider, IComponent)
+};
+// #include <engine/component/renderer/CircleRenderer.hpp>
+
+
+// #include <engine/ecs/IComponent.hpp>
+
+// #include <engine/core/Context.hpp>
+
+
+// #include <engine/meta/Log.hpp>
+
+
+#include <SDL2/SDL_error.h>
+
+#include <cassert>
+#include <iostream>
+#include <ostream>
+#include <string>
+
+enum Code {
+  FG_RED = 31,
+  FG_GREEN = 32,
+  FG_YELLOW = 32,
+  FG_BLUE = 34,
+  FG_DEFAULT = 39,
+  BG_RED = 41,
+  BG_GREEN = 42,
+  BG_BLUE = 44,
+  BG_DEFAULT = 49
 };
 
-class Collide final : public IEvent {
+class Modifier {
+  Code code;
+
  public:
-  RTTI_DEFINITION(Collide, IEvent)
-
-  inline Collide(const Entity& e1, const Entity& e2) : e1(e1), e2(e2) {}
-  inline const Entity& entity1() const { return e1; }
-  inline const Entity& entity2() const { return e2; }
-
- private:
-  const Entity& e1;
-  const Entity& e2;
-};
-// #include <engine/factory/Dispatcher.hpp>
-
-// #include <engine/event/EventCallback.hpp>
-
-// #include <engine/event/IEvent.hpp>
-
-class IEventCallback {
- public:
-  virtual void Trigger(const IEvent&) = 0;
-};
-
-template <typename T, typename E>
-class EventCallback : public IEventCallback {
- public:
-  EventCallback(T* instance, void (T::*function)(E*))
-      : instance(instance), function(function) {}
-
-  void Trigger(const IEvent& event) {
-    (instance->*function)(reinterpret_cast<E*>(&event));
+  explicit Modifier(Code pCode) : code(pCode) {}
+  friend std::ostream& operator<<(std::ostream& os, const Modifier& mod) {
+    return os << "\033[" << mod.code << "m";
   }
-
- private:
-  T* instance;
-  void (T::*function)(E*);
 };
-// #include <engine/event/IEvent.hpp>
 
-// #include <engine/meta/RTTI.hpp>
+/**
+ * Example usage:
+ * LOG_ERROR << "Woops." << LOG_NEWLINE;
+ * OR
+ * LOG_ERROR << "Woops." << LOG_FLUSH;
+ * OR
+ * LOG(LOG_ERROR, "Woops.");
+ */
 
+// Log something to console.
+#define LOG(level, msg) level << msg << "\n"
+
+// Log an error message.
+#define LOG_ERROR std::cout << Modifier(FG_RED) << "[ERROR]:    "
+
+// Log a warning.
+#define LOG_WARNING std::cout << Modifier(FG_YELLOW) << "[WARNING]:  "
+
+// Log some information.
+#define LOG_INFO std::cout << Modifier(FG_BLUE) << "[INFO]:     "
+
+// Flush the log. Also ends the current line.
+#define LOG_FLUSH std::endl
+
+// Provide a NewLine in a log.
+#define LOG_NEWLINE "\n"
+
+// Convenience function.
+inline void throw_sdl2_exception(std::string message) {
+  message += "\n[SDL2]:   ";
+  message += SDL_GetError();
+
+  throw std::runtime_error(message);
+}
 // #include <engine/meta/Singleton.hpp>
 
-#include <map>
+
+#include <atomic>
+#include <mutex>
+
+/**
+ * @brief Thread-safe Singleton
+ *
+ * https://stackoverflow.com/questions/34519073/inherit-singleton
+ */
+template <typename T>
+class Singleton {
+ public:
+  /**
+   * @brief Retourne une unique instance de T (double-check locking)
+   */
+  static T* GetInstance() noexcept(std::is_nothrow_constructible<T>::value);
+
+ protected:
+  Singleton() noexcept = default;
+  Singleton(const Singleton&) = delete;
+  Singleton& operator=(const Singleton&) = delete;
+  virtual ~Singleton() = default;  // to silence base class Singleton<T> has a
+                                   // non-virtual destructor [-Weffc++]
+
+  static std::atomic<T*> s_instance;
+  static std::mutex s_mutex;
+};
+
+template <typename T>
+std::atomic<T*> Singleton<T>::s_instance{nullptr};
+
+template <typename T>
+std::mutex Singleton<T>::s_mutex;
+
+template <typename T>
+T* Singleton<T>::GetInstance() noexcept(
+    std::is_nothrow_constructible<T>::value) {
+  T* p = s_instance.load(std::memory_order_acquire);
+  if (p == nullptr) {  // 1st check
+    std::lock_guard<std::mutex> lock(s_mutex);
+    p = s_instance.load(std::memory_order_relaxed);
+    if (p == nullptr) {  // 2nd (double) check
+      p = new T();
+      s_instance.store(p, std::memory_order_release);
+    }
+  }
+  return p;
+}
 #include <memory>
 
-class Dispatcher : public Singleton<Dispatcher> {
-  friend class Singleton<Dispatcher>;
+class Clock;
+class Input;
+class Window;
+class Engine;
+
+class Context : public Singleton<Context> {
+  friend class Singleton<Context>;
 
  public:
-  template <typename T, typename E>
-  void RegisterAction(T* instance, void (T::*function)(E*)) {
-    const RTTI& id = E::rtti;
-
-    if (inputEvents.find(id) == inputEvents.end()) {
-      inputEvents.insert(
-          {id, std::make_shared<EventCallback<T, E>>(instance, function)});
-    }
-  }
-
-  template <typename T>
-  void Trigger(const T& event) {
-    const RTTI& id = T::rtti;
-
-    if (inputEvents.find(id) != inputEvents.end()) {
-      inputEvents[id]->Trigger(event);
-    }
-  }
+  inline Clock* clock() const { return m_clock.get(); }
+  inline Input* input() const { return m_input.get(); }
+  inline Window* window() const { return m_window.get(); }
+  inline Engine* engine() const { return m_engine.get(); }
 
  private:
-  Dispatcher() {}
-  ~Dispatcher() {}
+  Context()
+      : m_clock(std::make_unique<Clock>()),
+        m_input(std::make_unique<Input>()),
+        m_window(std::make_unique<Window>()),
+        m_engine(std::make_unique<Engine>()) {}
+  ~Context() { LOG(LOG_INFO, "[Context] desctruction.."); }
 
-  std::map<RTTI, std::shared_ptr<IEventCallback>> inputEvents;
+  std::unique_ptr<Clock> m_clock;
+  std::unique_ptr<Input> m_input;
+  std::unique_ptr<Window> m_window;
+  std::unique_ptr<Engine> m_engine;
 };
-// #include <engine/factory/Registry.hpp>
+// #include <engine/core/Window.hpp>
 
-// #include <engine/async/ThreadPool.hpp>
+
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
+
+// #include <engine/meta/Log.hpp>
+
+#include <string>
+
+class Window {
+ public:
+  Window() : m_is_open{true}, m_window{nullptr}, m_renderer{nullptr} {}
+
+  ~Window() {
+    SDL_DestroyRenderer(m_renderer);
+    SDL_DestroyWindow(m_window);
+  }
+
+  void create(std::string title, const int w, const int h,
+              std::uint32_t flags) {
+    m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                                SDL_WINDOWPOS_CENTERED, w, h, flags);
+    if (!m_window) {
+      throw_sdl2_exception("Window failed to be created.");
+    }
+
+    m_renderer = SDL_CreateRenderer(
+        m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!m_renderer) {
+      throw_sdl2_exception("Renderer failed to be created.");
+    }
+  }
+
+  void close() noexcept { m_is_open = false; }
+
+  bool is_open() const noexcept { return m_is_open; }
+  SDL_Renderer* renderer() const noexcept { return m_renderer; }
+
+  SDL_Event m_event;
+
+ private:
+  bool m_is_open;
+  SDL_Window* m_window;
+  SDL_Renderer* m_renderer;
+};
+
+class CircleRenderer final : public IComponent {
+  RTTI_DEFINITION(CircleRenderer, IComponent)
+};
+// #include <engine/component/renderer/RectRenderer.hpp>
+
+
+// #include <engine/core/Context.hpp>
+
+// #include <engine/core/Window.hpp>
+
+// #include <engine/ecs/IComponent.hpp>
+
+
+class RectRenderer final : public IComponent {
+  RTTI_DEFINITION(RectRenderer, IComponent)
+};
+// #include <engine/core/Clock.hpp>
+
+
+#include <SDL2/SDL_timer.h>
+
+#include <chrono>
+// #include <engine/meta/Log.hpp>
 
 #include <functional>
-#include <future>
-#include <memory>
-#include <queue>
-#include <thread>
-#include <utility>
 #include <vector>
 
-class ThreadPool {
- private:
-  std::vector<std::thread> workers;  // Liste de nos threads (pour les join)
-  std::queue<std::function<void()>> m_function_queue;  // Queue des taches
-
-  // Synchronization
-  std::mutex m_lock;
-  std::condition_variable m_data_condition;
-  std::atomic<bool> m_accept_functions;
-
+class Clock {
  public:
-  /**
-   * @brief Le constructeur démarre un certain nombre de thread (workers)
-   */
-  explicit ThreadPool(size_t threads) : m_accept_functions(true) {
-    for (size_t i = 0; i < threads; ++i)
-      workers.emplace_back([this] {
-        while (true) {
-          std::function<void()> func;
-
-          {
-            // Le mutex sera déverrouillé, en sortant du scope, car le
-            // desctuteur du lock sera appelé (RAII)
-            std::unique_lock<std::mutex> lock(this->m_lock);
-            this->m_data_condition.wait(lock, [this] {
-              return !this->m_accept_functions ||
-                     !this->m_function_queue.empty();
-            });
-            if (!this->m_accept_functions && this->m_function_queue.empty()) {
-              // lock will be release automatically.
-              // finish the thread loop and let it join in the main thread.
-              return;
-            }
-            func = std::move(this->m_function_queue.front());
-            this->m_function_queue.pop();
-          }
-
-          func();
-        }
-      });
+  inline void Initialize() {
+    time = 0.0;
+    accumulator = 0.0;
+    current_time = SDL_GetTicks();
+    new_time = 0.0;
+    frame_time = 0.0;
   }
 
-  /**
-   * @brief Le destructeur join tout les threads
-   */
-  ~ThreadPool() {
-    {
-      std::unique_lock<std::mutex> lock(m_lock);
-      m_accept_functions = false;
-    }
-    m_data_condition.notify_all();
-    for (std::thread& worker : workers) worker.join();
+  inline void Update() {
+    LOG(LOG_INFO, "[Clock] Update!");
+
+    new_time = SDL_GetTicks();
+    frame_time = new_time - current_time;
+    current_time = new_time;
+
+    accumulator += frame_time;
   }
 
-  /**
-   * @brief Permet d'ajouter une nouvelle tache à la ThreadPool
-   */
-  template <class F, class... Args>
-  auto push(F&& f, Args&&... args)
-      -> std::future<typename std::result_of<F(Args...)>::type> {
-    using return_type = typename std::result_of<F(Args...)>::type;
-
-    auto func = std::make_shared<std::packaged_task<return_type()>>(
-        std::bind(std::forward<F>(f), std::forward<Args>(args)...));
-
-    std::future<return_type> res = func->get_future();
-    {
-      std::unique_lock<std::mutex> lock(m_lock);
-
-      // On bloque l'ajout de nouvelle tache, après avoir stoper la ThreadPool
-      if (!m_accept_functions)
-        throw std::runtime_error(
-            "ThreadPool is stopped, you cannot push new task!");
-
-      m_function_queue.emplace([func]() { (*func)(); });
-    }
-    m_data_condition.notify_one();
-    return res;
+  inline void Increment(const double dt) {
+    accumulator -= dt;
+    time += dt;
   }
+
+  inline float deltaTime() const { return accumulator; }
+
+ private:
+  double time, accumulator, current_time, new_time, frame_time;
 };
+// #include <engine/core/Engine.hpp>
+
+
+// #include <engine/core/Context.hpp>
 
 // #include <engine/factory/ComponentFactory.hpp>
+
 
 // #include <engine/ecs/Entity.hpp>
 
@@ -881,6 +821,8 @@ class ThreadPool {
  * promote the sale, use or other dealings in this Software without
  * prior written authorization from the authors.
  */
+
+
 
 #define EVAL0(...) __VA_ARGS__
 #define EVAL1(...) EVAL0(EVAL0(EVAL0(__VA_ARGS__)))
@@ -1385,14 +1327,17 @@ class ThreadPool {
 
 // #include <engine/pool/ComponentArray.hpp>
 
+
 #include <array>
 // #include <engine/ecs/Entity.hpp>
 
 // #include <engine/pool/Pool.hpp>
 
+
 // #include <engine/meta/Log.hpp>
 
 // #include <engine/pool/IPool.hpp>
+
 
 class IPool {
  public:
@@ -1610,7 +1555,7 @@ class ComponentArray : public IPool {
 #include <string>
 
 // All Engine's IComponent
-#define COMPONENTS Transform, RectCollider, Velocity
+#define COMPONENTS Transform, RectRenderer, CircleRenderer, RectCollider, Velocity
 
 // Register a IComponent
 #define REGISTER_COMPONENT(klass) \
@@ -1683,25 +1628,6 @@ class ComponentFactory {
   }
 
   /**
-   * @brief Permet de récupèrer le IComponent, fils d'un IComponent parent
-   * @param entity L'Entity qui possède le IComponent que l'on veut récupèrer
-   * @return Le pointeur vers le IComponent de l'Entity, si il n'existe pas,
-   * retourne nullptr
-   */
-  template <typename T>
-  T* GetWithParent(const Entity& entity) const {
-    for (const auto& c : componentArrays) {
-      if (T::IsA(c.first)) {
-        T* component = reinterpret_cast<T*>(c.second->Get(entity));
-        if (component != nullptr) {
-          return component;
-        }
-      }
-    }
-    return nullptr;
-  }
-
-  /**
    * @brief Permet de savoir si une Entity possède certains IComponent
    * @param entity L'Entity qui possède les IComponent
    * @param args Les différents RTTI des IComponent que l'on veut tester
@@ -1715,18 +1641,6 @@ class ComponentFactory {
     };
     (check_has(args), ...);
     return result;
-  }
-
-  template <typename T>
-  bool HasWithParent(const Entity& entity) const {
-    for (const auto& c : componentArrays) {
-      if (T::IsA(c.first)) {
-        if (c.second->Get(entity) != nullptr) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
  private:
@@ -1754,6 +1668,7 @@ class ComponentFactory {
   }
 };
 // #include <engine/factory/EntityFactory.hpp>
+
 
 #include <any>
 #include <array>
@@ -1824,12 +1739,114 @@ class EntityFactory {
   std::queue<Entity> availableEntities{};  // Queue des Entity disponibles
   uint32_t livingEntityCount{};            // Total des Entity en "vie"
 };
+// #include <engine/factory/Registry.hpp>
+
+
+// #include <engine/async/ThreadPool.hpp>
+
+
+#include <functional>
+#include <future>
+#include <memory>
+#include <queue>
+#include <thread>
+#include <utility>
+#include <vector>
+
+class ThreadPool {
+ private:
+  std::vector<std::thread> workers;  // Liste de nos threads (pour les join)
+  std::queue<std::function<void()>> m_function_queue;  // Queue des taches
+
+  // Synchronization
+  std::mutex m_lock;
+  std::condition_variable m_data_condition;
+  std::atomic<bool> m_accept_functions;
+
+ public:
+  /**
+   * @brief Le constructeur démarre un certain nombre de thread (workers)
+   */
+  explicit ThreadPool(size_t threads) : m_accept_functions(true) {
+    for (size_t i = 0; i < threads; ++i)
+      workers.emplace_back([this] {
+        while (true) {
+          std::function<void()> func;
+
+          {
+            // Le mutex sera déverrouillé, en sortant du scope, car le
+            // desctuteur du lock sera appelé (RAII)
+            std::unique_lock<std::mutex> lock(this->m_lock);
+            this->m_data_condition.wait(lock, [this] {
+              return !this->m_accept_functions ||
+                     !this->m_function_queue.empty();
+            });
+            if (!this->m_accept_functions && this->m_function_queue.empty()) {
+              // lock will be release automatically.
+              // finish the thread loop and let it join in the main thread.
+              return;
+            }
+            func = std::move(this->m_function_queue.front());
+            this->m_function_queue.pop();
+          }
+
+          func();
+        }
+      });
+  }
+
+  /**
+   * @brief Le destructeur join tout les threads
+   */
+  ~ThreadPool() {
+    {
+      std::unique_lock<std::mutex> lock(m_lock);
+      m_accept_functions = false;
+    }
+    m_data_condition.notify_all();
+    for (std::thread& worker : workers) worker.join();
+  }
+
+  /**
+   * @brief Permet d'ajouter une nouvelle tache à la ThreadPool
+   */
+  template <class F, class... Args>
+  auto push(F&& f, Args&&... args)
+      -> std::future<typename std::result_of<F(Args...)>::type> {
+    using return_type = typename std::result_of<F(Args...)>::type;
+
+    auto func = std::make_shared<std::packaged_task<return_type()>>(
+        std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+
+    std::future<return_type> res = func->get_future();
+    {
+      std::unique_lock<std::mutex> lock(m_lock);
+
+      // On bloque l'ajout de nouvelle tache, après avoir stoper la ThreadPool
+      if (!m_accept_functions)
+        throw std::runtime_error(
+            "ThreadPool is stopped, you cannot push new task!");
+
+      m_function_queue.emplace([func]() { (*func)(); });
+    }
+    m_data_condition.notify_one();
+    return res;
+  }
+};
+
+// #include <engine/factory/ComponentFactory.hpp>
+
+// #include <engine/factory/EntityFactory.hpp>
+
 // #include <engine/factory/SystemFactory.hpp>
+
 
 #include <cstdint>
 // #include <engine/ecs/ISystem.hpp>
 
+
 // #include <engine/meta/RTTI.hpp>
+
 
 /**
  * @brief ISystem is a pure interface
@@ -1958,15 +1975,6 @@ class Registry : public Singleton<Registry> {
   }
 
   /**
-   * @brief Permet de récupèrer une liste de IComponent, fils d'un IComponent
-   * parent,  d'une Entity
-   */
-  template <typename T>
-  T* GetComponentWithParent(const Entity& entity) {
-    return compFact->GetWithParent<T>(entity);
-  }
-
-  /**
    * @brief Permet de construire une Entity, alloue tout les IComponent et
    * retourne une Entity nous utilisée
    * @param args Liste des arguments, normalement RTTI de IComponent
@@ -2000,30 +2008,13 @@ class Registry : public Singleton<Registry> {
    * @param args Liste des arguments, normalement RTTI de IComponent
    */
   template <typename... Args>
-  void GetObjectsWithTag(std::vector<Entity>& entities, Args&&... args) const {
+  void GetEntitiesWithTags(std::vector<Entity>& entities, Args&&... args) const {
     int idx = 0;
     entities.resize(MAX_ENTITIES);
 
     for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
       if (!entiFact->IsSet(entity)) continue;
       if (compFact->Has(entity, std::forward<Args>(args)...)) {
-        entities[idx] = entity;
-        idx++;
-      }
-    }
-
-    entities.resize(idx);  // Normalement pas d'allocation car la taille max est
-                           // déjà réservé
-  }
-
-  template <typename T>
-  void GetObjectsWithParentTag(std::vector<Entity>& entities) const {
-    int idx = 0;
-    entities.resize(MAX_ENTITIES);
-
-    for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-      if (!entiFact->IsSet(entity)) continue;
-      if (compFact->HasWithParent<T>(entity)) {
         entities[idx] = entity;
         idx++;
       }
@@ -2072,97 +2063,12 @@ class Registry : public Singleton<Registry> {
   std::unique_ptr<EntityFactory> entiFact;
   std::unique_ptr<SystemFactory> systFact;
 };
-
-class RectCollider final : public ICollider {
- public:
-  RTTI_DEFINITION(RectCollider, ICollider)
-  ~RectCollider() {}
-
-  void intersect(const Entity& e1, const Entity& e2) const {
-    Registry* registry = Registry::GetInstance();
-
-    Transform* trans1 = registry->GetComponent<Transform>(e1);
-    Transform* trans2 = registry->GetComponent<Transform>(e2);
-
-    if (trans1->intersect(*trans2)) {
-      Dispatcher* dispatcher = Dispatcher::GetInstance();
-      dispatcher->Trigger(Collide(e1, e2));
-    }
-  }
-};
-// #include <engine/component/Transform.hpp>
-
-// #include <engine/component/Velocity.hpp>
-
-// #include <engine/component/Transform.hpp>
-
-// #include <engine/ecs/IComponent.hpp>
-
-/**
- * @brief Add Velocity to an Entity, add Physical to this Entity
- */
-class Velocity final : public IComponent {
- public:
-  RTTI_DEFINITION(Velocity, IComponent)
-  float4 direction;
-
-  Velocity() : direction(0, 0, 0, 1) {}
-};
-// #include <engine/core/Clock.hpp>
-
-#include <SDL2/SDL_timer.h>
-
-#include <chrono>
-// #include <engine/meta/Log.hpp>
-
-#include <functional>
-#include <vector>
-
-class Clock {
- public:
-  inline void Initialize() {
-    time = 0.0;
-    accumulator = 0.0;
-    current_time = SDL_GetTicks();
-    new_time = 0.0;
-    frame_time = 0.0;
-  }
-
-  inline void Update() {
-    LOG(LOG_INFO, "[Clock] Update!");
-
-    new_time = SDL_GetTicks();
-    frame_time = new_time - current_time;
-    current_time = new_time;
-
-    accumulator += frame_time;
-  }
-
-  inline void Increment(const double dt) {
-    accumulator -= dt;
-    time += dt;
-  }
-
-  inline float deltaTime() const { return accumulator; }
-
- private:
-  double time, accumulator, current_time, new_time, frame_time;
-};
-// #include <engine/core/Engine.hpp>
-
-// #include <engine/core/Context.hpp>
-
-// #include <engine/factory/ComponentFactory.hpp>
-
-// #include <engine/factory/EntityFactory.hpp>
-
-// #include <engine/factory/Registry.hpp>
-
 // #include <engine/factory/SystemFactory.hpp>
 
 // #include <engine/meta/Log.hpp>
 
 // #include <engine/system/LogicalSystem.hpp>
+
 
 // #include <engine/ecs/Entity.hpp>
 
@@ -2186,11 +2092,107 @@ class LogicalSystem : public ISystem {
 };
 // #include <engine/system/PhysicalSystem.hpp>
 
-// #include <engine/component/ICollider.hpp>
+
+#include <SDL_rect.h>
+
+// #include <engine/component/collider/RectCollider.hpp>
+
+// #include <engine/component/Transform.hpp>
 
 // #include <engine/ecs/ISystem.hpp>
 
+// #include <engine/event/Collide.hpp>
+
+
+// #include <engine/event/IEvent.hpp>
+
+
+// #include <engine/meta/RTTI.hpp>
+
+
+class IEvent {
+ public:
+  RTTI_DEFINITION_BASE(IEvent)
+};
+
+class Collide final : public IEvent {
+ public:
+  RTTI_DEFINITION(Collide, IEvent)
+
+  inline Collide(const Entity& e1, const Entity& e2) : e1(e1), e2(e2) {}
+  inline const Entity& entity1() const { return e1; }
+  inline const Entity& entity2() const { return e2; }
+
+ private:
+  const Entity& e1;
+  const Entity& e2;
+};
+// #include <engine/event/Dispatcher.hpp>
+
+
+// #include <engine/event/EventCallback.hpp>
+
+
+// #include <engine/event/IEvent.hpp>
+
+
+class IEventCallback {
+ public:
+  virtual void Trigger(const IEvent&) = 0;
+};
+
+template <typename T, typename E>
+class EventCallback : public IEventCallback {
+ public:
+  EventCallback(T* instance, void (T::*function)(E*))
+      : instance(instance), function(function) {}
+
+  void Trigger(const IEvent& event) { (instance->*function)((E*)(&event)); }
+
+ private:
+  T* instance;
+  void (T::*function)(E*);
+};
+// #include <engine/event/IEvent.hpp>
+
+// #include <engine/meta/RTTI.hpp>
+
+// #include <engine/meta/Singleton.hpp>
+
+#include <map>
+#include <memory>
+
+class Dispatcher : public Singleton<Dispatcher> {
+  friend class Singleton<Dispatcher>;
+
+ public:
+  template <typename T, typename E>
+  void RegisterAction(T* instance, void (T::*function)(E*)) {
+    const RTTI& id = E::rtti;
+
+    if (inputEvents.find(id) == inputEvents.end()) {
+      inputEvents.insert(
+          {id, std::make_shared<EventCallback<T, E>>(instance, function)});
+    }
+  }
+
+  template <typename T>
+  void Trigger(const T& event) {
+    const RTTI& id = T::rtti;
+
+    if (inputEvents.find(id) != inputEvents.end()) {
+      inputEvents[id]->Trigger(event);
+    }
+  }
+
+ private:
+  Dispatcher() {}
+  ~Dispatcher() {}
+
+  std::map<RTTI, std::shared_ptr<IEventCallback>> inputEvents;
+};
 // #include <engine/factory/Registry.hpp>
+
 
 class PhysicalSystem : public ISystem {
  public:
@@ -2206,18 +2208,28 @@ class PhysicalSystem : public ISystem {
      */
 
     Registry* registry = Registry::GetInstance();
-    registry->GetObjectsWithParentTag<ICollider>(registry->entitiesQuery);
+    registry->GetEntitiesWithTags(registry->entitiesQuery, RectCollider::rtti);
 
     registry->results.resize(registry->entitiesQuery.size() - 1);
     for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
       for (unsigned int j = i + 1; j < registry->entitiesQuery.size(); j++) {
-        ICollider* icoll = registry->GetComponentWithParent<ICollider>(
-            registry->entitiesQuery[i]);
         registry->results[i] = registry->threadPool.push(
-            [](ICollider* coll, const Entity& e1, const Entity& e2) {
-              coll->intersect(e1, e2);
+            [](const Entity& e1, const Entity& e2) {
+              //
+              // Begin Intersection Between Two Rect
+              Registry* registry = Registry::GetInstance();
+
+              Transform* trans1 = registry->GetComponent<Transform>(e1);
+              Transform* trans2 = registry->GetComponent<Transform>(e2);
+
+              if (trans1->intersect(*trans2)) {
+                Dispatcher* dispatcher = Dispatcher::GetInstance();
+                dispatcher->Trigger(Collide(e1, e2));
+              }
+              // End
+              //
             },
-            icoll, registry->entitiesQuery[i], registry->entitiesQuery[j]);
+            registry->entitiesQuery[i], registry->entitiesQuery[j]);
       }
     }
 
@@ -2226,62 +2238,24 @@ class PhysicalSystem : public ISystem {
 };
 // #include <engine/system/RendererSystem.hpp>
 
+
+#include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// #include <engine/component/IRenderer.hpp>
+// #include <engine/component/renderer/CircleRenderer.hpp>
+
+// #include <engine/component/renderer/RectRenderer.hpp>
 
 // #include <engine/core/Context.hpp>
 
 // #include <engine/core/Window.hpp>
 
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
-
-// #include <engine/meta/Log.hpp>
-
-#include <string>
-
-class Window {
- public:
-  Window() : m_is_open{true}, m_window{nullptr}, m_renderer{nullptr} {}
-
-  ~Window() {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
-  }
-
-  void create(std::string title, const int w, const int h,
-              std::uint32_t flags) {
-    m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED, w, h, flags);
-    if (!m_window) {
-      throw_sdl2_exception("Window failed to be created.");
-    }
-
-    m_renderer = SDL_CreateRenderer(
-        m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!m_renderer) {
-      throw_sdl2_exception("Renderer failed to be created.");
-    }
-  }
-
-  void close() noexcept { m_is_open = false; }
-
-  bool is_open() const noexcept { return m_is_open; }
-  SDL_Renderer* renderer() const noexcept { return m_renderer; }
-
-  SDL_Event m_event;
-
- private:
-  bool m_is_open;
-  SDL_Window* m_window;
-  SDL_Renderer* m_renderer;
-};
 // #include <engine/ecs/ISystem.hpp>
 
 // #include <engine/meta/Log.hpp>
+
+
 
 class RendererSystem : public ISystem {
  public:
@@ -2299,20 +2273,59 @@ class RendererSystem : public ISystem {
     Context* context = Context::GetInstance();
 
     // Flush renderer.
-    SDL_SetRenderDrawColor(context->window()->renderer(), 0, 0, 0,
-                           SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(context->window()->renderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(context->window()->renderer());
 
     Registry* registry = Registry::GetInstance();
-    registry->GetObjectsWithParentTag<IRenderer>(registry->entitiesQuery);
 
-    registry->results.resize(registry->entitiesQuery.size());
-    for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
-      IRenderer* irend = registry->GetComponentWithParent<IRenderer>(
-          registry->entitiesQuery[i]);
-      registry->results[i] = registry->threadPool.push(
-          [](IRenderer* rend, const Entity& e) { rend->render(e); }, irend,
-          registry->entitiesQuery[i]);
+    // *** RectRenderer ***
+    {
+      registry->GetEntitiesWithTags(registry->entitiesQuery, RectRenderer::rtti);
+
+      registry->results.resize(registry->entitiesQuery.size());
+      for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
+        registry->results[i] = registry->threadPool.push(
+            [&](const Entity& entity) {
+              const Transform* const trans = registry->GetComponent<Transform>(entity);
+
+              float x = trans->x();
+              float y = trans->y();
+              float4 size = trans->size();
+
+              // First we set the rectangle fill colour to that of the spritecomponents.
+              SDL_SetRenderDrawColor(context->window()->renderer(), 255.f, 255.f, 255.f, 255.f);
+
+              // Then we create the actual rectangle.
+              const SDL_Rect draw_rect = {x, y, size.x, size.y};
+
+              // Now the rectangle gets renderered with the appropriate colours and position
+              // data to the window.
+              SDL_RenderFillRect(context->window()->renderer(), &draw_rect);
+            },
+            registry->entitiesQuery[i]);
+      }
+    }
+
+    // *** CircleRenderer ***
+    {
+      registry->GetEntitiesWithTags(registry->entitiesQuery, CircleRenderer::rtti);
+
+      registry->results.resize(registry->entitiesQuery.size());
+      for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
+        registry->results[i] = registry->threadPool.push(
+            [&](const Entity& entity) {
+              const Transform* const trans = registry->GetComponent<Transform>(entity);
+
+              float x = trans->x();
+              float y = trans->y();
+              float4 size = trans->size();
+
+              // We use SDL2_gfx to make drawing circles easier.
+              filledCircleRGBA(context->window()->renderer(), x, y, size.x, 255.f,
+                               255.f, 255.f, 255.f);
+            },
+            registry->entitiesQuery[i]);
+      }
     }
 
     for (auto&& result : registry->results) result.get();
@@ -2352,6 +2365,7 @@ class Engine {
 };
 // #include <engine/core/Input.hpp>
 
+
 #include <SDL2/SDL_events.h>
 
 // #include <engine/core/Context.hpp>
@@ -2360,11 +2374,14 @@ class Engine {
 
 // #include <engine/event/KeyDown.hpp>
 
+
 // #include <engine/event/IEventKey.hpp>
+
 
 // #include <engine/event/IEvent.hpp>
 
 // #include <engine/meta/RTTI.hpp>
+
 
 class IEventKey : public IEvent {
  public:
@@ -2385,7 +2402,9 @@ class KeyDown final : public IEventKey {
 };
 // #include <engine/event/KeyUp.hpp>
 
+
 // #include <engine/event/IEventKey.hpp>
+
 
 class KeyUp final : public IEventKey {
  public:
@@ -2397,7 +2416,8 @@ class KeyUp final : public IEventKey {
  private:
   int key_code = -1;
 };
-// #include <engine/factory/Dispatcher.hpp>
+// #include <engine/event/Dispatcher.hpp>
+
 
 class Context;
 
@@ -2458,6 +2478,7 @@ class Input {
 #include <string>
 #include <thread>
 
+
 class Game {
  public:
   Game(std::string title, const int w, const int h, std::uint32_t flags) {
@@ -2506,11 +2527,11 @@ class Game {
 
 // #include <engine/async/ThreadPool.hpp>
 
-// #include <engine/component/ICollider.hpp>
+// #include <engine/component/renderer/RectRenderer.hpp>
 
-// #include <engine/component/IRenderer.hpp>
+// #include <engine/component/renderer/CircleRenderer.hpp>
 
-// #include <engine/component/RectCollider.hpp>
+// #include <engine/component/collider/RectCollider.hpp>
 
 // #include <engine/component/Transform.hpp>
 
@@ -2546,7 +2567,7 @@ class Game {
 
 // #include <engine/factory/ComponentFactory.hpp>
 
-// #include <engine/factory/Dispatcher.hpp>
+// #include <engine/event/Dispatcher.hpp>
 
 // #include <engine/factory/EntityFactory.hpp>
 
@@ -2565,6 +2586,8 @@ class Game {
  * @file NoCopy.hpp
  * @brief Define NoCopy class
  */
+
+
 
 /**
  * @brief A class to prohibit copying.
@@ -2591,6 +2614,8 @@ struct NoCopy {
  * @brief Define NoMove class
  */
 
+
+
 /**
  * @brief A class to prohibit move.
  */
@@ -2610,6 +2635,7 @@ struct NoMove {
 
 // #include <engine/meta/Random.hpp>
 
+
 #include <random>
 
 /**
@@ -2623,7 +2649,7 @@ inline float random(const float min, const float max) {
   // this  function assumes max > min, you may want
   // more robust error checking for a non-debug build
   assert(max > min);
-  float random = (static_cast<float>(rand_r()) / static_cast<float>(RAND_MAX));
+  float random = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
 
   // generate (in your case) a float between 0 and (4.5-.78)
   // then add .78, giving you a float between .78 and 4.5

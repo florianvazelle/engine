@@ -1,5 +1,5 @@
 Language: Cpp
 BasedOnStyle: Google
 DerivePointerAlignment: false
-ColumnLimit: 80
+ColumnLimit: 100
 IndentPPDirectives: BeforeHash

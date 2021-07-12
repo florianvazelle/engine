@@ -54,15 +54,6 @@ class Registry : public Singleton<Registry> {
   }
 
   /**
-   * @brief Permet de récupèrer une liste de IComponent, fils d'un IComponent
-   * parent,  d'une Entity
-   */
-  template <typename T>
-  T* GetComponentWithParent(const Entity& entity) {
-    return compFact->GetWithParent<T>(entity);
-  }
-
-  /**
    * @brief Permet de construire une Entity, alloue tout les IComponent et
    * retourne une Entity nous utilisée
    * @param args Liste des arguments, normalement RTTI de IComponent
@@ -96,30 +87,13 @@ class Registry : public Singleton<Registry> {
    * @param args Liste des arguments, normalement RTTI de IComponent
    */
   template <typename... Args>
-  void GetObjectsWithTag(std::vector<Entity>& entities, Args&&... args) const {
+  void GetEntitiesWithTags(std::vector<Entity>& entities, Args&&... args) const {
     int idx = 0;
     entities.resize(MAX_ENTITIES);
 
     for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
       if (!entiFact->IsSet(entity)) continue;
       if (compFact->Has(entity, std::forward<Args>(args)...)) {
-        entities[idx] = entity;
-        idx++;
-      }
-    }
-
-    entities.resize(idx);  // Normalement pas d'allocation car la taille max est
-                           // déjà réservé
-  }
-
-  template <typename T>
-  void GetObjectsWithParentTag(std::vector<Entity>& entities) const {
-    int idx = 0;
-    entities.resize(MAX_ENTITIES);
-
-    for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-      if (!entiFact->IsSet(entity)) continue;
-      if (compFact->HasWithParent<T>(entity)) {
         entities[idx] = entity;
         idx++;
       }

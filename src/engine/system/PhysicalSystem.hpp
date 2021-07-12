@@ -1,7 +1,12 @@
 #pragma once
 
-#include <engine/component/ICollider.hpp>
+#include <SDL_rect.h>
+
+#include <engine/component/collider/RectCollider.hpp>
+#include <engine/component/Transform.hpp>
 #include <engine/ecs/ISystem.hpp>
+#include <engine/event/Collide.hpp>
+#include <engine/event/Dispatcher.hpp>
 #include <engine/factory/Registry.hpp>
 
 class PhysicalSystem : public ISystem {
@@ -18,18 +23,28 @@ class PhysicalSystem : public ISystem {
      */
 
     Registry* registry = Registry::GetInstance();
-    registry->GetObjectsWithParentTag<ICollider>(registry->entitiesQuery);
+    registry->GetEntitiesWithTags(registry->entitiesQuery, RectCollider::rtti);
 
     registry->results.resize(registry->entitiesQuery.size() - 1);
     for (unsigned int i = 0; i < registry->entitiesQuery.size(); i++) {
       for (unsigned int j = i + 1; j < registry->entitiesQuery.size(); j++) {
-        ICollider* icoll = registry->GetComponentWithParent<ICollider>(
-            registry->entitiesQuery[i]);
         registry->results[i] = registry->threadPool.push(
-            [](ICollider* coll, const Entity& e1, const Entity& e2) {
-              coll->intersect(e1, e2);
+            [](const Entity& e1, const Entity& e2) {
+              //
+              // Begin Intersection Between Two Rect
+              Registry* registry = Registry::GetInstance();
+
+              Transform* trans1 = registry->GetComponent<Transform>(e1);
+              Transform* trans2 = registry->GetComponent<Transform>(e2);
+
+              if (trans1->intersect(*trans2)) {
+                Dispatcher* dispatcher = Dispatcher::GetInstance();
+                dispatcher->Trigger(Collide(e1, e2));
+              }
+              // End
+              //
             },
-            icoll, registry->entitiesQuery[i], registry->entitiesQuery[j]);
+            registry->entitiesQuery[i], registry->entitiesQuery[j]);
       }
     }
 

@@ -2,10 +2,11 @@
 
 #include <engine/Game.hpp>
 #include <engine/Scene.hpp>
-#include <engine/component/IRenderer.hpp>
-#include <engine/component/RectCollider.hpp>
 #include <engine/component/Transform.hpp>
 #include <engine/component/Velocity.hpp>
+#include <engine/component/collider/RectCollider.hpp>
+#include <engine/component/renderer/CircleRenderer.hpp>
+#include <engine/component/renderer/RectRenderer.hpp>
 #include <engine/core/Clock.hpp>
 #include <engine/core/Engine.hpp>
 #include <engine/core/Input.hpp>
@@ -22,6 +23,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+
 
 class Game {
  public:

@@ -21,7 +21,7 @@ void BallSystem::update() const {
   // Get the Registry
   Registry* registry = Registry::GetInstance();
   // Get all Entity with Transform and Velocity Component
-  registry->GetObjectsWithTag(registry->entitiesQuery, Transform::rtti,
+  registry->GetEntitiesWithTags(registry->entitiesQuery, Transform::rtti,
                               Velocity::rtti);
 
   assert(registry->entitiesQuery.size() != 0);

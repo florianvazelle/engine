@@ -1,4 +1,3 @@
-#include <BarRenderer.hpp>
 #include <BarSystem.hpp>
 #include <PongScene.hpp>
 
@@ -60,7 +59,7 @@ void BarSystem::update() const {
 
   Registry* registry = Registry::GetInstance();
 
-  registry->GetObjectsWithTag(registry->entitiesQuery, BarRenderer::rtti);
+  registry->GetEntitiesWithTags(registry->entitiesQuery, RectRenderer::rtti);
 
   // player 1
   {
