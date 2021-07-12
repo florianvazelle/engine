@@ -1,13 +1,6 @@
 #include <BarRenderer.hpp>
 #include <BarSystem.hpp>
-#include <Engine/Common/Entity.hpp>
-#include <Engine/Common/Registry.hpp>
-#include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
-#include <Engine/Util/Random.hpp>
 #include <PongScene.hpp>
-
-RTTI_DEFINITION(BarSystem, ISystem)
 
 void BarSystem::onKeyDown(KeyDown* keyDown) {
   switch (keyDown->key()) {
@@ -39,7 +32,8 @@ void BarSystem::onKeyUp(KeyUp* keyUp) {
   }
 }
 
-float4 BarSystem::computeDirection(const BarSystem::MoveDirection& movement, float& y) const {
+float4 BarSystem::computeDirection(const BarSystem::MoveDirection& movement,
+                                   float& y) const {
   const Context* const context = Context::GetInstance();
 
   float4 dir = {0.f, 0.f, 0.f, 1.f};

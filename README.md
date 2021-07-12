@@ -34,6 +34,12 @@ cmake --build build
 ./build/bin/pong
 ```
 
+### Build single include
+
+```
+python .\scripts\amalgamate.py -c .\scripts\config.json -s .
+```
+
 ## Dependencies
 
 - C++17 compiler :

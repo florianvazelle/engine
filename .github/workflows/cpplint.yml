@@ -1,0 +1,16 @@
+name: cpplint
+
+on: push
+
+jobs:
+  cpplint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    - uses: actions/setup-python@v1
+    
+    - run: pip install cpplint
+    
+    - run: cpplint --filter=-build/c++11,-legal/copyright,-whitespace/ending_newline,-runtime/references,-build/include_order,-whitespace/blank_line,-readability/todo,-readability/casting,-runtime/threadsafe_fn --recursive src/

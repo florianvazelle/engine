@@ -11,5 +11,5 @@ function(add_threads_option)
     # https://stackoverflow.com/questions/1620918/cmake-and-libpthread
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+    target_link_libraries(${PROJECT_NAME} INTERFACE Threads::Threads)
 endfunction()

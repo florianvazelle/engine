@@ -37,13 +37,17 @@ include(cmake/tools/sanitizer.cmake)
 # Add engine library target
 #
 
-file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
-file(GLOB_RECURSE PROJECT_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
+include(GNUInstallDirs)
 
-add_library(${PROJECT_NAME} OBJECT ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Lib needs its header files, and users of the library must also see these (PUBLIC).
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(
+    ${PROJECT_NAME}
+    INTERFACE
+        $<BUILD_INTERFACE:${engine_SOURCE_DIR}/src>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 if(WIN32)
     # Visual Studio 2018 15.8 implemented conformant support for std::aligned_storage, but the conformant support is only enabled when the following flag is passed, to avoid
@@ -59,9 +63,9 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(sdl2-gfx CONFIG REQUIRED)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_gfx)
+    target_link_libraries(${PROJECT_NAME} INTERFACE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_gfx)
 else()
-    target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_gfx)
+    target_link_libraries(${PROJECT_NAME} INTERFACE SDL2::SDL2main SDL2::SDL2-static SDL2::SDL2_gfx)
 endif()
 
 # add_libcpp_option(TARGET ${PROJECT_NAME})

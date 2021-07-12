@@ -1,6 +1,6 @@
 name: build
 
-on: [push, pull_request]
+on: push
 
 jobs:
   linux:
@@ -31,6 +31,10 @@ jobs:
       - name: Install clang-8
         if: ${{ matrix.compiler == 'clang++-8' }}
         run: sudo apt-get install clang-8 -y
+
+      - name: Install clang-9
+        if: ${{ matrix.compiler == 'clang++-9' }}
+        run: sudo apt-get install clang-9 -y
         
       - name: Create Build Environment
         run: cmake -E make_directory ${{ runner.workspace }}/build ${{ runner.workspace }}/instdir

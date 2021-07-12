@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Scene.hpp>
+#include <engine/engine.hpp>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600

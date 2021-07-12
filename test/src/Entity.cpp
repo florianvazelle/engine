@@ -1,8 +1,7 @@
 
 #include <doctest.h>
 
-#include <Engine/Common/Registry.hpp>
-#include <Engine/Core/Context.hpp>
+#include <engine/engine.hpp>
 
 TEST_CASE("GetObjectsWithTag") {
   REGISTER_COMPONENTS
@@ -39,13 +38,11 @@ TEST_CASE("GetObjectsWithTag") {
 
 class TestRenderer : public IRenderer {
  public:
-  RTTI_DECLARATION
+  RTTI_DEFINITION(TestRenderer, IRenderer)
   ~TestRenderer() = default;
 
   void render(const Entity& entity) {}
 };
-
-RTTI_DEFINITION(TestRenderer, IRenderer)
 
 TEST_CASE("GetObjectsWithParentTag") {
   REGISTER_COMPONENT(TestRenderer)

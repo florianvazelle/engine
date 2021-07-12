@@ -1,0 +1,25 @@
+name: linter
+
+on: push
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+      
+      - run: pip install clang-format
+
+      - name: Format
+        run: ./scripts/run_clang_format.sh
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v5
+        with:
+          message: "[Bot] Automated clang-format update"
+          add: "*.hpp"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,4 @@
 #include <BarRenderer.hpp>
-#include <Engine/Common/Registry.hpp>
-
-RTTI_DEFINITION(BarRenderer, IRenderer)
 
 void BarRenderer::render(const Entity& entity) {
   LOG(LOG_INFO, "[BarRenderer]");
@@ -13,7 +10,8 @@ void BarRenderer::render(const Entity& entity) {
   float4 size = trans->size();
 
   // First we set the rectangle fill colour to that of the spritecomponents.
-  SDL_SetRenderDrawColor(context->window()->renderer(), 255.f, 255.f, 255.f, 255.f);
+  SDL_SetRenderDrawColor(context->window()->renderer(), 255.f, 255.f, 255.f,
+                         255.f);
 
   // Then we create the actual rectangle.
   const SDL_Rect draw_rect = {
@@ -23,6 +21,7 @@ void BarRenderer::render(const Entity& entity) {
       static_cast<int>(size.y),
   };
 
-  // Now the rectangle gets renderered with the appropriate colours and position data to the window.
+  // Now the rectangle gets renderered with the appropriate colours and position
+  // data to the window.
   SDL_RenderFillRect(context->window()->renderer(), &draw_rect);
 }

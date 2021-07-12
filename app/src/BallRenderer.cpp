@@ -1,7 +1,4 @@
 #include <BallRenderer.hpp>
-#include <Engine/Common/Registry.hpp>
-
-RTTI_DEFINITION(BallRenderer, IRenderer)
 
 void BallRenderer::render(const Entity& entity) {
   LOG(LOG_INFO, "[BallRenderer]");
@@ -15,6 +12,6 @@ void BallRenderer::render(const Entity& entity) {
 
   // We use SDL2_gfx to make drawing circles easier.
   Context* context = Context::GetInstance();
-  filledCircleRGBA(context->window()->renderer(), x, y, static_cast<int>(size.x), 255.f, 255.f,
-                   255.f, 255.f);
+  filledCircleRGBA(context->window()->renderer(), x, y,
+                   static_cast<int>(size.x), 255.f, 255.f, 255.f, 255.f);
 }

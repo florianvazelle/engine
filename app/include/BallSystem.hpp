@@ -1,14 +1,13 @@
 #pragma once
 
-#include <Engine/Event/Collide.hpp>
-#include <Engine/System/ISystem.hpp>
+#include <engine/engine.hpp>
 
 /**
  * @brief Example of a custom ISystem
  */
 class BallSystem final : public ISystem {
  public:
-  RTTI_DECLARATION
+  RTTI_DEFINITION(BallSystem, ISystem)
   ~BallSystem() {}
 
   void onCollide(Collide* collide);

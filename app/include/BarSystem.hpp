@@ -1,13 +1,10 @@
 #pragma once
 
-#include <Engine/Component/Transform.hpp>
-#include <Engine/Event/KeyDown.hpp>
-#include <Engine/Event/KeyUp.hpp>
-#include <Engine/System/ISystem.hpp>
+#include <engine/engine.hpp>
 
 class BarSystem final : public ISystem {
  public:
-  RTTI_DECLARATION
+  RTTI_DEFINITION(BarSystem, ISystem)
   ~BarSystem() {}
 
   void update() const;

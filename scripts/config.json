@@ -1,0 +1,10 @@
+{
+    "project": "engine",
+    "target": "single_include/engine/engine.hpp",
+    "sources": [
+        "src/engine/engine.hpp"
+    ],
+    "include_paths": [
+        "src"
+    ]
+}

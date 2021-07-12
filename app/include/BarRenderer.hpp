@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Engine/Component/IRenderer.hpp>
+#include <engine/engine.hpp>
 
 class BarRenderer final : public IRenderer {
  public:
-  RTTI_DECLARATION
+  RTTI_DEFINITION(BarRenderer, IRenderer)
   ~BarRenderer(){};
 
   void render(const Entity& entity);

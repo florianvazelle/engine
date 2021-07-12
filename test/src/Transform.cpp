@@ -1,7 +1,6 @@
 #include <doctest.h>
 
-#include <Engine/Common/Registry.hpp>
-#include <Engine/Component/Transform.hpp>
+#include <engine/engine.hpp>
 
 TEST_CASE("Identity") {
   Transform t;

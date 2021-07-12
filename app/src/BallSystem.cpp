@@ -1,12 +1,5 @@
 #include <BallSystem.hpp>
-#include <Engine/Common/Entity.hpp>
-#include <Engine/Common/Registry.hpp>
-#include <Engine/Component/Transform.hpp>
-#include <Engine/Component/Velocity.hpp>
-#include <Engine/Util/Random.hpp>
 #include <PongScene.hpp>
-
-RTTI_DEFINITION(BallSystem, ISystem)
 
 void BallSystem::onCollide(Collide* collide) {
   Registry* registry = Registry::GetInstance();
@@ -28,7 +21,8 @@ void BallSystem::update() const {
   // Get the Registry
   Registry* registry = Registry::GetInstance();
   // Get all Entity with Transform and Velocity Component
-  registry->GetObjectsWithTag(registry->entitiesQuery, Transform::rtti, Velocity::rtti);
+  registry->GetObjectsWithTag(registry->entitiesQuery, Transform::rtti,
+                              Velocity::rtti);
 
   assert(registry->entitiesQuery.size() != 0);
 

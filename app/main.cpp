@@ -1,5 +1,5 @@
-#include <Engine/Game.hpp>
 #include <PongScene.hpp>
+#include <engine/engine.hpp>
 #include <memory>
 
 int main() {
