@@ -2,7 +2,7 @@
 #include <engine/engine.hpp>
 #include <memory>
 
-int main() {
+int main(int argv, char** args) {
   // Création du jeu
   Game pong("pong", WINDOW_WIDTH, WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS |
