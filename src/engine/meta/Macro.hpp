@@ -57,49 +57,41 @@
 #define MAP_NEXT(test, next) MAP_NEXT1(MAP_GET_END test, next)
 #define MAP_INC(X) MAP_INC_##X
 
-#define MAP0(f, x, peek, ...) \
-  f(x) DEFER(MAP_NEXT(peek, MAP1))(f, peek, __VA_ARGS__)
-#define MAP1(f, x, peek, ...) \
-  f(x) DEFER(MAP_NEXT(peek, MAP0))(f, peek, __VA_ARGS__)
+#define MAP0(f, x, peek, ...) f(x) DEFER(MAP_NEXT(peek, MAP1))(f, peek, __VA_ARGS__)
+#define MAP1(f, x, peek, ...) f(x) DEFER(MAP_NEXT(peek, MAP0))(f, peek, __VA_ARGS__)
 
 #define MAP0_UD(f, userdata, x, peek, ...) \
   f(x, userdata) DEFER(MAP_NEXT(peek, MAP1_UD))(f, userdata, peek, __VA_ARGS__)
 #define MAP1_UD(f, userdata, x, peek, ...) \
   f(x, userdata) DEFER(MAP_NEXT(peek, MAP0_UD))(f, userdata, peek, __VA_ARGS__)
 
-#define MAP0_UD_I(f, userdata, index, x, peek, ...)       \
-  f(x, userdata, index) DEFER(MAP_NEXT(peek, MAP1_UD_I))( \
-      f, userdata, MAP_INC(index), peek, __VA_ARGS__)
-#define MAP1_UD_I(f, userdata, index, x, peek, ...)       \
-  f(x, userdata, index) DEFER(MAP_NEXT(peek, MAP0_UD_I))( \
-      f, userdata, MAP_INC(index), peek, __VA_ARGS__)
+#define MAP0_UD_I(f, userdata, index, x, peek, ...) \
+  f(x, userdata, index)                             \
+      DEFER(MAP_NEXT(peek, MAP1_UD_I))(f, userdata, MAP_INC(index), peek, __VA_ARGS__)
+#define MAP1_UD_I(f, userdata, index, x, peek, ...) \
+  f(x, userdata, index)                             \
+      DEFER(MAP_NEXT(peek, MAP0_UD_I))(f, userdata, MAP_INC(index), peek, __VA_ARGS__)
 
-#define MAP_LIST0(f, x, peek, ...) \
-  , f(x) DEFER(MAP_NEXT(peek, MAP_LIST1))(f, peek, __VA_ARGS__)
-#define MAP_LIST1(f, x, peek, ...) \
-  , f(x) DEFER(MAP_NEXT(peek, MAP_LIST0))(f, peek, __VA_ARGS__)
-#define MAP_LIST2(f, x, peek, ...) \
-  f(x) DEFER(MAP_NEXT(peek, MAP_LIST1))(f, peek, __VA_ARGS__)
+#define MAP_LIST0(f, x, peek, ...) , f(x) DEFER(MAP_NEXT(peek, MAP_LIST1))(f, peek, __VA_ARGS__)
+#define MAP_LIST1(f, x, peek, ...) , f(x) DEFER(MAP_NEXT(peek, MAP_LIST0))(f, peek, __VA_ARGS__)
+#define MAP_LIST2(f, x, peek, ...) f(x) DEFER(MAP_NEXT(peek, MAP_LIST1))(f, peek, __VA_ARGS__)
 
 #define MAP_LIST0_UD(f, userdata, x, peek, ...) \
-  , f(x, userdata)                              \
-        DEFER(MAP_NEXT(peek, MAP_LIST1_UD))(f, userdata, peek, __VA_ARGS__)
+  , f(x, userdata) DEFER(MAP_NEXT(peek, MAP_LIST1_UD))(f, userdata, peek, __VA_ARGS__)
 #define MAP_LIST1_UD(f, userdata, x, peek, ...) \
-  , f(x, userdata)                              \
-        DEFER(MAP_NEXT(peek, MAP_LIST0_UD))(f, userdata, peek, __VA_ARGS__)
+  , f(x, userdata) DEFER(MAP_NEXT(peek, MAP_LIST0_UD))(f, userdata, peek, __VA_ARGS__)
 #define MAP_LIST2_UD(f, userdata, x, peek, ...) \
-  f(x, userdata)                                \
-      DEFER(MAP_NEXT(peek, MAP_LIST1_UD))(f, userdata, peek, __VA_ARGS__)
+  f(x, userdata) DEFER(MAP_NEXT(peek, MAP_LIST1_UD))(f, userdata, peek, __VA_ARGS__)
 
-#define MAP_LIST0_UD_I(f, userdata, index, x, peek, ...)         \
-  , f(x, userdata, index) DEFER(MAP_NEXT(peek, MAP_LIST1_UD_I))( \
-        f, userdata, MAP_INC(index), peek, __VA_ARGS__)
-#define MAP_LIST1_UD_I(f, userdata, index, x, peek, ...)         \
-  , f(x, userdata, index) DEFER(MAP_NEXT(peek, MAP_LIST0_UD_I))( \
-        f, userdata, MAP_INC(index), peek, __VA_ARGS__)
-#define MAP_LIST2_UD_I(f, userdata, index, x, peek, ...)       \
-  f(x, userdata, index) DEFER(MAP_NEXT(peek, MAP_LIST0_UD_I))( \
-      f, userdata, MAP_INC(index), peek, __VA_ARGS__)
+#define MAP_LIST0_UD_I(f, userdata, index, x, peek, ...) \
+  , f(x, userdata, index)                                \
+        DEFER(MAP_NEXT(peek, MAP_LIST1_UD_I))(f, userdata, MAP_INC(index), peek, __VA_ARGS__)
+#define MAP_LIST1_UD_I(f, userdata, index, x, peek, ...) \
+  , f(x, userdata, index)                                \
+        DEFER(MAP_NEXT(peek, MAP_LIST0_UD_I))(f, userdata, MAP_INC(index), peek, __VA_ARGS__)
+#define MAP_LIST2_UD_I(f, userdata, index, x, peek, ...) \
+  f(x, userdata, index)                                  \
+      DEFER(MAP_NEXT(peek, MAP_LIST0_UD_I))(f, userdata, MAP_INC(index), peek, __VA_ARGS__)
 
 /**
  * Applies the function macro `f` to each of the remaining parameters.
@@ -110,16 +102,14 @@
  * Applies the function macro `f` to each of the remaining parameters and
  * inserts commas between the results.
  */
-#define MAP_LIST(f, ...) \
-  EVAL(MAP_LIST2(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define MAP_LIST(f, ...) EVAL(MAP_LIST2(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 /**
  * Applies the function macro `f` to each of the remaining parameters and passes
  * userdata as the second parameter to each invocation, e.g. MAP_UD(f, x, a, b,
  * c) evaluates to f(a, x) f(b, x) f(c, x)
  */
-#define MAP_UD(f, userdata, ...) \
-  EVAL(MAP1_UD(f, userdata, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define MAP_UD(f, userdata, ...) EVAL(MAP1_UD(f, userdata, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 /**
  * Applies the function macro `f` to each of the remaining parameters, inserts

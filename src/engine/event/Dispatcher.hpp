@@ -16,8 +16,7 @@ class Dispatcher : public Singleton<Dispatcher> {
     const RTTI& id = E::rtti;
 
     if (inputEvents.find(id) == inputEvents.end()) {
-      inputEvents.insert(
-          {id, std::make_shared<EventCallback<T, E>>(instance, function)});
+      inputEvents.insert({id, std::make_shared<EventCallback<T, E>>(instance, function)});
     }
   }
 

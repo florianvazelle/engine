@@ -11,7 +11,6 @@
 #include <engine/ecs/ISystem.hpp>
 #include <engine/meta/Log.hpp>
 
-
 class RendererSystem : public ISystem {
  public:
   RTTI_DEFINITION(RendererSystem, ISystem)
@@ -76,8 +75,8 @@ class RendererSystem : public ISystem {
               float4 size = trans->size();
 
               // We use SDL2_gfx to make drawing circles easier.
-              filledCircleRGBA(context->window()->renderer(), x, y, size.x, 255.f,
-                               255.f, 255.f, 255.f);
+              filledCircleRGBA(context->window()->renderer(), x, y, size.x, 255.f, 255.f, 255.f,
+                               255.f);
             },
             registry->entitiesQuery[i]);
       }

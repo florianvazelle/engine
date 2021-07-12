@@ -34,8 +34,7 @@ template <typename T>
 std::mutex Singleton<T>::s_mutex;
 
 template <typename T>
-T* Singleton<T>::GetInstance() noexcept(
-    std::is_nothrow_constructible<T>::value) {
+T* Singleton<T>::GetInstance() noexcept(std::is_nothrow_constructible<T>::value) {
   T* p = s_instance.load(std::memory_order_acquire);
   if (p == nullptr) {  // 1st check
     std::lock_guard<std::mutex> lock(s_mutex);

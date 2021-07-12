@@ -33,8 +33,7 @@ class EntityFactory {
    * @return L'identifiant de l'Entity
    */
   Entity Allocate() {
-    assert(livingEntityCount < MAX_ENTITIES &&
-           "Too many entities in existence.");
+    assert(livingEntityCount < MAX_ENTITIES && "Too many entities in existence.");
 
     Entity id = availableEntities.front();
     availableEntities.pop();

@@ -33,8 +33,7 @@ class Pool {
     }
 
    private:
-    using StorageType =
-        typename std::aligned_storage<sizeof(T), alignof(T)>::type;
+    using StorageType = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 
     // Points to the next freely available item.
     PoolItem* next;
@@ -75,9 +74,7 @@ class Pool {
    * @brief Crée une nouvelle Pool qui utilisera des Arena de arena_size
    */
   explicit Pool(size_t arena_size)
-      : arena_size(arena_size),
-        arena(new Arena(arena_size)),
-        free_list(arena->get_storage()) {}
+      : arena_size(arena_size), arena(new Arena(arena_size)), free_list(arena->get_storage()) {}
 
   /**
    * @brief Au moment de la destruction de la Pool, on va libéré toute les
@@ -96,8 +93,7 @@ class Pool {
    */
   template <typename... Args>
   T* alloc(Args&&... args) {
-    assert(free_list != nullptr &&
-           "Unable to get more object from the pool, Arena is full.");
+    assert(free_list != nullptr && "Unable to get more object from the pool, Arena is full.");
 
     // Get the first free item.
     PoolItem* current_item = free_list;

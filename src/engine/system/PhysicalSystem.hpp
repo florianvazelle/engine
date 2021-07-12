@@ -2,8 +2,8 @@
 
 #include <SDL_rect.h>
 
-#include <engine/component/collider/RectCollider.hpp>
 #include <engine/component/Transform.hpp>
+#include <engine/component/collider/RectCollider.hpp>
 #include <engine/ecs/ISystem.hpp>
 #include <engine/event/Collide.hpp>
 #include <engine/event/Dispatcher.hpp>

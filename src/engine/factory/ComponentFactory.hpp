@@ -13,8 +13,7 @@
 #define COMPONENTS Transform, RectRenderer, CircleRenderer, RectCollider, Velocity
 
 // Register a IComponent
-#define REGISTER_COMPONENT(klass) \
-  Registry::GetInstance()->RegisterComponent<klass>();
+#define REGISTER_COMPONENT(klass) Registry::GetInstance()->RegisterComponent<klass>();
 
 // Register all IComponent
 #define REGISTER_COMPONENTS MAP(REGISTER_COMPONENT, COMPONENTS)
@@ -31,8 +30,7 @@ class ComponentFactory {
    */
   void Allocate(const RTTI& rtti, const Entity& entity) {
     it_comp_t it = componentArrays.find(rtti);
-    assert(it != componentArrays.end() &&
-           "We cannot allocate a unknow Component.");
+    assert(it != componentArrays.end() && "We cannot allocate a unknow Component.");
     it->second->Allocate(entity);
   }
 
@@ -100,12 +98,10 @@ class ComponentFactory {
 
  private:
   using it_comp_t = std::map<RTTI, std::shared_ptr<IPool>>::iterator;
-  using const_it_comp_t =
-      std::map<RTTI, std::shared_ptr<IPool>>::const_iterator;
+  using const_it_comp_t = std::map<RTTI, std::shared_ptr<IPool>>::const_iterator;
 
-  std::map<RTTI, std::shared_ptr<IPool>>
-      componentArrays;  // Map de l'id d'un IComponent vers une Pool de
-                        // IComponent
+  std::map<RTTI, std::shared_ptr<IPool>> componentArrays;  // Map de l'id d'un IComponent vers une
+                                                           // Pool de IComponent
 
   /**
    * @brief Permet d'obtenir pointeur de la Pool de type T
@@ -116,8 +112,7 @@ class ComponentFactory {
     const RTTI& rtti = T::rtti;
 
     const_it_comp_t it = componentArrays.find(rtti);
-    assert(it != componentArrays.end() &&
-           "Component not registered before use.");
+    assert(it != componentArrays.end() && "Component not registered before use.");
 
     return std::static_pointer_cast<ComponentArray<T>>(it->second);
   }

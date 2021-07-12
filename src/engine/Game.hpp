@@ -24,7 +24,6 @@
 #include <string>
 #include <thread>
 
-
 class Game {
  public:
   Game(std::string title, const int w, const int h, std::uint32_t flags) {

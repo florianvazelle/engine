@@ -32,9 +32,7 @@ class Registry : public Singleton<Registry> {
    * @brief Permet de libérer un IComponent
    * cf. ComponentFactory
    */
-  void FreeComponent(const RTTI& rtti, const Entity& entity) {
-    compFact->Free(rtti, entity);
-  }
+  void FreeComponent(const RTTI& rtti, const Entity& entity) { compFact->Free(rtti, entity); }
 
   /**
    * @brief Permet d'enregistrer un IComponent dans la ComponentFactory

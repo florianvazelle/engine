@@ -10,7 +10,7 @@
 
 class ThreadPool {
  private:
-  std::vector<std::thread> workers;  // Liste de nos threads (pour les join)
+  std::vector<std::thread> workers;                    // Liste de nos threads (pour les join)
   std::queue<std::function<void()>> m_function_queue;  // Queue des taches
 
   // Synchronization
@@ -33,8 +33,7 @@ class ThreadPool {
             // desctuteur du lock sera appelé (RAII)
             std::unique_lock<std::mutex> lock(this->m_lock);
             this->m_data_condition.wait(lock, [this] {
-              return !this->m_accept_functions ||
-                     !this->m_function_queue.empty();
+              return !this->m_accept_functions || !this->m_function_queue.empty();
             });
             if (!this->m_accept_functions && this->m_function_queue.empty()) {
               // lock will be release automatically.
@@ -66,8 +65,7 @@ class ThreadPool {
    * @brief Permet d'ajouter une nouvelle tache à la ThreadPool
    */
   template <class F, class... Args>
-  auto push(F&& f, Args&&... args)
-      -> std::future<typename std::result_of<F(Args...)>::type> {
+  auto push(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type> {
     using return_type = typename std::result_of<F(Args...)>::type;
 
     auto func = std::make_shared<std::packaged_task<return_type()>>(
@@ -79,8 +77,7 @@ class ThreadPool {
 
       // On bloque l'ajout de nouvelle tache, après avoir stoper la ThreadPool
       if (!m_accept_functions)
-        throw std::runtime_error(
-            "ThreadPool is stopped, you cannot push new task!");
+        throw std::runtime_error("ThreadPool is stopped, you cannot push new task!");
 
       m_function_queue.emplace([func]() { (*func)(); });
     }
