@@ -25,12 +25,14 @@ function(add_libcpp_option)
     
     cmake_parse_arguments(PARSED_ARGS "" "TARGET" "" ${ARGN})
 
-    if(HAS_LIBCPP)
-        # Note: if it remains unparsed arguments, here, they can be found in variable PARSED_ARGS_UNPARSED_ARGUMENTS
-        if(NOT PARSED_ARGS_TARGET)
-            message(FATAL_ERROR "You must provide a target.")
-        endif()
+    if(NOT WIN32 AND USE_LIBCPP)
+        if(HAS_LIBCPP)
+            # Note: if it remains unparsed arguments, here, they can be found in variable PARSED_ARGS_UNPARSED_ARGUMENTS
+            if(NOT PARSED_ARGS_TARGET)
+                message(FATAL_ERROR "You must provide a target.")
+            endif()
 
-        target_compile_options(${PARSED_ARGS_TARGET} BEFORE PRIVATE -stdlib=libc++)
+            target_compile_options(${PARSED_ARGS_TARGET} BEFORE PRIVATE -stdlib=libc++)
+        endif()
     endif()
 endfunction()

@@ -6,14 +6,14 @@
 # For more information on Codacy Analysis CLI in general, see
 # https://github.com/codacy/codacy-analysis-cli.
 
-name: Codacy Security Scan
+name: codacy
 
 on: push
 
 jobs:
   codacy-security-scan:
-    name: Codacy Security Scan
     runs-on: ubuntu-latest
+    
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
