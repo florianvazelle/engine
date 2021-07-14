@@ -50,12 +50,8 @@ class RendererSystem : public ISystem {
               SDL_SetRenderDrawColor(context->window()->renderer(), 255.f, 255.f, 255.f, 255.f);
 
               // Then we create the actual rectangle.
-              const SDL_Rect draw_rect = {
-                static_cast<int>(x),
-                static_cast<int>(y),
-                static_cast<int>(size.x),
-                static_cast<int>(size.y)
-              };
+              const SDL_Rect draw_rect = {static_cast<int>(x), static_cast<int>(y),
+                                          static_cast<int>(size.x), static_cast<int>(size.y)};
 
               // Now the rectangle gets renderered with the appropriate colours and position
               // data to the window.
