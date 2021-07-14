@@ -13,4 +13,4 @@ jobs:
     
     - run: pip install cpplint
     
-    - run: cpplint --filter=-build/c++11,-legal/copyright,-whitespace/ending_newline,-runtime/references,-build/include_order,-whitespace/blank_line,-readability/todo,-readability/casting,-runtime/threadsafe_fn --recursive src/
+    - run: cpplint --filter=-build/c++11,-legal/copyright,-whitespace/ending_newline,-runtime/references,-build/include_order,-whitespace/blank_line,-whitespace/line_length,-readability/todo,-readability/casting,-runtime/threadsafe_fn --recursive src/
